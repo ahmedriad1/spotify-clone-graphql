@@ -1,0 +1,19 @@
+#!/bin/bash
+PATH="$PWD/node_modules/.bin":$PATH
+set -e
+
+build() {
+    set -x
+    npm run prisma:generate
+    rm -rf dist
+    mkdir dist
+    nest build
+    mkdir -p dist/prisma/migrations
+    cp -r prisma/migrations/* dist/prisma/migrations
+    cp prisma/schema.prisma dist/prisma
+    mkdir -p dist/node_modules/@prisma/client
+    cp -r node_modules/@prisma/client/* dist/node_modules/@prisma/client
+    set +x
+}
+
+"$@"
