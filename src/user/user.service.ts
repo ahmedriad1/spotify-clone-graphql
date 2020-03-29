@@ -21,6 +21,8 @@ export class UserService {
     }
 
     async create(data: UserCreateInput) {
+        // todo: hash password
+        // todo: check email unique
         return this.prisma.user.create({ data });
     }
 }

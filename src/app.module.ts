@@ -7,6 +7,7 @@ import { config } from './app.config';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { TagModule } from './tag/tag.module';
+import { UserModule } from './user/user.module';
 
 export async function graphqlModuleFactory(prismaService: PrismaService) {
     return {
@@ -19,6 +20,7 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
 
 @Module({
     imports: [
+        UserModule,
         ApiModule,
         ConfigModule.forRoot({
             isGlobal: true,
@@ -33,6 +35,5 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
         }),
         TagModule,
     ],
-    providers: [],
 })
 export class AppModule {}

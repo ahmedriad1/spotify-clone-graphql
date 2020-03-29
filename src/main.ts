@@ -4,8 +4,8 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
 
-async function bootstrap() {
-    const app = await NestFactory.create(AppModule, { logger: true });
+export async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
     const config = app.get(ConfigService);
     app.useGlobalPipes(
         new ValidationPipe({
@@ -16,6 +16,11 @@ async function bootstrap() {
     );
     const port = config.get('port');
     await app.listen(port);
-    console.log(`Main application is running on: ${await app.getUrl()}`, 'bootstrap');
+    return app;
 }
-bootstrap();
+
+if (process.env.NODE_ENV !== 'test') {
+    bootstrap().then(async (app) => {
+        console.log(`Main application is running on: ${await app.getUrl()}`, 'bootstrap');
+    });
+}

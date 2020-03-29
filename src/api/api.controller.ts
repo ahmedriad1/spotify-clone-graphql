@@ -1,91 +1,121 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Put, Req, UseInterceptors } from '@nestjs/common';
+import { Request } from 'express';
+
+import { ApiInterceptor } from './api.interceptor';
+import { ApiService } from './api.service';
 
 /**
  * This is REST API wrapper around graphql.
  * Backend API spec https://github.com/gothinkster/realworld/tree/master/api
  */
 @Controller('api')
+@UseInterceptors(ApiInterceptor)
 export class ApiController {
+    constructor(private readonly apiService: ApiService) {}
+
+    @Get('/')
+    index() {
+        return 'https://github.com/gothinkster/realworld/tree/master/api';
+    }
+
+    /**
+     * Registration.
+     */
+    @Post('users')
+    async createUser(@Req() request: Request) {
+        return this.apiService.createUser(request.body);
+    }
+
     /**
      * Authentication.
      */
     @Post('users/login')
     async postUsersLogin() {
-        return null;
+        return undefined;
     }
-    /**
-     * Registration.
-     */
-    @Post('users')
-    async postUsers() {
-        return null;
-    }
+
     @Get('user')
     async user() {
-        return null;
+        return undefined;
     }
+
     @Put('user')
     async updateUser() {
-        return null;
+        return undefined;
     }
+
     @Get('profiles/:username')
     async profilesUsername(@Param('username') username: string) {
-        return null;
+        return undefined;
     }
+
     @Post('profiles/:username/follow')
     async createProfilesUsernameFollow() {
-        return null;
+        return undefined;
     }
+
     @Delete('profiles/:username/follow')
     async deleteProfilesUsernameFollow() {
-        return null;
+        return undefined;
     }
+
     @Get('articles')
     async getArticles() {
-        return null;
+        return undefined;
     }
+
     @Get('articles/feed')
     async articlesFeed() {
-        return null;
+        return undefined;
     }
+
     @Get('articles/:slug')
     async articlesSlug() {
-        return null;
+        return undefined;
     }
+
     @Post('articles')
     async createArticle() {
-        return null;
+        return undefined;
     }
+
     @Put('articles/:slug')
     async update_article() {
-        return null;
+        return undefined;
     }
+
     @Delete('articles/:slug')
     async deleteArticle() {
-        return null;
+        return undefined;
     }
+
     @Post('articles/:slug/comments')
     async createArticlesSlugComments() {
-        return null;
+        return undefined;
     }
+
     @Get('articles/:slug/comments')
     async articlesSlugComments() {
-        return null;
+        return undefined;
     }
+
     @Delete('articles/:slug/comments/:id')
     async articlesSlugCommentsId() {
-        return null;
+        return undefined;
     }
+
     @Post('articles/:slug/favorite')
     async createArticlesSlugFavorite() {
-        return null;
+        return undefined;
     }
+
     @Delete('articles/:slug/favorite')
     async deleteArticlesSlugFavorite() {
-        return null;
+        return undefined;
     }
+
     @Get('tags')
     async tags() {
-        return null;
+        return undefined;
     }
 }

@@ -1,10 +1,13 @@
 export const config = () => ({
     name: 'Conduit',
     get port() {
-        return process.env.PORT || 2999;
+        return process.env.PORT || 3000;
     },
     get production() {
         return process.env.NODE_ENV === 'production';
+    },
+    get graphqlEndpoint() {
+        return `http://localhost:${this.port}/graphql`;
     },
 });
 
