@@ -15,11 +15,10 @@ module.exports = {
     // testMatch: ['<rootDir>/src/**/*.spec.ts'],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
     // modulePathIgnorePatterns: ['<rootDir>/dist'],
-    moduleNameMapper: pathsToModuleNameMapper(
-        compilerOptions.paths /*, { prefix: '<rootDir>/..' }*/,
-    ),
+    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/../' }),
     globals: {
         'ts-jest': {
+            packageJson: 'package.json',
             diagnostics: false,
             isolatedModules: true,
         },
