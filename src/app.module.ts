@@ -14,7 +14,9 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
     return {
         tracing: false,
         autoSchemaFile: '~schema.gql',
-        context: () => ({ prisma: prismaService }),
+        context: () => {
+            return { prisma: prismaService, token: (null as unknown) as string };
+        },
         // formatError: null as any,
     };
 }

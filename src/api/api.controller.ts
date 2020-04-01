@@ -31,91 +31,91 @@ export class ApiController {
      */
     @Post('users/login')
     async postUsersLogin() {
-        return undefined;
+        return {};
     }
 
     @Get('user')
     async user() {
-        return undefined;
+        return {};
     }
 
     @Put('user')
     async updateUser() {
-        return undefined;
+        return {};
     }
 
     @Get('profiles/:username')
     async profilesUsername(@Param('username') username: string) {
-        return undefined;
+        return {};
     }
 
     @Post('profiles/:username/follow')
     async createProfilesUsernameFollow() {
-        return undefined;
+        return {};
     }
 
     @Delete('profiles/:username/follow')
     async deleteProfilesUsernameFollow() {
-        return undefined;
+        return {};
     }
 
     @Get('articles')
     async getArticles() {
-        return undefined;
+        return {};
     }
 
     @Get('articles/feed')
     async articlesFeed() {
-        return undefined;
+        return {};
     }
 
     @Get('articles/:slug')
     async articlesSlug() {
-        return undefined;
+        return {};
     }
 
     @Post('articles')
     async createArticle() {
-        return undefined;
+        return {};
     }
 
     @Put('articles/:slug')
     async update_article() {
-        return undefined;
+        return {};
     }
 
     @Delete('articles/:slug')
     async deleteArticle() {
-        return undefined;
+        return {};
     }
 
     @Post('articles/:slug/comments')
     async createArticlesSlugComments() {
-        return undefined;
+        return {};
     }
 
     @Get('articles/:slug/comments')
     async articlesSlugComments() {
-        return undefined;
+        return {};
     }
 
     @Delete('articles/:slug/comments/:id')
     async articlesSlugCommentsId() {
-        return undefined;
+        return {};
     }
 
     @Post('articles/:slug/favorite')
     async createArticlesSlugFavorite() {
-        return undefined;
+        return {};
     }
 
     @Delete('articles/:slug/favorite')
     async deleteArticlesSlugFavorite() {
-        return undefined;
+        return {};
     }
 
     @Get('tags')
     async tags() {
-        return undefined;
+        return {};
     }
 }

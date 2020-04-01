@@ -1,30 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { request } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 
-import { CreateUserDto } from './models/create-user.dto';
+import { CreateUserEnvelope } from './models/create-user.dto';
 
 @Injectable()
 export class ApiService {
-    constructor(private readonly config: ConfigService) {}
+    constructor(
+        private readonly config: ConfigService,
+        @Inject('GraphQLClient') private readonly graphqlClient: GraphQLClient,
+    ) {}
 
-    async createUser(createUserDto: CreateUserDto) {
+    async createUser(createUserEnvelope: CreateUserEnvelope) {
         const createUserData = {
-            name: createUserDto.username,
-            email: createUserDto.email,
-            password: createUserDto.password,
+            name: createUserEnvelope.user.username,
+            email: createUserEnvelope.user.email,
+            password: createUserEnvelope.user.password,
         };
         const endpoint = this.config.get('graphqlEndpoint');
         const query = /* GraphQL */ `
             mutation createUser($createUserData: UserCreateInput!) {
                 user: createUser(data: $createUserData) {
                     email
-                    name
+                    username: name
+                    token
                     bio
                     image
                 }
             }
         `;
-        return request(endpoint, query, { createUserData });
+        return this.graphqlClient.request(query, { createUserData });
     }
 }

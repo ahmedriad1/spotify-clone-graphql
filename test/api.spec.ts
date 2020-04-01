@@ -33,7 +33,6 @@ describe('registration POST /api/users', () => {
         const response = await post('/users', { email: '', username: '', password: '' });
         expect(response.status).toBe(422);
         const body = await response.json();
-        console.log('body', body);
     });
 
     it('valid request', async () => {

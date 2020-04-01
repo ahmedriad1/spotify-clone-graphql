@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLClient } from 'graphql-request';
 
 import { ApiController } from './api.controller';
 import { ApiService } from './api.service';
@@ -7,6 +8,16 @@ import { ApiService } from './api.service';
 @Module({
     imports: [ConfigModule],
     controllers: [ApiController],
-    providers: [ApiService],
+    providers: [
+        ApiService,
+        {
+            provide: 'GraphQLClient',
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => {
+                const url = config.get('graphqlEndpoint');
+                return new GraphQLClient(url);
+            },
+        },
+    ],
 })
 export class ApiModule {}

@@ -23,6 +23,6 @@ export async function bootstrap() {
 
 if (process.env.NODE_ENV !== 'test') {
     bootstrap().then(async (app) => {
-        console.log(`Main application is running on: ${await app.getUrl()}`, 'bootstrap');
+        console.log(`GraphQL application is running on: ${await app.getUrl()}`, 'bootstrap');
     });
 }

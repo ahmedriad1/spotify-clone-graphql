@@ -3,3 +3,7 @@ export class CreateUserDto {
     username: string;
     password: string;
 }
+
+export class CreateUserEnvelope {
+    user: CreateUserDto;
+}
