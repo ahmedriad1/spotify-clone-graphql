@@ -7,7 +7,7 @@ export const config = () => ({
         return process.env.NODE_ENV === 'production';
     },
     get graphqlEndpoint() {
-        return `http://localhost:${this.port}/graphql`;
+        return `http://localhost:${config().port}/graphql`;
     },
 });
 

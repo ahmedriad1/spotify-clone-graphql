@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import waitOn from 'wait-on';
+
 // https://github.com/gothinkster/realworld/tree/master/api
 const apiBaseUrl = 'http://localhost:3000/api';
 const post = (path: string, body: unknown) =>
@@ -25,14 +26,14 @@ test('server ready', async () => {
 describe('registration POST /api/users', () => {
     it('invalid request', async () => {
         const response = await post('/users', {});
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(422);
     });
 
     fit('invalid (empty) values', async () => {
         const response = await post('/users', { email: '', username: '', password: '' });
+        expect(response.status).toBe(422);
         const body = await response.json();
         console.log('body', body);
-        expect(response.status).toBe(400);
     });
 
     it('valid request', async () => {
@@ -42,28 +43,13 @@ describe('registration POST /api/users', () => {
             password: 'diseasefulness',
         });
         expect(response.statusText).toBe('Created');
-        expect(await response.json()).toBeTruthy();
+        expect(await response.json()).toEqual({
+            user: {
+                email: expect.stringContaining('@toastable.net'),
+                name: 'BartonZappulla',
+                bio: null,
+                image: null,
+            },
+        });
     });
-
-    // it('correct request', async (done) => {
-    //     const result = await request(server)
-    //         .post('/api/users')
-    //         .send({
-    //             user: {
-    //                 username: 'Jacob',
-    //                 email: 'jake@jake.jake',
-    //                 password: 'jakejake',
-    //             },
-    //         });
-    //     expect(result.body).toEqual({
-    //         user: {
-    //             email: 'jake@jake.jake',
-    //             token: 'jwt.token.here',
-    //             username: 'jake',
-    //             bio: 'I work at statefarm',
-    //             image: null,
-    //         },
-    //     });
-    //     done();
-    // });
 });

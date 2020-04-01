@@ -2,6 +2,11 @@
 PATH="$PWD/node_modules/.bin":$PATH
 set -e
 
+api_spec() {
+    export APIURL=http://localhost:3000/api
+    sh test/run-api-tests.sh
+}
+
 build() {
     set -x
     npm run prisma:generate

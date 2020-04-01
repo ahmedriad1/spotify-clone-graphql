@@ -1,15 +1,15 @@
 import { Controller, Delete, Get, Param, Post, Put, Req, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 
-import { ApiInterceptor } from './api.interceptor';
 import { ApiService } from './api.service';
+import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
 
 /**
  * This is REST API wrapper around graphql.
  * Backend API spec https://github.com/gothinkster/realworld/tree/master/api
  */
 @Controller('api')
-@UseInterceptors(ApiInterceptor)
+@UseInterceptors(GraphQLResponseInterceptor)
 export class ApiController {
     constructor(private readonly apiService: ApiService) {}
 
