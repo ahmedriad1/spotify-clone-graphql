@@ -23,6 +23,10 @@ Application is written using NestJS, GraphQL and Prisma, but since [backend API 
 
 > npm install, npm start, etc.
 
+## Known Issues
+
+-   Password is not hashed
+
 ## Resources
 
 -   [Backend API spec](https://github.com/gothinkster/realworld/tree/master/api)

@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 
 import { LoginFieldsModel } from '../auth/models/login-fields';
 import { PrismaService } from '../prisma/prisma.service';
+import { UserUpdateInput } from './models/user-update-input';
 import { UserRepository } from './user.repository';
 
 /**
@@ -16,6 +17,10 @@ export class UserService {
         private readonly userRepository: UserRepository,
         private readonly prisma: PrismaService,
     ) {}
+
+    async update(where: UserWhereUniqueInput, data: UserUpdateInput) {
+        return this.prisma.user.update({ data, where });
+    }
 
     async findOne(where: UserWhereUniqueInput) {
         return this.prisma.user.findOne({ where });

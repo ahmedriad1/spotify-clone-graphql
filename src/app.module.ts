@@ -1,6 +1,7 @@
 import { Global, Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { IncomingMessage } from 'http';
 
 import { ApiModule } from './api/api.module';
 import { config } from './app.config';
@@ -13,8 +14,12 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
     return {
         tracing: false,
         autoSchemaFile: '~schema.gql',
-        context: () => {
-            return { prisma: prismaService, token: (null as unknown) as string };
+        context: (data) => {
+            return {
+                prisma: prismaService,
+                token: (null as unknown) as string,
+                req: data.req as IncomingMessage,
+            };
         },
         // formatError: null as any,
     };

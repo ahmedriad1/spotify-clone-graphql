@@ -1,4 +1,5 @@
 import { Controller, Delete, Get, Param, Post, Put, Req, UseInterceptors } from '@nestjs/common';
+import { AuthorizationToken } from 'app_modules/nestjs-authorization-token';
 import { Request } from 'express';
 
 import { ApiService } from './api.service';
@@ -30,18 +31,27 @@ export class ApiController {
      * Authentication.
      */
     @Post('users/login')
-    async postUsersLogin() {
-        return {};
+    async postUsersLogin(@Req() request: Request) {
+        return this.apiService.loginUser(request.body);
     }
 
+    /**
+     * Get current user.
+     */
     @Get('user')
-    async user() {
-        return {};
+    async user(@AuthorizationToken() token: string) {
+        return this.apiService.getCurrentUser(token);
     }
 
+    /**
+     * Update user.
+     */
     @Put('user')
-    async updateUser() {
-        return {};
+    async updateUser(@AuthorizationToken() token: string, @Req() request: Request) {
+        return this.apiService.updateUser({
+            token,
+            user: request.body.user,
+        });
     }
 
     @Get('profiles/:username')
