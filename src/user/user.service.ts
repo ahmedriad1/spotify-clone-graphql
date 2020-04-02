@@ -7,6 +7,9 @@ import { LoginFieldsModel } from '../auth/models/login-fields';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserRepository } from './user.repository';
 
+/**
+ * Service to manage users.
+ */
 @Injectable()
 export class UserService {
     constructor(

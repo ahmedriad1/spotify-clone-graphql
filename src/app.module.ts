@@ -1,7 +1,6 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Global, Logger, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-import { LoggerModule } from 'nestjs-pino';
 
 import { ApiModule } from './api/api.module';
 import { config } from './app.config';
@@ -21,6 +20,7 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
     };
 }
 
+@Global()
 @Module({
     imports: [
         UserModule,
@@ -37,19 +37,8 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
             inject: [PrismaService],
             useFactory: graphqlModuleFactory,
         }),
-        LoggerModule.forRootAsync({
-            inject: [ConfigService],
-            useFactory: (config: ConfigService) => {
-                return {
-                    pinoHttp: {
-                        useLevel: 'trace',
-                        level: config.get('production') ? 'warn' : 'info',
-                        prettyPrint: !config.get('production'),
-                    },
-                };
-            },
-        }),
     ],
-    providers: [],
+    providers: [Logger],
+    exports: [Logger],
 })
 export class AppModule {}

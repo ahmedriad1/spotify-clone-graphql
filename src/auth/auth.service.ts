@@ -1,31 +1,23 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { UserService } from '../user/user.service';
+import { User } from '../user/models/user';
 import { accessTokenExpiresIn, refreshTokenExpiresIn } from './auth.constants';
-import { LoginFieldsModel } from './models/login-fields';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private readonly userService: UserService,
-        private readonly jwtService: JwtService,
-    ) {}
+    constructor(private readonly jwtService: JwtService) {}
 
-    async login(data: LoginFieldsModel): Promise<any> {
-        const user = await this.userService.findOneByCredentials({
-            email: data.email,
-            password: data.password,
-        });
-        if (!user) {
-            throw new UnauthorizedException();
-        }
+    /**
+     * Returns accessToken.
+     */
+    async session(user: User) {
         // const refreshToken = v4();
         const date = new Date();
 
         return {
             accessToken: this.jwtService.sign(
-                { email: user.email },
+                { sub: user.id, email: user.email },
                 { expiresIn: accessTokenExpiresIn / 1000 },
             ),
             refreshToken: '', // todo: create refresh token

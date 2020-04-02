@@ -13,7 +13,10 @@
     "node_modules/tslint-consistent-codestyle"
   ],
   "rules": {
-    "no-implicit-dependencies": [true, ["@generated/type-graphql", "app_modules", "@prisma/cli"]],
+    "no-implicit-dependencies": [
+      true,
+      ["@generated/type-graphql", "app_modules", "@prisma/client"]
+    ],
     "no-submodule-imports": false,
     "no-unnecessary-class": false,
     "member-ordering": [

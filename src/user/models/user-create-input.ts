@@ -1,6 +1,9 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
+/**
+ * Input type for create user mutation.
+ */
 @InputType()
 export class UserCreateInput {
     @IsNotEmpty()
