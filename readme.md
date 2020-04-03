@@ -10,18 +10,24 @@ We've gone to great lengths to adhere to the **NestJS, GraphQL and Prisma** comm
 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
-## How it works
-
-Application is written using NestJS, GraphQL and Prisma, but since [backend API specification](<(https://github.com/gothinkster/realworld/tree/master/api)>) requires REST, we must wrap our application.
-
--   `app` - Main application source code
--   `api` - REST API wrapper under main application
--   `prisma` - DB toolkit to query, migrate and model your database
--   `@generated` - Generated code
-
 ## Getting started
 
-> npm install, npm start, etc.
+```sh
+npm ci
+npm start # http://localhost:3000/api
+```
+
+## How it works
+
+Application is written using NestJS, GraphQL and Prisma, but since [backend API specification](<(https://github.com/gothinkster/realworld/tree/master/api)>) requires REST, we must wrap our application. So, REST API is a facade here and work as microservice which sends all requests
+to graphql api.
+
+### Project Structure
+
+-   `src` - Main application source code
+-   `src/api` - REST API wrapper under main application
+-   `prisma` - DB toolkit to query, migrate and model your database
+-   `@generated` - Generated code
 
 ## Known Issues
 
