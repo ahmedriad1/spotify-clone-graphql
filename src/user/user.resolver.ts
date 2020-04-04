@@ -1,9 +1,23 @@
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
-import { Args, Context, Mutation, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
+import { UserWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/UserWhereUniqueInput';
+import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
+import {
+    Args,
+    Context,
+    Info,
+    Mutation,
+    Parent,
+    Query,
+    ResolveProperty,
+    Resolver,
+} from '@nestjs/graphql';
 import { AuthInfo, CurrentUser } from 'app_modules/current-user-decorator';
-import { GraphqlAuthGuard } from 'app_modules/nestjs-passport-graphql-auth-guard';
+import {
+    GraphqlAuthGuard,
+    OptionalGraphqlAuthGuard,
+} from 'app_modules/nestjs-passport-graphql-auth-guard';
 
 import { AuthService } from '../auth/auth.service';
+import { PassportUserFields } from '../auth/models/passport-user-fields';
 import { SessionTokenFields } from '../auth/models/session-user-fields';
 import { GraphQLContext } from '../types';
 import { User } from './models/user';
@@ -12,6 +26,9 @@ import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
 
+/**
+ * Resolves user object type.
+ */
 @Resolver(() => User)
 export class UserResolver {
     constructor(
@@ -23,6 +40,16 @@ export class UserResolver {
     @UseGuards(GraphqlAuthGuard)
     async me(@AuthInfo() authInfo: SessionTokenFields, @CurrentUser() user: unknown) {
         return this.userService.findOne({ id: authInfo.sub });
+    }
+
+    @Query(() => User)
+    @UseGuards(OptionalGraphqlAuthGuard)
+    async user(@Args('where') where: UserWhereUniqueInput, @Info() info) {
+        const user = await this.userService.findOne(where);
+        if (!user) {
+            throw new NotFoundException(`User with ${JSON.stringify(where)} do not exists.`);
+        }
+        return user;
     }
 
     @Mutation(() => User)
@@ -41,16 +68,6 @@ export class UserResolver {
         return this.userService.update({ id: authInfo.sub }, data);
     }
 
-    @ResolveProperty(() => String, { nullable: true })
-    password(@Parent() user: User) {
-        return null;
-    }
-
-    @ResolveProperty(() => String, { nullable: true })
-    async token(@Parent() user: User, @Context() context: GraphQLContext) {
-        return context.token;
-    }
-
     @Mutation(() => User)
     async loginUser(@Args('data') data: UserLoginInput, @Context() context: GraphQLContext) {
         const user = await this.userService.findOneByCredentials(data);
@@ -59,5 +76,29 @@ export class UserResolver {
         }
         ({ accessToken: context.token } = await this.authService.session(user));
         return user;
+    }
+
+    @ResolveProperty(() => String, { nullable: true })
+    password(@Parent() user: User) {
+        return undefined;
+    }
+
+    @ResolveProperty(() => String, { nullable: true })
+    async token(@Parent() user: User, @Context() context: GraphQLContext) {
+        return context.token;
+    }
+
+    /**
+     * Check if current user is follow some user.
+     */
+    @ResolveProperty(() => Boolean)
+    async following(
+        @Parent() user: User,
+        @CurrentUser() currentUser?: PassportUserFields,
+    ): Promise<boolean> {
+        if (!currentUser) {
+            return false;
+        }
+        return this.userService.isFollowing(user.id, currentUser.id);
     }
 }

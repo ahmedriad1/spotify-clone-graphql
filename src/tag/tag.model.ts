@@ -6,12 +6,12 @@ import { Field, ObjectType } from 'type-graphql';
  */
 @ObjectType({})
 export class Tag extends TagModel {
-    @Field((_type) => String, {
+    @Field(() => String, {
         nullable: false,
     })
     id: string;
 
-    @Field((_type) => String, {
+    @Field(() => String, {
         nullable: false,
     })
     name: string;

@@ -12,6 +12,14 @@ const post = (path: string, body: unknown) =>
         },
     });
 
+const get = (path: string) =>
+    fetch(`${apiBaseUrl}${path}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
 beforeAll(async () => {
     await waitOn({
         resources: [apiBaseUrl],
@@ -23,13 +31,13 @@ test('server ready', async () => {
     expect(result).toBe('OK');
 });
 
-describe('registration POST /api/users', () => {
+describe('Registration POST /api/users', () => {
     it('invalid request', async () => {
         const response = await post('/users', {});
         expect(response.status).toBe(422);
     });
 
-    fit('invalid (empty) values', async () => {
+    it('invalid (empty) values', async () => {
         const response = await post('/users', { email: '', username: '', password: '' });
         expect(response.status).toBe(422);
         const body = await response.json();
@@ -38,17 +46,25 @@ describe('registration POST /api/users', () => {
     it('valid request', async () => {
         const response = await post('/users', {
             email: `r${Math.random().toString(36).slice(-5)}@toastable.net`,
-            username: 'BartonZappulla',
+            username: 'Barton',
             password: 'diseasefulness',
         });
         expect(response.statusText).toBe('Created');
         expect(await response.json()).toEqual({
             user: {
                 email: expect.stringContaining('@toastable.net'),
-                name: 'BartonZappulla',
+                name: 'Barton',
                 bio: null,
                 image: null,
             },
         });
+    });
+});
+
+describe('Get Profile', () => {
+    it('root user', async () => {
+        const response = await get('/profiles/root');
+        const body = await response.json();
+        expect(body.profile.username).toEqual('root');
     });
 });

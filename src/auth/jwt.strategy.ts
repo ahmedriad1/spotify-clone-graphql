@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { PlainObject } from 'simplytyped';
 
-import { User } from '../user/models/user';
+import { PassportUserFields } from './models/passport-user-fields';
 
 /**
  * Use jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Token') if you have
@@ -27,8 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
      * Will be written to request.authInfo.
      * Also, if (error happens) error info will be here too {message, name})
      */
-    public async validate(payload: any): Promise<[User, any /*Info*/]> {
-        const user: any = { email: payload.email, id: payload.sub };
-        return [user, payload];
+    async validate(payload: PlainObject): Promise<PassportUserFields> {
+        return { email: payload.email, id: payload.sub };
     }
 }

@@ -54,9 +54,16 @@ export class ApiController {
         });
     }
 
+    /**
+     * Get user profile by name.
+     * Authorization optional, if yes `following` property should be checked.
+     */
     @Get('profiles/:username')
-    async profilesUsername(@Param('username') username: string) {
-        return {};
+    async profilesUsername(@Param('username') name: string, @AuthorizationToken() token: string) {
+        return this.apiService.getProfile({
+            token,
+            name,
+        });
     }
 
     @Post('profiles/:username/follow')

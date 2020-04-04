@@ -94,6 +94,26 @@ export class ApiService {
     }
 
     /**
+     * Get current user.
+     * Authorization optional, if yes `following` property should be checked.
+     */
+    async getProfile({ token, name }: { token: string; name: string }) {
+        const query = /* GraphQL */ `
+            query user($input: UserWhereUniqueInput!) {
+                profile: user(where: $input) {
+                    username: name
+                    bio
+                    image
+                    following
+                }
+            }
+        `;
+        return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {
+            input: { name },
+        });
+    }
+
+    /**
      * Returns a list of tags.
      */
     async getTags() {
