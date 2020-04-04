@@ -22,14 +22,15 @@ model User {
     password  String
     bio  String?
     image  String?
-    // following  Boolean  @default(false)
-    followers User[]
+    followedBy  User[]   @relation("UserFollows", references: [id])
+    following   User[]   @relation("UserFollows", references: [id])
+    favoriteArticles  Article[]  @relation(name: "FavoritedArticles", references: [id])
 }
 
 model Tag {
     id  String  @id  @default(cuid())
     name  String  @unique
-    articles Article[]
+    articles  Article[]
 }
 
 model Article {
@@ -42,9 +43,9 @@ model Article {
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
     favoritesCount  Int  @default(0)
-    author  User  @relation(name: "author")
-    // favorited Boolean  @default(false)
-    favoritedBy  User[]  @relation(name: "favoritedBy")
+    author    User  @relation(name: "ArticleAuthor", fields: [authorId], references: [id])
+    authorId  String
+    favoritedBy  User[]  @relation(name: "FavoritedArticles", references: [id])
 }
 
 model Comment {
@@ -52,5 +53,6 @@ model Comment {
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
     body  String
-    author User
+    author    User  @relation(fields: [authorId], references: [id])
+    authorId  String
 }

@@ -9,7 +9,7 @@ api_spec() {
 
 build() {
     set -x
-    npm run prisma:generate
+    npm run prisma:g
     rm -rf dist
     mkdir dist
     nest build

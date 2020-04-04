@@ -119,9 +119,140 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "followers",
+      "field": "followedBy",
       "type": "User",
       "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "followedBy"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "followedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"UserFollows\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "followedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "following",
+      "type": "User",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "following"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "following"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"UserFollows\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "following"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "favoriteArticles",
+      "type": "Article",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "favoriteArticles"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "favoriteArticles"
+        },
+        "directive": "relation"
+      },
+      "argument": "name",
+      "value": "\"FavoritedArticles\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "favoriteArticles"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
     },
     {
       "tag": "CreateModel",
@@ -400,7 +531,42 @@
         "directive": "relation"
       },
       "argument": "name",
-      "value": "\"author\""
+      "value": "\"ArticleAuthor\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Article",
+          "field": "author"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[authorId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Article",
+          "field": "author"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Article",
+      "field": "authorId",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
@@ -432,7 +598,21 @@
         "directive": "relation"
       },
       "argument": "name",
-      "value": "\"favoritedBy\""
+      "value": "\"FavoritedArticles\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Article",
+          "field": "favoritedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
     },
     {
       "tag": "CreateModel",
@@ -543,6 +723,52 @@
       "model": "Comment",
       "field": "author",
       "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Comment",
+          "field": "author"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Comment",
+          "field": "author"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[authorId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Comment",
+          "field": "author"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "authorId",
+      "type": "String",
       "arity": "Required"
     }
   ]
