@@ -10,14 +10,13 @@ import {
     ResolveProperty,
     Resolver,
 } from '@nestjs/graphql';
-import { AuthInfo, CurrentUser } from 'app_modules/current-user-decorator';
+import { CurrentUser } from 'app_modules/current-user-decorator';
 import {
     GraphqlAuthGuard,
     OptionalGraphqlAuthGuard,
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
 
 import { AuthService } from '../auth/auth.service';
-import { PassportUserFields } from '../auth/models/passport-user-fields';
 import { SessionTokenFields } from '../auth/models/session-user-fields';
 import { GraphQLContext } from '../types';
 import { User } from './models/user';
@@ -25,6 +24,7 @@ import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
+import { PassportUserFields } from './models/passport-user-fields';
 
 /**
  * Resolves user object type.
@@ -38,8 +38,8 @@ export class UserResolver {
 
     @Query(() => User)
     @UseGuards(GraphqlAuthGuard)
-    async me(@AuthInfo() authInfo: SessionTokenFields, @CurrentUser() user: unknown) {
-        return this.userService.findOne({ id: authInfo.sub });
+    async me(@CurrentUser() user: PassportUserFields) {
+        return this.userService.findOne({ id: user.id });
     }
 
     @Query(() => User)
@@ -61,11 +61,8 @@ export class UserResolver {
 
     @Mutation(() => User)
     @UseGuards(GraphqlAuthGuard)
-    async updateUser(
-        @Args('data') data: UserUpdateInput,
-        @AuthInfo() authInfo: SessionTokenFields,
-    ) {
-        return this.userService.update({ id: authInfo.sub }, data);
+    async updateUser(@Args('data') data: UserUpdateInput, @CurrentUser() user: PassportUserFields) {
+        return this.userService.update({ id: user.id }, data);
     }
 
     @Mutation(() => User)
