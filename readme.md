@@ -29,6 +29,13 @@ to graphql api.
 -   `prisma` - DB toolkit to query, migrate and model your database
 -   `@generated` - Generated code
 
+## Run realword API end-to-end tests
+
+```sh
+1: npm run start:dev
+2: npm run api:spec
+```
+
 ## Known Issues
 
 -   Password is not hashed
