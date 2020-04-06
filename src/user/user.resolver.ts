@@ -17,14 +17,13 @@ import {
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
 
 import { AuthService } from '../auth/auth.service';
-import { SessionTokenFields } from '../auth/models/session-user-fields';
 import { GraphQLContext } from '../types';
+import { PassportUserFields } from './models/passport-user-fields';
 import { User } from './models/user';
 import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
-import { PassportUserFields } from './models/passport-user-fields';
 
 /**
  * Resolves user object type.
