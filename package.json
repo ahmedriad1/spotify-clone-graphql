@@ -50,6 +50,7 @@
     "@nestjs/jwt": "^6.1.2",
     "@nestjs/passport": "^6.2.0",
     "@nestjs/platform-express": "^6.11.11",
+    "@sindresorhus/slugify": "^0.11.0",
     "apollo-server-express": "^2.11.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.1",

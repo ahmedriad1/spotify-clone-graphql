@@ -7,5 +7,6 @@ import { TagService } from './tag.service';
 @Module({
     imports: [PrismaModule],
     providers: [TagResolver, TagService],
+    exports: [TagService],
 })
 export class TagModule {}

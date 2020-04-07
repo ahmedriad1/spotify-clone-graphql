@@ -10,7 +10,7 @@ import { JsonWebTokenError } from 'jsonwebtoken';
  */
 @Injectable()
 export class GraphqlAuthGuard extends AuthGuard('jwt') {
-    canActivate(context: ExecutionContext) {
+    async canActivate(context: ExecutionContext) {
         const graphqlContext = GqlExecutionContext.create(context);
         const { req } = graphqlContext.getContext();
         return super.canActivate(new ExecutionContextHost([req])) as Promise<boolean>;

@@ -108,5 +108,11 @@ module.exports = {
                 'sonarjs/no-duplicate-string': 0,
             },
         },
+        {
+            files: ['*.module.ts'],
+            rules: {
+                '@typescript-eslint/tslint/config': 0,
+            },
+        },
     ],
 };

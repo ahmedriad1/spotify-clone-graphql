@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 
+import { ArticleCreateInput } from './models/article-create-input';
+import { CreateArticleDto } from './models/create-article.dto';
 import { CreateUserDto } from './models/create-user.dto';
 import { LoginUserDto } from './models/login-user.dto';
 import { UpdateUserDto } from './models/update-user.dto';
@@ -111,6 +113,68 @@ export class ApiService {
         return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {
             input: { name },
         });
+    }
+
+    /**
+     * Create article.
+     */
+    async createArticle({
+        token,
+        createArticleDto,
+    }: {
+        token: string;
+        createArticleDto: CreateArticleDto;
+    }) {
+        const query = /* GraphQL */ `
+            mutation createArticle($input: ArticleCreateInput!) {
+                article: createArticle(input: $input) {
+                    slug
+                    title
+                    description
+                    body
+                    tags {
+                        name
+                    }
+                    createdAt
+                    updatedAt
+                    favorited
+                    favoritesCount
+                    author {
+                        username: name
+                        bio
+                        image
+                        following
+                    }
+                }
+            }
+        `;
+        const input: ArticleCreateInput = {
+            body: createArticleDto.body,
+            description: createArticleDto.description,
+            title: createArticleDto.title,
+            tags: createArticleDto.tagsList,
+        };
+        const articleResponseObject = await this.graphqlClient
+            .setHeader('Authorization', `Bearer ${token}`)
+            .request(query, { input });
+        articleResponseObject.article.tagList = articleResponseObject.article.tags.map(
+            (t) => t.name,
+        );
+        return articleResponseObject;
+    }
+
+    async getArticles({ token }: { token?: string }) {
+        const query = /* GraphQL */ `
+            query articles($where: ?) {
+                articles: articles(where: $where) {
+                    username: name
+                    bio
+                    image
+                    following
+                }
+            }
+        `;
+        return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {});
     }
 
     /**

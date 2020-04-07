@@ -6,7 +6,10 @@ import {
     NestInterceptor,
     UnprocessableEntityException,
 } from '@nestjs/common';
-import { classValidatorFlatFormatter } from 'app_modules/class-validator-flat-formatter';
+import {
+    classValidatorFlatFormatter,
+    isValidationError,
+} from 'app_modules/class-validator-flat-formatter';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -17,16 +20,18 @@ export class GraphQLResponseInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             catchError((err) => {
-                this.logger.error(err.response, 'GraphQLResponseInterceptor');
                 // todo: format
-                const validationErrors = err.response.errors[0].message.message;
-                if (validationErrors) {
-                    const message = classValidatorFlatFormatter(
-                        err.response.errors[0].message.message,
-                    );
+                const validationErrors = err.response?.errors?.[0]?.message?.message;
+                if (
+                    isValidationError(validationErrors) ||
+                    (Array.isArray(validationErrors) &&
+                        validationErrors.length > 0 &&
+                        validationErrors.some(isValidationError))
+                ) {
+                    const message = classValidatorFlatFormatter(validationErrors as any);
                     return throwError(new UnprocessableEntityException(message));
                 }
-                return throwError(err.response.errors[0].message);
+                return throwError(err);
             }),
         );
     }

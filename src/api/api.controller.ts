@@ -4,6 +4,7 @@ import { Request } from 'express';
 
 import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
+import { CreateArticleDto } from './models/create-article.dto';
 
 /**
  * This is REST API wrapper around graphql.
@@ -66,6 +67,12 @@ export class ApiController {
         });
     }
 
+    @Post('articles')
+    async createArticle(@Req() request: Request, @AuthorizationToken() token: string) {
+        const createArticleDto: CreateArticleDto = request.body.article;
+        return this.apiService.createArticle({ token, createArticleDto });
+    }
+
     @Post('profiles/:username/follow')
     async createProfilesUsernameFollow() {
         return {};
@@ -77,8 +84,8 @@ export class ApiController {
     }
 
     @Get('articles')
-    async getArticles() {
-        return {};
+    async getArticles(@AuthorizationToken() token?: string) {
+        return this.apiService.getArticles({ token });
     }
 
     @Get('articles/feed')
@@ -88,11 +95,6 @@ export class ApiController {
 
     @Get('articles/:slug')
     async articlesSlug() {
-        return {};
-    }
-
-    @Post('articles')
-    async createArticle() {
         return {};
     }
 

@@ -68,3 +68,27 @@ describe('Get Profile', () => {
         expect(body.profile.username).toEqual('root');
     });
 });
+
+describe('List Articles', () => {
+    it('GET /api/articles', async () => {
+        const response = await get('/articles');
+        const body = await response.json();
+        expect(body.articles).toBeTruthy();
+    });
+});
+
+describe('Create Article', () => {
+    it('Authenticated POST /api/articles', async () => {
+        const createArticle = {
+            article: {
+                title: 'How to train your dragon',
+                description: 'Ever wonder how?',
+                body: 'You have to believe',
+                tagList: ['reactjs', 'angularjs', 'dragons'],
+            },
+        };
+        const response = await post('/articles', createArticle);
+        const body = await response.json();
+        expect(body.article).toBeTruthy();
+    });
+});

@@ -1,6 +1,6 @@
-import { Tag } from '@generated/type-graphql/models/Tag';
 import { Query, Resolver } from '@nestjs/graphql';
 
+import { Tag } from './tag.model';
 import { TagService } from './tag.service';
 
 @Resolver()

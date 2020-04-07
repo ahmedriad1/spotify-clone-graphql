@@ -39,6 +39,7 @@ to graphql api.
 ## Known Issues
 
 -   Password is not hashed
+-   User's field `username` renamed to `name`
 
 ## Resources
 
