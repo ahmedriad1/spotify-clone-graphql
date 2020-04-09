@@ -1,4 +1,15 @@
-import { Controller, Delete, Get, Param, Post, Put, Req, UseInterceptors } from '@nestjs/common';
+import {
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    Req,
+    UseInterceptors,
+} from '@nestjs/common';
 import { AuthorizationToken } from 'app_modules/nestjs-authorization-token';
 import { Request } from 'express';
 
@@ -67,10 +78,33 @@ export class ApiController {
         });
     }
 
+    /**
+     * Create article.
+     */
     @Post('articles')
     async createArticle(@Req() request: Request, @AuthorizationToken() token: string) {
         const createArticleDto: CreateArticleDto = request.body.article;
         return this.apiService.createArticle({ token, createArticleDto });
+    }
+
+    @Get('articles')
+    async getArticles(
+        @AuthorizationToken() token?: string,
+
+        @Query('tag') tag?: string,
+        @Query('author') author?: string,
+        @Query('favorited') favorited?: string,
+        @Query('offset', new ParseIntPipe()) offset = 0,
+        @Query('limit', new ParseIntPipe()) limit = 20,
+    ) {
+        return this.apiService.getArticles({
+            token,
+            tag,
+            author,
+            favorited,
+            offset,
+            limit,
+        });
     }
 
     @Post('profiles/:username/follow')
@@ -81,11 +115,6 @@ export class ApiController {
     @Delete('profiles/:username/follow')
     async deleteProfilesUsernameFollow() {
         return {};
-    }
-
-    @Get('articles')
-    async getArticles(@AuthorizationToken() token?: string) {
-        return this.apiService.getArticles({ token });
     }
 
     @Get('articles/feed')
@@ -99,7 +128,7 @@ export class ApiController {
     }
 
     @Put('articles/:slug')
-    async update_article() {
+    async updateArticle() {
         return {};
     }
 

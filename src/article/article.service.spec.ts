@@ -19,7 +19,7 @@ describe('ArticleService', () => {
         service = module.get<ArticleService>(ArticleService);
     });
 
-    fit('should be defined', () => {
+    it('should be defined', () => {
         expect(service).toBeDefined();
     });
 });

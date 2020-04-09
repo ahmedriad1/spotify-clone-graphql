@@ -2,10 +2,16 @@ import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../prisma/prisma.service';
 
+/**
+ * Service for manage tags.
+ */
 @Injectable()
 export class TagService {
     constructor(private readonly prisma: PrismaService) {}
 
+    /**
+     * Create tags (if not exists) from array of strings.
+     */
     async createTags(tags: string[]) {
         const upsertOperations = tags.map((name) => {
             return this.prisma.tag.upsert({
@@ -17,6 +23,9 @@ export class TagService {
         return Promise.all(upsertOperations);
     }
 
+    /**
+     * Return all tags.
+     */
     async findAll() {
         return this.prisma.tag.findMany();
     }

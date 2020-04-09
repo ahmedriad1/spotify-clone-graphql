@@ -1,6 +1,6 @@
 import { FindManyArticleArgs } from '@generated/type-graphql/resolvers/crud/Article/args/FindManyArticleArgs';
 import { Injectable } from '@nestjs/common';
-import { ArticleCreateInput as ArticleCreateInputData } from '@prisma/client';
+import { ArticleCreateInput as ArticleCreateInputData, ArticleInclude } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
@@ -50,8 +50,11 @@ export class ArticleService {
         });
     }
 
-    async findMany(args: FindManyArticleArgs) {
-        return this.prisma.article.findMany(args);
+    async findMany({ args, include }: { args: FindManyArticleArgs; include?: ArticleInclude }) {
+        return this.prisma.article.findMany({
+            ...args,
+            include,
+        });
     }
 
     // async update(where: UserWhereUniqueInput, data: UserUpdateInput) {

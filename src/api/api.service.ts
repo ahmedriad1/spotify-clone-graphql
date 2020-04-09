@@ -163,14 +163,36 @@ export class ApiService {
         return articleResponseObject;
     }
 
-    async getArticles({ token }: { token?: string }) {
+    async getArticles({
+        token,
+    }: Partial<{
+        token: string;
+        tag: string;
+        author: string;
+        favorited: string;
+        offset: number;
+        limit: number;
+    }>) {
         const query = /* GraphQL */ `
-            query articles($where: ?) {
-                articles: articles(where: $where) {
-                    username: name
-                    bio
-                    image
-                    following
+            query articles($where: ArticleWhereInput) {
+                articles: articles(where: $where, orderBy: { id: desc }) {
+                    slug
+                    title
+                    description
+                    body
+                    tagList: tags {
+                        name
+                    }
+                    createdAt
+                    updatedAt
+                    favorited
+                    favoritesCount
+                    author {
+                        username: name
+                        bio
+                        image
+                        following
+                    }
                 }
             }
         `;
