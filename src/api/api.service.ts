@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ArticleWhereInput } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 
 import { ArticleCreateInput } from './models/article-create-input';
@@ -163,18 +164,40 @@ export class ApiService {
         return articleResponseObject;
     }
 
-    async getArticles({
-        token,
-    }: Partial<{
-        token: string;
-        tag: string;
-        author: string;
-        favorited: string;
-        offset: number;
-        limit: number;
-    }>) {
+    async getArticles(
+        options: Partial<{
+            token: string;
+            tag: string;
+            author: string;
+            /**
+             * Favorited by user
+             */
+            favorited: string;
+            offset: number;
+            limit: number;
+        }>,
+    ) {
+        const where: ArticleWhereInput = {};
+        if (options.tag) {
+            where.tags = { some: { name: { equals: options.tag } } };
+        }
+        if (options.author) {
+            where.author = { name: { equals: options.author } };
+        }
+        if (options.favorited) {
+            where.favoritedBy = { some: { name: options.favorited } };
+        }
+        let skip: number | null = null;
+        if (options.offset && options.offset > 0) {
+            skip = options.offset;
+        }
+        let first: number | null = null;
+        if (options.limit) {
+            first = options.limit;
+        }
+
         const query = /* GraphQL */ `
-            query articles($where: ArticleWhereInput) {
+            query articles($where: ArticleWhereInput!) {
                 articles: articles(where: $where, orderBy: { id: desc }) {
                     slug
                     title
@@ -194,9 +217,12 @@ export class ApiService {
                         following
                     }
                 }
+                articlesCount: countArticles(where: $where)
             }
         `;
-        return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {});
+        return this.graphqlClient
+            .setHeader('Authorization', `Bearer ${options.token}`)
+            .request(query, { where, skip, first });
     }
 
     /**

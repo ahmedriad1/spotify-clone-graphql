@@ -3,7 +3,6 @@ import {
     Delete,
     Get,
     Param,
-    ParseIntPipe,
     Post,
     Put,
     Query,
@@ -16,6 +15,7 @@ import { Request } from 'express';
 import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
 import { CreateArticleDto } from './models/create-article.dto';
+import { GetArticlesDto } from './models/get-articles.dto';
 
 /**
  * This is REST API wrapper around graphql.
@@ -87,23 +87,14 @@ export class ApiController {
         return this.apiService.createArticle({ token, createArticleDto });
     }
 
+    /**
+     * Get all articles with optional filters.
+     */
     @Get('articles')
-    async getArticles(
-        @AuthorizationToken() token?: string,
-
-        @Query('tag') tag?: string,
-        @Query('author') author?: string,
-        @Query('favorited') favorited?: string,
-        @Query('offset', new ParseIntPipe()) offset = 0,
-        @Query('limit', new ParseIntPipe()) limit = 20,
-    ) {
+    async getArticles(@AuthorizationToken() token?: string, @Query() query?: GetArticlesDto) {
         return this.apiService.getArticles({
             token,
-            tag,
-            author,
-            favorited,
-            offset,
-            limit,
+            ...query,
         });
     }
 

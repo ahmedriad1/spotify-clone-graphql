@@ -9,6 +9,7 @@ export async function bootstrap() {
     const config = app.get(ConfigService);
     app.useGlobalPipes(
         new ValidationPipe({
+            transform: true,
             validationError: {
                 target: false,
             },

@@ -1,6 +1,10 @@
 import { FindManyArticleArgs } from '@generated/type-graphql/resolvers/crud/Article/args/FindManyArticleArgs';
 import { Injectable } from '@nestjs/common';
-import { ArticleCreateInput as ArticleCreateInputData, ArticleInclude } from '@prisma/client';
+import {
+    ArticleCreateInput as ArticleCreateInputData,
+    ArticleInclude,
+    ArticleWhereInput,
+} from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
@@ -57,30 +61,11 @@ export class ArticleService {
         });
     }
 
-    // async update(where: UserWhereUniqueInput, data: UserUpdateInput) {
-    //     return this.prisma.article.update({ data, where });
-    // }
-
-    // async findOne(where: UserWhereUniqueInput) {
-    //     return this.prisma.article.findOne({ where });
-    // }
-
-    // async findOneByCredentials(data: LoginFieldsModel) {
-    //     let user = await this.prisma.article.findOne({ where: { email: data.email } });
-    //     if (!(user && user.password === data.password)) {
-    //         user = null;
-    //     }
-    //     return user;
-    // }
-
-    // async findOneRandom() {
-    //     return this.userRepository.randomUser();
-    // }
-
-    // async isFollowing(userId: string, byUserId: string) {
-    //     const result = await this.prisma.article
-    //         .findOne({ where: { id: userId } })
-    //         .followers({ where: { id: byUserId }, first: 1 });
-    //     return result.length > 0;
-    // }
+    /**
+     * TODO: How to count?
+     * https://github.com/prisma/prisma-client-js/issues/252
+     */
+    async count(where: ArticleWhereInput) {
+        return 0;
+    }
 }
