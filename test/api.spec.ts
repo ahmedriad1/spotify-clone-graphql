@@ -75,6 +75,12 @@ describe('List Articles', () => {
         const body = await response.json();
         expect(body.articles).toBeTruthy();
     });
+
+    it('Articles Favorited by Username', async () => {
+        const response = await get('/articles?favorited=jane');
+        const body = await response.json();
+        expect(body.articles).toBeTruthy();
+    });
 });
 
 describe('Create Article', () => {

@@ -185,7 +185,7 @@ export class ApiService {
             where.author = { name: { equals: options.author } };
         }
         if (options.favorited) {
-            where.favoritedBy = { some: { name: options.favorited } };
+            where.favoritedBy = { some: { name: { equals: options.favorited } } };
         }
         let skip: number | null = null;
         if (options.offset && options.offset > 0) {
