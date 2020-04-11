@@ -54,6 +54,9 @@ export class ArticleService {
         });
     }
 
+    /**
+     * Get all articles.
+     */
     async findMany({ args, include }: { args: FindManyArticleArgs; include?: ArticleInclude }) {
         return this.prisma.article.findMany({
             ...args,

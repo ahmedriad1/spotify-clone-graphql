@@ -35,6 +35,9 @@ export class UserResolver {
         private readonly authService: AuthService,
     ) {}
 
+    /**
+     * Query for single user.
+     */
     @Query(() => User)
     @UseGuards(GraphqlAuthGuard)
     async me(@CurrentUser() user: PassportUserFields) {

@@ -13,6 +13,9 @@ import { ArticleService } from './article.service';
 import { Article } from './models/article';
 import { ArticleCreateInput } from './models/article-create-input';
 
+/**
+ * Article resolver.
+ */
 @Resolver(() => Article)
 export class ArticleResolver {
     constructor(private readonly service: ArticleService) {}
