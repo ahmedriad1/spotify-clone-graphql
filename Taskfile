@@ -9,13 +9,15 @@ api_spec() {
 
 build() {
     set -x
-    npm run prisma:g
     rm -rf dist
     mkdir dist
+    npm run prisma:g
     nest build
     mkdir -p dist/prisma/migrations
     cp -r prisma/migrations/* dist/prisma/migrations
     cp prisma/schema.prisma dist/prisma
+    # Cleanup
+    rm -vf dist/tsconfig.build.tsbuildinfo || true
     set +x
 }
 
@@ -67,7 +69,7 @@ build_package() {
     cp -rfv *.ts ./dist
     cd dist
     /usr/bin/find . -name '*.spec.ts' | xargs rm -rvf
-    tsc -p .
+    tsc --incremental false --project .
     rm -rvf tsconfig.json
     cd ..
     # Return to package directory
