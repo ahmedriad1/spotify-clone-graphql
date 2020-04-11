@@ -22,7 +22,7 @@ export class AuthService {
             accessToken: await this.jwtService.signAsync(payload, {
                 expiresIn: accessTokenExpiresIn / 1000,
             }),
-            refreshToken: '', // todo: create refresh token
+            refreshToken: '', // TODO: create refresh token
             accessTokenExpiresAt: date.getTime() + accessTokenExpiresIn,
             refreshTokenExpiresAt: date.getTime() + refreshTokenExpiresIn,
         };

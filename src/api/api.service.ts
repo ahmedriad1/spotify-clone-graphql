@@ -225,6 +225,31 @@ export class ApiService {
             .request(query, { where, skip, first });
     }
 
+    async followUser({
+        token,
+        username,
+        value,
+    }: {
+        token: string;
+        username: string;
+        value: boolean;
+    }) {
+        const query = /* GraphQL */ `
+            mutation follow($where: UserWhereInput!, value: Boolean!) {
+                follow(where: $where, value: $value) {
+                    username: name
+                    bio
+                    image
+                    following
+                }
+            }
+        `;
+        return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {
+            where: { name: username },
+            value: value,
+        });
+    }
+
     /**
      * Returns a list of tags.
      */

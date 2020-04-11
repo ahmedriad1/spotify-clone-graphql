@@ -98,14 +98,25 @@ export class ApiController {
         });
     }
 
+    /**
+     * Follow user.
+     */
     @Post('profiles/:username/follow')
-    async createProfilesUsernameFollow() {
-        return {};
+    async followUser(@AuthorizationToken() token: string, @Param('username') username: string) {
+        return this.apiService.followUser({
+            token,
+            username,
+            value: true,
+        });
     }
 
     @Delete('profiles/:username/follow')
-    async deleteProfilesUsernameFollow() {
-        return {};
+    async unfollowUser(@AuthorizationToken() token: string, @Param('username') username: string) {
+        return this.apiService.followUser({
+            token,
+            username,
+            value: false,
+        });
     }
 
     @Get('articles/feed')

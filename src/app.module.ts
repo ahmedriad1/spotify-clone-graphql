@@ -31,7 +31,7 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
     imports: [
         UserModule,
         ApiModule,
-        PrismaModule,
+        PrismaModule.forRoot(),
         TagModule,
         ConfigModule.forRoot({
             isGlobal: true,

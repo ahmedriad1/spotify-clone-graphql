@@ -1,11 +1,12 @@
 import { FindManyUserArgs } from '@generated/type-graphql/resolvers/crud/User/args/FindManyUserArgs';
 import { UserCreateInput } from '@generated/type-graphql/resolvers/inputs/UserCreateInput';
-import { UserWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/UserWhereUniqueInput';
 import { Injectable } from '@nestjs/common';
+import { UserUpdateManyWithoutFollowedByInput, UserWhereUniqueInput } from '@prisma/client';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { InjectPrisma } from '../prisma/prisma.module';
 import { LoginFieldsModel } from './models/login-fields';
 import { UserUpdateInput } from './models/user-update-input';
+import { PrismaUser } from './types';
 import { UserRepository } from './user.repository';
 
 /**
@@ -15,19 +16,19 @@ import { UserRepository } from './user.repository';
 export class UserService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly prisma: PrismaService,
+        @InjectPrisma('user') private readonly prismaUser: PrismaUser,
     ) {}
 
     async update(where: UserWhereUniqueInput, data: UserUpdateInput) {
-        return this.prisma.user.update({ data, where });
+        return this.prismaUser.update({ data, where });
     }
 
     async findOne(where: UserWhereUniqueInput) {
-        return this.prisma.user.findOne({ where });
+        return this.prismaUser.findOne({ where });
     }
 
     async findOneByCredentials(data: LoginFieldsModel) {
-        let user = await this.prisma.user.findOne({ where: { email: data.email } });
+        let user = await this.prismaUser.findOne({ where: { email: data.email } });
         if (!(user && user.password === data.password)) {
             user = null;
         }
@@ -39,19 +40,34 @@ export class UserService {
     }
 
     async findMany(args: FindManyUserArgs) {
-        return this.prisma.user.findMany(args);
+        return this.prismaUser.findMany(args);
     }
 
     async create(data: UserCreateInput) {
-        // todo: hash password
-        // todo: check email unique
-        return this.prisma.user.create({ data });
+        // TODO: hash password
+        // TODO: check email unique, throw 409
+        return this.prismaUser.create({ data });
     }
 
     async isFollowing(userId: string, byUserId: string) {
-        const result = await this.prisma.user
+        const result = await this.prismaUser
             .findOne({ where: { id: userId } })
             .followers({ where: { id: byUserId }, first: 1 });
         return result.length > 0;
+    }
+
+    /**
+     * Add or remove follower for user matching to `where` conditions.
+     */
+    async follow(where: UserWhereUniqueInput, follower: UserWhereUniqueInput, value: boolean) {
+        const followersOperation: UserUpdateManyWithoutFollowedByInput = value
+            ? { connect: follower }
+            : { disconnect: follower };
+        return this.prismaUser.update({
+            where,
+            data: {
+                followers: followersOperation,
+            },
+        });
     }
 }

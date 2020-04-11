@@ -77,6 +77,17 @@ export class UserResolver {
         return user;
     }
 
+    @Mutation(() => User)
+    @UseGuards(GraphqlAuthGuard)
+    async follow(
+        @CurrentUser() user: PassportUserFields,
+        @Args('where') where: UserWhereUniqueInput,
+        @Args('value') value: boolean,
+    ) {
+        const followedBy = { id: user.id };
+        return this.userService.follow(where, followedBy, value);
+    }
+
     @ResolveProperty(() => String, { nullable: true })
     password(@Parent() user: User) {
         return undefined;

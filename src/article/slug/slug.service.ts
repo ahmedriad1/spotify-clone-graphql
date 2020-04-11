@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import slugify from '@sindresorhus/slugify';
+import { randomBytes } from 'crypto';
 
 /**
  * Service for generate slug for article.
@@ -28,7 +29,7 @@ export class SlugService {
             return `${slug}-${String(attempt)}`;
         }
         if (attempt > 3) {
-            const [suffix] = Math.random().toString(36).split('.').slice(-1);
+            const [suffix] = Number.parseInt(randomBytes(attempt).toString('hex'), 16).toString(36);
             slug = `${slug}-${suffix}`;
             if (await isUnique(slug)) {
                 return slug;
