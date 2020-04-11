@@ -7,7 +7,6 @@
   "keywords": [
     "class-validator"
   ],
-  "author": "Roman Vasilev",
-  "license": "MIT",
-  "homepage": "https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app/tree/master/"
+  "author": "2020",
+  "license": "MIT"
 }

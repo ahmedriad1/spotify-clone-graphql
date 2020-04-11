@@ -25,6 +25,7 @@ build() {
 # Example: sh Taskfile deploy_package src/subpackage
 # setup global for faster deployment several package:
 # npm i -g semantic-release semantic-release-monorepo @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/github @semantic-release/npm @semantic-release/release-notes-generator remark-cli remark-license
+# npm i --no-save remark-cli remark-license remark-toc
 deploy_package() {
     set -x
     root=`pwd`
@@ -55,7 +56,6 @@ build_package() {
 
     # Remark
     [ ! -f ./.remarkrc.js ] && cp -vf "$root/.remarkrc.js" . || true
-    npm i --no-save remark-cli remark-license remark-toc
     npx remark-cli README.md --output
 
     # Merge root and local tsconfig files
@@ -80,8 +80,12 @@ build_package() {
 }
 
 # Configure package.json for package
+# $1 - path to subpackage root
 build_package_json() {
-    [ -n "$1" ] && pushd "$1"
+    if [ -n "$1" ]; then
+        parentScope=`pwd`
+        cd $1
+    fi
     [ ! -f package.json ] && npm init -y 1> /dev/null
     localPackage=`cat package.json`
     localPackage=`echo "$localPackage" | jq '.license = "MIT"'`
@@ -97,7 +101,7 @@ build_package_json() {
         localPackage=`echo "$localPackage" | jq --arg x "$homepage" '.homepage = $x'`
     fi
     echo "$localPackage" > package.json
-    [ -n "$1" ] && popd
+    [ -n "$1" ] && cd $parentScope
     return 0
 }
 
