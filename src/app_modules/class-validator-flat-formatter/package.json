@@ -1,0 +1,13 @@
+{
+  "name": "class-validator-flat-formatter",
+  "version": "0.0.0-dev",
+  "description": "Convert array of ValidationError objects from class-validator to multiline string",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "class-validator"
+  ],
+  "author": "Roman Vasilev",
+  "license": "MIT"
+
+}

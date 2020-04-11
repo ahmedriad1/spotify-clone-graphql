@@ -4,6 +4,14 @@
   "version": "0.0.0-dev",
   "description": "Example real world application built with NestJS, GraphQL and Prisma",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app/issues"
+  },
+  "homepage": "https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app#readme",
   "scripts": {
     "api:spec": "sh Taskfile api_spec",
     "dev": "run-p start:dev prisma:w",
