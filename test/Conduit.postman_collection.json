@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "0574ad8a-a525-43ae-8e1e-5fd9756037f4",
+    "_postman_id": "333eff32-cb6b-49f3-9941-034de47a0321",
     "name": "Conduit",
     "description": "Collection for testing the Conduit API\n\nhttps://github.com/gothinkster/realworld",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -65,7 +65,7 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
+                "id": "2ad9f04f-7a79-4c73-9712-8f61be59e798",
                 "exec": [
                   "var responseJSON = JSON.parse(responseBody);",
                   "",
@@ -78,8 +78,10 @@
                   "tests['User has \"bio\" property'] = user.hasOwnProperty('bio');",
                   "tests['User has \"image\" property'] = user.hasOwnProperty('image');",
                   "tests['User has \"token\" property'] = user.hasOwnProperty('token');",
-                  ""
-                ]
+                  "",
+                  "postman.setEnvironmentVariable('token', user.token);"
+                ],
+                "type": "text/javascript"
               }
             }
           ],
@@ -202,10 +204,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/user",
               "host": ["{{APIURL}}"],
@@ -266,7 +264,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "protocolProfileBehavior": {}
     },
     {
       "name": "Articles",
@@ -328,10 +327,6 @@
                 "value": "XMLHttpRequest"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles",
               "host": ["{{APIURL}}"],
@@ -397,10 +392,6 @@
                 "value": "XMLHttpRequest"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?author=johnjacob",
               "host": ["{{APIURL}}"],
@@ -472,10 +463,6 @@
                 "value": "XMLHttpRequest"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?favorited=jane",
               "host": ["{{APIURL}}"],
@@ -547,10 +534,6 @@
                 "value": "XMLHttpRequest"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?tag=dragons",
               "host": ["{{APIURL}}"],
@@ -565,7 +548,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "protocolProfileBehavior": {}
     },
     {
       "name": "Articles, Favorite, Comments",
@@ -695,10 +679,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles/feed",
               "host": ["{{APIURL}}"],
@@ -768,10 +748,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles",
               "host": ["{{APIURL}}"],
@@ -841,10 +817,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles",
               "host": ["{{APIURL}}"],
@@ -914,10 +886,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?author={{USERNAME}}",
               "host": ["{{APIURL}}"],
@@ -993,10 +961,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?author={{USERNAME}}",
               "host": ["{{APIURL}}"],
@@ -1072,10 +1036,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?favorited=jane",
               "host": ["{{APIURL}}"],
@@ -1151,10 +1111,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?favorited=jane",
               "host": ["{{APIURL}}"],
@@ -1218,10 +1174,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles/{{slug}}",
               "host": ["{{APIURL}}"],
@@ -1291,10 +1243,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles?tag=dragons",
               "host": ["{{APIURL}}"],
@@ -1604,10 +1552,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/articles/{{slug}}/comments",
               "host": ["{{APIURL}}"],
@@ -1694,7 +1638,8 @@
             "exec": [""]
           }
         }
-      ]
+      ],
+      "protocolProfileBehavior": {}
     },
     {
       "name": "Profiles",
@@ -1796,10 +1741,6 @@
                 "value": "Token {{token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/profiles/celeb_{{USERNAME}}",
               "host": ["{{APIURL}}"],
@@ -1928,7 +1869,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "protocolProfileBehavior": {}
     },
     {
       "name": "Tags",
@@ -1939,7 +1881,7 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
+                "id": "ec3468ef-aefa-4417-a251-005b6bf3bbed",
                 "exec": [
                   "var is200Response = responseCode.code === 200;",
                   "",
@@ -1950,9 +1892,11 @@
                   "    ",
                   "    tests['Response contains \"tags\" property'] = responseJSON.hasOwnProperty('tags');",
                   "    tests['\"tags\" property returned as array'] = Array.isArray(responseJSON.tags);",
+                  "    tests['Each element of tags is string'] = responseJSON.tags.every(t => typeof t === 'string');",
                   "}",
                   ""
-                ]
+                ],
+                "type": "text/javascript"
               }
             }
           ],
@@ -1968,10 +1912,6 @@
                 "value": "XMLHttpRequest"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{APIURL}}/tags",
               "host": ["{{APIURL}}"],
@@ -1980,7 +1920,9 @@
           },
           "response": []
         }
-      ]
+      ],
+      "protocolProfileBehavior": {}
     }
-  ]
+  ],
+  "protocolProfileBehavior": {}
 }

@@ -285,12 +285,14 @@ export class ApiService {
      * Returns a list of tags.
      */
     async getTags() {
-        return this.graphqlClient.request(/* GraphQL */ `
-            query tags {
-                    id
+        const response = await this.graphqlClient.request(/* GraphQL */ `
+            query {
+                tags {
                     name
                 }
             }
         `);
+        response.tags = response.tags.map((tag) => tag.name);
+        return response;
     }
 }

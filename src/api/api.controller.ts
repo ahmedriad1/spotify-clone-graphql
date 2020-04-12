@@ -166,8 +166,11 @@ export class ApiController {
         return {};
     }
 
+    /**
+     * Get tags.
+     */
     @Get('tags')
     async tags() {
-        return {};
+        return this.apiService.getTags();
     }
 }
