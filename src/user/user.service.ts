@@ -3,10 +3,8 @@ import { UserCreateInput } from '@generated/type-graphql/resolvers/inputs/UserCr
 import { Injectable } from '@nestjs/common';
 import { UserUpdateManyWithoutFollowedByInput, UserWhereUniqueInput } from '@prisma/client';
 
-import { InjectPrisma } from '../prisma/prisma.module';
 import { LoginFieldsModel } from './models/login-fields';
 import { UserUpdateInput } from './models/user-update-input';
-import { PrismaUser } from './types';
 import { UserRepository } from './user.repository';
 
 /**
@@ -14,21 +12,18 @@ import { UserRepository } from './user.repository';
  */
 @Injectable()
 export class UserService {
-    constructor(
-        private readonly userRepository: UserRepository,
-        @InjectPrisma('user') private readonly prismaUser: PrismaUser,
-    ) {}
+    constructor(private readonly repository: UserRepository) {}
 
     async update(where: UserWhereUniqueInput, data: UserUpdateInput) {
-        return this.prismaUser.update({ data, where });
+        return this.repository.update({ data, where });
     }
 
     async findOne(where: UserWhereUniqueInput) {
-        return this.prismaUser.findOne({ where });
+        return this.repository.findOne({ where });
     }
 
     async findOneByCredentials(data: LoginFieldsModel) {
-        let user = await this.prismaUser.findOne({ where: { email: data.email } });
+        let user = await this.repository.findOne({ where: { email: data.email } });
         if (!(user && user.password === data.password)) {
             user = null;
         }
@@ -36,21 +31,21 @@ export class UserService {
     }
 
     async findOneRandom() {
-        return this.userRepository.randomUser();
+        return this.repository.randomUser();
     }
 
     async findMany(args: FindManyUserArgs) {
-        return this.prismaUser.findMany(args);
+        return this.repository.findMany(args);
     }
 
     async create(data: UserCreateInput) {
         // TODO: hash password
         // TODO: check email unique, throw 409
-        return this.prismaUser.create({ data });
+        return this.repository.create({ data });
     }
 
     async isFollowing(userId: string, byUserId: string) {
-        const result = await this.prismaUser
+        const result = await this.repository
             .findOne({ where: { id: userId } })
             .followers({ where: { id: byUserId }, first: 1 });
         return result.length > 0;
@@ -63,7 +58,7 @@ export class UserService {
         const followersOperation: UserUpdateManyWithoutFollowedByInput = value
             ? { connect: follower }
             : { disconnect: follower };
-        return this.prismaUser.update({
+        return this.repository.update({
             where,
             data: {
                 followers: followersOperation,

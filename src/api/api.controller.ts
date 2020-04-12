@@ -10,7 +10,6 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { AuthorizationToken } from 'app_modules/nestjs-authorization-token';
-import { Request } from 'express';
 
 import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
@@ -35,7 +34,7 @@ export class ApiController {
      * Registration.
      */
     @Post('users')
-    async createUser(@Req() request: Request) {
+    async createUser(@Req() request: any) {
         return this.apiService.createUser(request.body);
     }
 
@@ -43,7 +42,7 @@ export class ApiController {
      * Authentication.
      */
     @Post('users/login')
-    async postUsersLogin(@Req() request: Request) {
+    async postUsersLogin(@Req() request: any) {
         return this.apiService.loginUser(request.body);
     }
 
@@ -59,7 +58,7 @@ export class ApiController {
      * Update user.
      */
     @Put('user')
-    async updateUser(@AuthorizationToken() token: string, @Req() request: Request) {
+    async updateUser(@AuthorizationToken() token: string, @Req() request: any) {
         return this.apiService.updateUser({
             token,
             user: request.body.user,
@@ -82,7 +81,7 @@ export class ApiController {
      * Create article.
      */
     @Post('articles')
-    async createArticle(@Req() request: Request, @AuthorizationToken() token: string) {
+    async createArticle(@Req() request: any, @AuthorizationToken() token: string) {
         const createArticleDto: CreateArticleDto = request.body.article;
         return this.apiService.createArticle({ token, createArticleDto });
     }
@@ -119,13 +118,16 @@ export class ApiController {
         });
     }
 
-    @Get('articles/feed')
-    async articlesFeed() {
-        return {};
+    /**
+     * Get article by slug.
+     */
+    @Get('articles/:slug')
+    async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+        return this.apiService.getArticle({ token, slug });
     }
 
-    @Get('articles/:slug')
-    async articlesSlug() {
+    @Get('articles/feed')
+    async articlesFeed() {
         return {};
     }
 

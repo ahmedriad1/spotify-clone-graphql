@@ -250,6 +250,37 @@ export class ApiService {
         });
     }
 
+    async getArticle({ token, slug }: { token: string; slug: string }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${token}`);
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                query article($where: ArticleWhereUniqueInput!) {
+                    article(where: $where) {
+                        id
+                        slug
+                        title
+                        description
+                        body
+                        tagList: tags {
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                        favorited
+                        favoritesCount
+                        author {
+                            username: name
+                            bio
+                            image
+                            following
+                        }
+                    }
+                }
+            `,
+            { where: { slug } },
+        );
+    }
+
     /**
      * Returns a list of tags.
      */

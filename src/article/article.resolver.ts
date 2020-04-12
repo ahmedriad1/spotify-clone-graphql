@@ -1,10 +1,14 @@
 import { FindManyArticleArgs } from '@generated/type-graphql/resolvers/crud/Article/args/FindManyArticleArgs';
 import { ArticleWhereInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereInput';
+import { ArticleWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereUniqueInput';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
-import { GraphqlAuthGuard } from 'app_modules/nestjs-passport-graphql-auth-guard';
+import {
+    GraphqlAuthGuard,
+    OptionalGraphqlAuthGuard,
+} from 'app_modules/nestjs-passport-graphql-auth-guard';
 import { PlainObject } from 'simplytyped';
 import { Int } from 'type-graphql';
 
@@ -34,6 +38,21 @@ export class ArticleResolver {
     @Query(() => Int)
     async countArticles(@Args('where') where: ArticleWhereInput) {
         return this.service.count(where);
+    }
+
+    @Query(() => Article, { nullable: true })
+    @UseGuards(OptionalGraphqlAuthGuard)
+    async article(
+        @Args('where') where: ArticleWhereUniqueInput,
+        @GraphqlFields() fields: PlainObject,
+    ) {
+        return this.service.findOne({
+            where,
+            include: {
+                author: Boolean(fields.author),
+                tags: Boolean(fields.tags),
+            },
+        });
     }
 
     @Mutation(() => Article)

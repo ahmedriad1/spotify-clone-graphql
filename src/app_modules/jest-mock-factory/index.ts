@@ -13,9 +13,9 @@ export interface SpiedAny {
 }
 
 export interface SpiedMember {
-    _func: jasmine.Spy;
-    _get: jasmine.Spy;
-    _set: jasmine.Spy;
+    _func: jest.Mock;
+    _get: jest.Mock;
+    _set: jest.Mock;
 }
 
 type Type<T> = new (...args: any[]) => T;
@@ -201,9 +201,9 @@ export class MockFactory {
      */
     public static create<T extends object>(blueprint: Type<T> | T): Mock<T> {
         let prototype: T;
-        if (blueprint['prototype']) {
+        if ((blueprint as Type<T>).prototype) {
             // get the prototype for a TypeScript class
-            prototype = blueprint['prototype'];
+            prototype = (blueprint as Type<T>).prototype;
         } else {
             prototype = blueprint as T;
         }

@@ -1,9 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockFactory } from 'app_modules/jest-mock-factory';
 
-import { InjectPrismaToken } from '../prisma/prisma.module';
-import { PrismaService } from '../prisma/prisma.service';
-import { PrismaUser } from './types';
 import { UserRepository } from './user.repository';
 import { UserService } from './user.service';
 
@@ -11,44 +7,36 @@ jest.mock('./user.repository');
 
 describe('UserService', () => {
     let service: UserService;
-    let prismaUser: jest.Mocked<PrismaUser>;
+    let repository: jest.Mocked<UserRepository>;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                UserService,
-                PrismaService,
-                UserRepository,
-                {
-                    provide: InjectPrismaToken('user'),
-                    inject: [PrismaService],
-                    useFactory: (prisma: PrismaService) => MockFactory.create(prisma.user),
-                },
-            ],
+            providers: [UserService, UserRepository],
         }).compile();
 
         service = module.get(UserService);
-        prismaUser = module.get(InjectPrismaToken('user'));
+        repository = module.get(UserRepository);
     });
 
     it('should be defined', () => {
         expect(service).toBeDefined();
+        expect(repository).toBeDefined();
     });
 
     it('find one user', async () => {
-        await service.findOne({ id: 'u1' });
-        expect(prismaUser.findOne).toHaveBeenCalledWith({ where: { id: 'u1' } });
+        await service.findOne({ id: 'u' });
+        expect(repository.findOne).toHaveBeenCalledWith({ where: { id: 'u' } });
     });
 
     it('follow should call connect if value is true', async () => {
-        await service.follow({ id: 'u1' }, { id: 'f1' }, true);
-        const args = prismaUser.update.mock.calls.pop();
-        expect(args?.[0].data?.followers?.connect).toEqual({ id: 'f1' });
+        await service.follow({ id: 'u' }, { id: '1' }, true);
+        const args = repository.update.mock.calls.pop();
+        expect(args?.[0].data?.followers?.connect).toEqual({ id: '1' });
     });
 
     it('follow should call disconnect if value is false', async () => {
-        await service.follow({ id: 'u2' }, { id: 'f2' }, false);
-        const args = prismaUser.update.mock.calls.pop();
-        expect(args?.[0].data?.followers?.disconnect).toEqual({ id: 'f2' });
+        await service.follow({ id: 'u' }, { id: '2' }, false);
+        const args = repository.update.mock.calls.pop();
+        expect(args?.[0].data?.followers?.disconnect).toEqual({ id: '2' });
     });
 });

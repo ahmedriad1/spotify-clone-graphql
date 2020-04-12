@@ -4,6 +4,7 @@ import {
     ArticleCreateInput as ArticleCreateInputData,
     ArticleInclude,
     ArticleWhereInput,
+    FindOneArticleArgs,
 } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -64,11 +65,11 @@ export class ArticleService {
         });
     }
 
-    /**
-     * TODO: How to count?
-     * https://github.com/prisma/prisma-client-js/issues/252
-     */
     async count(where: ArticleWhereInput) {
-        return 0;
+        return this.prisma.article.count({ where });
+    }
+
+    async findOne(args: FindOneArticleArgs) {
+        return this.prisma.article.findOne(args);
     }
 }
