@@ -1,11 +1,14 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockFactory } from 'app_modules/jest-mock-factory';
+import { setGlobalMockMethod, toMockedInstance } from 'to-mock';
 
 import { AuthService } from './auth.service';
 
+setGlobalMockMethod(jest.fn);
+
 describe('AuthService', () => {
     let service: AuthService;
+    let jwtService: jest.Mocked<JwtService>;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -13,12 +16,13 @@ describe('AuthService', () => {
                 AuthService,
                 {
                     provide: JwtService,
-                    useValue: MockFactory.create(JwtService),
+                    useValue: toMockedInstance(JwtService),
                 },
             ],
         }).compile();
 
         service = module.get(AuthService);
+        jwtService = module.get(JwtService);
     });
 
     it('should be defined', () => {

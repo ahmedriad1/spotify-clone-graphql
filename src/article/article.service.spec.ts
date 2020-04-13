@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Mock, MockFactory } from 'app_modules/jest-mock-factory';
+import { setGlobalMockMethod, toMockedInstance } from 'to-mock';
 
 import { PrismaRepository } from '../prisma/prisma.repository';
 import { PrismaService } from '../prisma/prisma.service';
@@ -7,9 +7,11 @@ import { TagService } from '../tag/tag.service';
 import { ArticleService } from './article.service';
 import { SlugService } from './slug/slug.service';
 
+setGlobalMockMethod(jest.fn);
+
 describe('ArticleService', () => {
     let service: ArticleService;
-    let prisma: Mock<PrismaService>;
+    let repository: jest.Mocked<PrismaService['article']>;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -20,14 +22,14 @@ describe('ArticleService', () => {
                 {
                     provide: PrismaService,
                     useValue: {
-                        article: MockFactory.create(PrismaRepository),
+                        article: toMockedInstance(PrismaRepository),
                     },
                 },
             ],
         }).compile();
 
         service = module.get(ArticleService);
-        prisma = module.get(PrismaService);
+        repository = module.get(PrismaService).article as typeof repository;
     });
 
     it('should be defined', () => {
@@ -35,9 +37,9 @@ describe('ArticleService', () => {
     });
 
     it('findMany', async () => {
-        expect(prisma.article.findMany).toBeDefined();
+        expect(repository.findMany).toBeDefined();
         await service.findMany({ args: { where: { id: { equals: 'a' } } } });
-        expect(prisma.article.findMany).toHaveBeenCalledWith(
+        expect(repository.findMany).toHaveBeenCalledWith(
             expect.objectContaining({
                 where: {
                     id: {
