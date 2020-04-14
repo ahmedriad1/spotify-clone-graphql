@@ -1,5 +1,4 @@
 import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from '@nestjs/passport';
 import { JsonWebTokenError } from 'jsonwebtoken';
@@ -10,11 +9,16 @@ import { JsonWebTokenError } from 'jsonwebtoken';
  */
 @Injectable()
 export class GraphqlAuthGuard extends AuthGuard('jwt') {
-    async canActivate(context: ExecutionContext) {
+    getRequest(context: ExecutionContext) {
         const graphqlContext = GqlExecutionContext.create(context);
-        const { req } = graphqlContext.getContext();
-        return super.canActivate(new ExecutionContextHost([req])) as Promise<boolean>;
+        return graphqlContext.getContext().req;
     }
+
+    // async canActivate(context: ExecutionContext) {
+    //     const graphqlContext = GqlExecutionContext.create(context);
+    //     const { req } = graphqlContext.getContext();
+    //     return super.canActivate(new ExecutionContextHost([req])) as Promise<boolean>;
+    // }
 
     handleRequest(err, user, info, context, status) {
         if (err) {
@@ -32,9 +36,4 @@ export class GraphqlAuthGuard extends AuthGuard('jwt') {
         }
         return user;
     }
-
-    // getRequest(context: ExecutionContext) {
-    //     const graphqlContext = GqlExecutionContext.create(context);
-    //     return graphqlContext.getContext().req;
-    // }
 }

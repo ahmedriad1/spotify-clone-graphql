@@ -126,9 +126,14 @@ export class ApiController {
         return this.apiService.getArticle({ token, slug });
     }
 
+    /**
+     * Feed Articles.
+     * Return multiple articles created by followed users, ordered by most recent first.
+     * Authentication required.
+     */
     @Get('articles/feed')
-    async articlesFeed() {
-        return {};
+    async articlesFeed(@AuthorizationToken() token: string, @Query() query?: GetArticlesDto) {
+        return this.apiService.feedArticles({ token, limit: query?.limit, offset: query?.offset });
     }
 
     @Put('articles/:slug')

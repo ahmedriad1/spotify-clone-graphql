@@ -10,10 +10,9 @@ export const AuthorizationToken = createParamDecorator((data, requestOrArgs) => 
     return token;
 });
 
-function getRequest(request: any): IncomingMessage {
+function getRequest(request: unknown): IncomingMessage {
     if (Array.isArray(request)) {
-        const [, , context] = request;
-        request = context && context.req;
+        request = request?.[2].context?.req;
     }
     if (!(request instanceof IncomingMessage)) {
         throw new TypeError('Cannot find IncomingMessage in context');

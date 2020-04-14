@@ -118,6 +118,7 @@ export class ApiService {
 
     /**
      * Create article.
+     * TODO: Make fragments for article.
      */
     async createArticle({
         token,
@@ -278,6 +279,45 @@ export class ApiService {
                 }
             `,
             { where: { slug } },
+        );
+    }
+
+    async feedArticles({
+        token,
+        offset = 0,
+        limit = 20,
+    }: {
+        token: string;
+        offset?: number;
+        limit?: number;
+    }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${token}`);
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                query feed($limit: Int = 20, $offset: Int = 0) {
+                    feed(limit: $limit, offset: $offset) {
+                        id
+                        slug
+                        title
+                        description
+                        body
+                        tagList: tags {
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                        favorited
+                        favoritesCount
+                        author {
+                            username: name
+                            bio
+                            image
+                            following
+                        }
+                    }
+                }
+            `,
+            { offset, limit },
         );
     }
 

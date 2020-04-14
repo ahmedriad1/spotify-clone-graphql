@@ -4,6 +4,9 @@ import { User } from '@prisma/client';
 import { PrismaRepository } from '../prisma/prisma.repository';
 import { PrismaService } from '../prisma/prisma.service';
 
+/**
+ * Repository to work with database.
+ */
 @Injectable()
 export class UserRepository extends PrismaRepository {
     update = this.prisma.user.update;

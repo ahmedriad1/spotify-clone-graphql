@@ -38,7 +38,7 @@ describe('ArticleService', () => {
 
     it('findMany', async () => {
         expect(repository.findMany).toBeDefined();
-        await service.findMany({ args: { where: { id: { equals: 'a' } } } });
+        await service.findMany({ where: { id: { equals: 'a' } } });
         expect(repository.findMany).toHaveBeenCalledWith(
             expect.objectContaining({
                 where: {

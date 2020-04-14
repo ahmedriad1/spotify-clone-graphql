@@ -27,7 +27,7 @@ export class ArticleResolver {
     @Query(() => [Article])
     async articles(@Args() args: FindManyArticleArgs, @GraphqlFields() fields: PlainObject) {
         return this.service.findMany({
-            args,
+            ...args,
             include: {
                 author: Boolean(fields.author),
                 tags: Boolean(fields.tags),
@@ -55,6 +55,31 @@ export class ArticleResolver {
         });
     }
 
+    @Query(() => [Article], { nullable: false })
+    @UseGuards(GraphqlAuthGuard)
+    async feed(
+        @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
+        @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
+        @CurrentUser() user: { id: string },
+        @GraphqlFields() fields: PlainObject,
+    ) {
+        console.log('user', user);
+        return this.service.findMany({
+            where: {
+                author: {
+                    followers: { some: { id: { equals: user.id } } },
+                },
+            },
+            include: {
+                author: Boolean(fields.author),
+                tags: Boolean(fields.tags),
+            },
+            orderBy: { id: 'desc' },
+            skip: offset,
+            first: limit,
+        });
+    }
+
     @Mutation(() => Article)
     @UseGuards(GraphqlAuthGuard)
     async createArticle(
@@ -63,6 +88,14 @@ export class ArticleResolver {
     ) {
         return this.service.create({ input, author });
     }
+
+    // @ResolveProperty(() => [String])
+    // tagList(@Parent() article: Article): string[] {
+    //     if (!Array.isArray(article.tags)) {
+    //         throw new TypeError('tags must be selected');
+    //     }
+    //     return article.tags.map(tag => tag.name);
+    // }
 
     /**
      * Check if article is favorited by current user.

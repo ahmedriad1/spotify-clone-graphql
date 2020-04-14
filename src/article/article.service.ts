@@ -1,9 +1,8 @@
-import { FindManyArticleArgs } from '@generated/type-graphql/resolvers/crud/Article/args/FindManyArticleArgs';
 import { Injectable } from '@nestjs/common';
 import {
     ArticleCreateInput as ArticleCreateInputData,
-    ArticleInclude,
     ArticleWhereInput,
+    FindManyArticleArgs,
     FindOneArticleArgs,
 } from '@prisma/client';
 
@@ -58,11 +57,8 @@ export class ArticleService {
     /**
      * Get all articles.
      */
-    async findMany({ args, include }: { args: FindManyArticleArgs; include?: ArticleInclude }) {
-        return this.prisma.article.findMany({
-            ...args,
-            include,
-        });
+    async findMany(args: FindManyArticleArgs) {
+        return this.prisma.article.findMany(args);
     }
 
     async count(where: ArticleWhereInput) {

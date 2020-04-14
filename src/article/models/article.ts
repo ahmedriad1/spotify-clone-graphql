@@ -4,6 +4,9 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { Tag } from '../../tag/tag.model';
 import { User } from '../../user/models/user';
 
+/**
+ * Represents article object type.
+ */
 @ObjectType()
 export class Article extends ArticleModel {
     @Field(() => ID, { nullable: false })

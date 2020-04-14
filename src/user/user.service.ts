@@ -1,9 +1,11 @@
-import { FindManyUserArgs } from '@generated/type-graphql/resolvers/crud/User/args/FindManyUserArgs';
-import { UserCreateInput } from '@generated/type-graphql/resolvers/inputs/UserCreateInput';
 import { Injectable } from '@nestjs/common';
-import { UserUpdateManyWithoutFollowedByInput, UserWhereUniqueInput } from '@prisma/client';
+import {
+    FindManyUserArgs,
+    UserCreateInput,
+    UserUpdateManyWithoutFollowingInput,
+    UserWhereUniqueInput,
+} from '@prisma/client';
 
-import { LoginFieldsModel } from './models/login-fields';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserRepository } from './user.repository';
 
@@ -22,7 +24,7 @@ export class UserService {
         return this.repository.findOne({ where });
     }
 
-    async findOneByCredentials(data: LoginFieldsModel) {
+    async findOneByCredentials(data: { email: string; password: string }) {
         let user = await this.repository.findOne({ where: { email: data.email } });
         if (!(user && user.password === data.password)) {
             user = null;
@@ -55,7 +57,7 @@ export class UserService {
      * Add or remove follower for user matching to `where` conditions.
      */
     async follow(where: UserWhereUniqueInput, follower: UserWhereUniqueInput, value: boolean) {
-        const followersOperation: UserUpdateManyWithoutFollowedByInput = value
+        const followersOperation: UserUpdateManyWithoutFollowingInput = value
             ? { connect: follower }
             : { disconnect: follower };
         return this.repository.update({

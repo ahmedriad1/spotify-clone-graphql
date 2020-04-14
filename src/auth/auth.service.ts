@@ -5,6 +5,9 @@ import { User } from '../user/models/user';
 import { accessTokenExpiresIn, refreshTokenExpiresIn } from './auth.constants';
 import { SessionTokenFields } from './models/session-user-fields';
 
+/**
+ * Authentication service.
+ */
 @Injectable()
 export class AuthService {
     constructor(private readonly jwtService: JwtService) {}

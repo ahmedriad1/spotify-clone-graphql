@@ -16,7 +16,7 @@ module.exports = {
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
     // modulePathIgnorePatterns: ['<rootDir>/dist'],
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/../' }),
-    modulePathIgnorePatterns: ['<rootDir>/app_modules'],
+    // modulePathIgnorePatterns: ['<rootDir>/app_modules'],
     globals: {
         'ts-jest': {
             packageJson: 'package.json',

@@ -1,8 +1,9 @@
 import { Field, InputType } from 'type-graphql';
 
-@InputType({
-    description: undefined,
-})
+/**
+ * Credentials DTO object.
+ */
+@InputType()
 export class UserLoginInput {
     @Field(() => String, {
         description: undefined,

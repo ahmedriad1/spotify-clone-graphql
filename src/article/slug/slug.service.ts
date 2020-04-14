@@ -20,10 +20,8 @@ export class SlugService {
      */
     async generate(string: string, isUnique: (string: string) => Promise<boolean>, attempt = 1) {
         let slug = this.slugify(string);
-        if (attempt === 1) {
-            if (await isUnique(slug)) {
-                return slug;
-            }
+        if (attempt === 1 && (await isUnique(slug))) {
+            return slug;
         }
         if (await isUnique(`${slug}-${String(attempt)}`)) {
             return `${slug}-${String(attempt)}`;

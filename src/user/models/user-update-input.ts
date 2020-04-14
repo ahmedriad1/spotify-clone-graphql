@@ -1,35 +1,32 @@
 import { Field, InputType } from 'type-graphql';
 
-@InputType({
-    isAbstract: true,
-    description: undefined,
-})
+@InputType()
 export class UserUpdateInput {
-    @Field((_type) => String, {
+    @Field(() => String, {
         nullable: true,
         description: undefined,
     })
     email?: string | null;
 
-    @Field((_type) => String, {
+    @Field(() => String, {
         nullable: true,
         description: undefined,
     })
     name?: string | null;
 
-    @Field((_type) => String, {
+    @Field(() => String, {
         nullable: true,
         description: undefined,
     })
     password?: string | null;
 
-    @Field((_type) => String, {
+    @Field(() => String, {
         nullable: true,
         description: undefined,
     })
     bio?: string | null;
 
-    @Field((_type) => String, {
+    @Field(() => String, {
         nullable: true,
         description: undefined,
     })

@@ -1,4 +1,4 @@
-import { createParamDecorator } from '@nestjs/common';
+import { graphqlFieldsImpl } from '.';
 import {
     buildSchema,
     ExecutionResult,
@@ -6,15 +6,6 @@ import {
     GraphQLFieldResolver,
     GraphQLResolveInfo,
 } from 'graphql';
-
-jest.mock('@nestjs/common', () => {
-    const originalModule = jest.requireActual('@nestjs/common');
-    return {
-        __esModule: true,
-        ...originalModule,
-        createParamDecorator: jest.fn(),
-    };
-});
 
 let info: GraphQLResolveInfo | undefined;
 const schema = buildSchema(`
@@ -25,6 +16,7 @@ type Query {
 
 type User {
     id: String
+    name: String
     posts: [Post]
 }
 
@@ -53,28 +45,31 @@ async function executeGraphQL(query) {
         fieldResolver: resolver,
     };
     const response: ExecutionResult = await graphql(graphqlArgs);
-    (createParamDecorator as jest.Mock).mockImplementation((callback) => {
-        return callback.bind(undefined, undefined, [undefined, undefined, undefined, info]);
-    });
-    const { GraphqlFields: result } = await import('./index');
-    return result;
+    return [undefined, undefined, undefined, info] as any;
 }
 
 it('prisma find args', () => {
     expect(async () => {
-        const PrismaFindArgs = await executeGraphQL(`query { user { id } }`);
-        const result = PrismaFindArgs();
+        const args = await executeGraphQL(/* GraphQL */ `
+            query {
+                user {
+                    id
+                }
+            }
+        `);
+        const result = graphqlFieldsImpl(undefined, args);
     }).not.toThrow();
 });
 
-// it('select id', async () => {
-//     const SelectFields = await executeGraphQL(`query { user { id } }`);
-//     const result = SelectFields();
-//     expect(result).toEqual({ id: true });
-// });
-
-// it('nested fields should not be selected', async () => {
-//     const SelectFields = await executeGraphQL(`query { user { id, posts { title } } }`);
-//     const result = SelectFields();
-//     expect(result).toEqual({ id: true });
-// });
+it('other fields', async () => {
+    const args = await executeGraphQL(/* GraphQL */ `
+        query {
+            user {
+                id
+                name
+            }
+        }
+    `);
+    const result = graphqlFieldsImpl(undefined, args);
+    expect(result).toEqual({ id: {}, name: {} });
+});
