@@ -156,13 +156,9 @@ export class ApiService {
             title: createArticleDto.title,
             tags: createArticleDto.tagsList,
         };
-        const articleResponseObject = await this.graphqlClient
+        return this.graphqlClient
             .setHeader('Authorization', `Bearer ${token}`)
             .request(query, { input });
-        articleResponseObject.article.tagList = articleResponseObject.article.tags.map(
-            (t) => t.name,
-        );
-        return articleResponseObject;
     }
 
     async getArticles(
@@ -204,7 +200,7 @@ export class ApiService {
                     title
                     description
                     body
-                    tagList: tags {
+                    tags {
                         name
                     }
                     createdAt
@@ -262,7 +258,7 @@ export class ApiService {
                         title
                         description
                         body
-                        tagList: tags {
+                        tags {
                             name
                         }
                         createdAt
@@ -301,7 +297,7 @@ export class ApiService {
                         title
                         description
                         body
-                        tagList: tags {
+                        tags {
                             name
                         }
                         createdAt
@@ -318,6 +314,40 @@ export class ApiService {
                 }
             `,
             { offset, limit },
+        );
+    }
+
+    async updateArticle({ token, slug, data }: { token: string; slug: string; data: any }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${token}`);
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                mutation updateArticle(
+                    $where: ArticleWhereUniqueInput!
+                    $data: ArticleUpdateInput!
+                ) {
+                    updateArticle(where: $where, data: $data) {
+                        id
+                        slug
+                        title
+                        description
+                        body
+                        tags {
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                        favorited
+                        favoritesCount
+                        author {
+                            username: name
+                            bio
+                            image
+                            following
+                        }
+                    }
+                }
+            `,
+            { where: { slug }, data },
         );
     }
 

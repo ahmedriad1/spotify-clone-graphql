@@ -1,4 +1,3 @@
-import { graphqlFieldsImpl } from '.';
 import {
     buildSchema,
     ExecutionResult,
@@ -6,6 +5,8 @@ import {
     GraphQLFieldResolver,
     GraphQLResolveInfo,
 } from 'graphql';
+
+import { graphqlFieldsImpl } from '.';
 
 let info: GraphQLResolveInfo | undefined;
 const schema = buildSchema(`

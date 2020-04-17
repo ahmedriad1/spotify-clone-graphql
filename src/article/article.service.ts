@@ -8,7 +8,7 @@ import {
 
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
-import { ArticleCreateInput } from './models/article-create-input';
+import { ArticleCreateInput } from './models/article-create.input';
 import { SlugService } from './slug/slug.service';
 
 /**
@@ -16,6 +16,8 @@ import { SlugService } from './slug/slug.service';
  */
 @Injectable()
 export class ArticleService {
+    update = this.prisma.article.update;
+
     constructor(
         private readonly prisma: PrismaService,
         private readonly slug: SlugService,

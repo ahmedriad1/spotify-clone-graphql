@@ -17,5 +17,5 @@ export class ArticleCreateInput {
 
     // todo: validate for slug
     @Field(() => [String], { nullable: true })
-    tags?: string[];
+    tags: string[];
 }

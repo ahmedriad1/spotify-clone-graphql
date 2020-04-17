@@ -15,6 +15,7 @@ import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
 import { CreateArticleDto } from './models/create-article.dto';
 import { GetArticlesDto } from './models/get-articles.dto';
+import { TagListInterceptor } from './tag-list.interceptor';
 
 /**
  * This is REST API wrapper around graphql.
@@ -81,6 +82,7 @@ export class ApiController {
      * Create article.
      */
     @Post('articles')
+    @UseInterceptors(TagListInterceptor)
     async createArticle(@Req() request: any, @AuthorizationToken() token: string) {
         const createArticleDto: CreateArticleDto = request.body.article;
         return this.apiService.createArticle({ token, createArticleDto });
@@ -90,6 +92,7 @@ export class ApiController {
      * Get all articles with optional filters.
      */
     @Get('articles')
+    @UseInterceptors(TagListInterceptor)
     async getArticles(@AuthorizationToken() token?: string, @Query() query?: GetArticlesDto) {
         return this.apiService.getArticles({
             token,
@@ -122,6 +125,7 @@ export class ApiController {
      * Get article by slug.
      */
     @Get('articles/:slug')
+    @UseInterceptors(TagListInterceptor)
     async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
         return this.apiService.getArticle({ token, slug });
     }
@@ -132,22 +136,32 @@ export class ApiController {
      * Authentication required.
      */
     @Get('articles/feed')
+    @UseInterceptors(TagListInterceptor)
     async articlesFeed(@AuthorizationToken() token: string, @Query() query?: GetArticlesDto) {
         return this.apiService.feedArticles({ token, limit: query?.limit, offset: query?.offset });
     }
 
+    /**
+     * Update article.
+     */
     @Put('articles/:slug')
-    async updateArticle() {
-        return {};
+    @UseInterceptors(TagListInterceptor)
+    async updateArticle(
+        @AuthorizationToken() token: string,
+        @Param('slug') slug: string,
+        @Req() request: any,
+    ) {
+        return this.apiService.updateArticle({ token, slug, data: request.body.article });
     }
 
     @Delete('articles/:slug')
+    @UseInterceptors(TagListInterceptor)
     async deleteArticle() {
         return {};
     }
 
     @Post('articles/:slug/comments')
-    async createArticlesSlugComments() {
+    async createArticleComment() {
         return {};
     }
 

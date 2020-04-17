@@ -1,7 +1,7 @@
 import { FindManyArticleArgs } from '@generated/type-graphql/resolvers/crud/Article/args/FindManyArticleArgs';
 import { ArticleWhereInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereInput';
 import { ArticleWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereUniqueInput';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
@@ -14,8 +14,10 @@ import { Int } from 'type-graphql';
 
 import { PassportUserFields } from '../auth/models/passport-user-fields';
 import { ArticleService } from './article.service';
+import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
-import { ArticleCreateInput } from './models/article-create-input';
+import { ArticleCreateInput } from './models/article-create.input';
+import { ArticleUpdateInput } from './models/article-update.input';
 
 /**
  * Article resolver.
@@ -63,7 +65,6 @@ export class ArticleResolver {
         @CurrentUser() user: { id: string },
         @GraphqlFields() fields: PlainObject,
     ) {
-        console.log('user', user);
         return this.service.findMany({
             where: {
                 author: {
@@ -89,13 +90,28 @@ export class ArticleResolver {
         return this.service.create({ input, author });
     }
 
-    // @ResolveProperty(() => [String])
-    // tagList(@Parent() article: Article): string[] {
-    //     if (!Array.isArray(article.tags)) {
-    //         throw new TypeError('tags must be selected');
-    //     }
-    //     return article.tags.map(tag => tag.name);
-    // }
+    // TODO: Tags are not updated
+    // TODO: Protect by guard
+    @Mutation(() => Article)
+    @UseGuards(GraphqlAuthGuard, AuthorGuard)
+    async updateArticle(
+        @Args('data') data: ArticleUpdateInput,
+        @Args('where') where: ArticleWhereUniqueInput,
+        @GraphqlFields() fields: PlainObject,
+    ) {
+        const article = await this.service.findOne({ where });
+        if (!article) {
+            throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
+        }
+        return this.service.update({
+            data,
+            where,
+            include: {
+                author: Boolean(fields.author),
+                tags: Boolean(fields.tags),
+            },
+        });
+    }
 
     /**
      * Check if article is favorited by current user.
