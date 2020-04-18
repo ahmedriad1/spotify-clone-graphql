@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ArticleWhereInput } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 
-import { ArticleCreateInput } from './models/article-create-input';
+import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
 import { CreateUserDto } from './models/create-user.dto';
 import { LoginUserDto } from './models/login-user.dto';
@@ -150,7 +150,7 @@ export class ApiService {
                 }
             }
         `;
-        const input: ArticleCreateInput = {
+        const input: any = {
             body: createArticleDto.body,
             description: createArticleDto.description,
             title: createArticleDto.title,
@@ -362,6 +362,27 @@ export class ApiService {
                 }
             `,
             { where: { slug } },
+        );
+    }
+
+    async createArticleComment(args: {
+        token: string;
+        slug: string;
+        comment: CreateArticleCommentDto;
+    }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                mutation createComment(
+                    $data: CreateCommentInput!
+                    $where: ArticleWhereUniqueInput!
+                ) {
+                    createComment(data: $data, where: $where) {
+                        id
+                    }
+                }
+            `,
+            { data: args.comment, where: { slug: args.slug } },
         );
     }
 

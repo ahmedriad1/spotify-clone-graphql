@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-    ArticleCreateInput as ArticleCreateInputData,
-    ArticleWhereInput,
-    FindManyArticleArgs,
-    FindOneArticleArgs,
-} from '@prisma/client';
+import { ArticleCreateInput as ArticleCreateInputData, ArticleWhereInput } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';

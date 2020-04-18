@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Delete,
     Get,
@@ -13,6 +14,7 @@ import { AuthorizationToken } from 'app_modules/nestjs-authorization-token';
 
 import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
+import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
 import { GetArticlesDto } from './models/get-articles.dto';
 import { TagListInterceptor } from './tag-list.interceptor';
@@ -24,7 +26,7 @@ import { TagListInterceptor } from './tag-list.interceptor';
 @Controller('api')
 @UseInterceptors(GraphQLResponseInterceptor)
 export class ApiController {
-    constructor(private readonly apiService: ApiService) {}
+    constructor(private readonly service: ApiService) {}
 
     @Get('/')
     index() {
@@ -36,7 +38,7 @@ export class ApiController {
      */
     @Post('users')
     async createUser(@Req() request: any) {
-        return this.apiService.createUser(request.body);
+        return this.service.createUser(request.body);
     }
 
     /**
@@ -44,7 +46,7 @@ export class ApiController {
      */
     @Post('users/login')
     async postUsersLogin(@Req() request: any) {
-        return this.apiService.loginUser(request.body);
+        return this.service.loginUser(request.body);
     }
 
     /**
@@ -52,7 +54,7 @@ export class ApiController {
      */
     @Get('user')
     async user(@AuthorizationToken() token: string) {
-        return this.apiService.getCurrentUser(token);
+        return this.service.getCurrentUser(token);
     }
 
     /**
@@ -60,7 +62,7 @@ export class ApiController {
      */
     @Put('user')
     async updateUser(@AuthorizationToken() token: string, @Req() request: any) {
-        return this.apiService.updateUser({
+        return this.service.updateUser({
             token,
             user: request.body.user,
         });
@@ -72,7 +74,7 @@ export class ApiController {
      */
     @Get('profiles/:username')
     async profilesUsername(@Param('username') name: string, @AuthorizationToken() token: string) {
-        return this.apiService.getProfile({
+        return this.service.getProfile({
             token,
             name,
         });
@@ -85,7 +87,7 @@ export class ApiController {
     @UseInterceptors(TagListInterceptor)
     async createArticle(@Req() request: any, @AuthorizationToken() token: string) {
         const createArticleDto: CreateArticleDto = request.body.article;
-        return this.apiService.createArticle({ token, createArticleDto });
+        return this.service.createArticle({ token, createArticleDto });
     }
 
     /**
@@ -94,7 +96,7 @@ export class ApiController {
     @Get('articles')
     @UseInterceptors(TagListInterceptor)
     async getArticles(@AuthorizationToken() token?: string, @Query() query?: GetArticlesDto) {
-        return this.apiService.getArticles({
+        return this.service.getArticles({
             token,
             ...query,
         });
@@ -105,7 +107,7 @@ export class ApiController {
      */
     @Post('profiles/:username/follow')
     async followUser(@AuthorizationToken() token: string, @Param('username') username: string) {
-        return this.apiService.followUser({
+        return this.service.followUser({
             token,
             username,
             value: true,
@@ -114,7 +116,7 @@ export class ApiController {
 
     @Delete('profiles/:username/follow')
     async unfollowUser(@AuthorizationToken() token: string, @Param('username') username: string) {
-        return this.apiService.followUser({
+        return this.service.followUser({
             token,
             username,
             value: false,
@@ -127,7 +129,7 @@ export class ApiController {
     @Get('articles/:slug')
     @UseInterceptors(TagListInterceptor)
     async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
-        return this.apiService.getArticle({ token, slug });
+        return this.service.getArticle({ token, slug });
     }
 
     /**
@@ -138,7 +140,7 @@ export class ApiController {
     @Get('articles/feed')
     @UseInterceptors(TagListInterceptor)
     async articlesFeed(@AuthorizationToken() token: string, @Query() query?: GetArticlesDto) {
-        return this.apiService.feedArticles({ token, limit: query?.limit, offset: query?.offset });
+        return this.service.feedArticles({ token, limit: query?.limit, offset: query?.offset });
     }
 
     /**
@@ -151,18 +153,22 @@ export class ApiController {
         @Param('slug') slug: string,
         @Req() request: any,
     ) {
-        return this.apiService.updateArticle({ token, slug, data: request.body.article });
+        return this.service.updateArticle({ token, slug, data: request.body.article });
     }
 
     @Delete('articles/:slug')
     @UseInterceptors(TagListInterceptor)
     async deleteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
-        return this.apiService.deleteArticle({ token, slug });
+        return this.service.deleteArticle({ token, slug });
     }
 
     @Post('articles/:slug/comments')
-    async createArticleComment() {
-        return {};
+    async createArticleComment(
+        @AuthorizationToken() token: string,
+        @Param('slug') slug: string,
+        @Body('comment') comment: CreateArticleCommentDto,
+    ) {
+        return this.service.createArticleComment({ token, slug, comment });
     }
 
     @Get('articles/:slug/comments')
@@ -190,6 +196,6 @@ export class ApiController {
      */
     @Get('tags')
     async tags() {
-        return this.apiService.getTags();
+        return this.service.getTags();
     }
 }

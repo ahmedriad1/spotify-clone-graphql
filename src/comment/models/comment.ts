@@ -1,0 +1,23 @@
+import { Field, ID, ObjectType } from 'type-graphql';
+
+import { User } from '../../user/models/user';
+
+@ObjectType()
+export class Comment {
+    @Field(() => ID)
+    id: string;
+
+    @Field(() => Date)
+    createdAt: Date;
+
+    @Field(() => Date)
+    updatedAt: Date;
+
+    @Field(() => String)
+    body: string;
+
+    @Field(() => String)
+    authorId: string;
+
+    author?: User;
+}

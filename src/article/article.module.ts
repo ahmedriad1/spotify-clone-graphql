@@ -9,5 +9,6 @@ import { SlugService } from './slug/slug.service';
 @Module({
     imports: [PrismaModule, TagModule],
     providers: [ArticleResolver, ArticleService, SlugService],
+    exports: [ArticleService],
 })
 export class ArticleModule {}

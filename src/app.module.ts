@@ -6,6 +6,7 @@ import { IncomingMessage } from 'http';
 import { ApiModule } from './api/api.module';
 import { config } from './app.config';
 import { ArticleModule } from './article/article.module';
+import { CommentModule } from './comment/comment.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { TagModule } from './tag/tag.module';
@@ -44,6 +45,7 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
             useFactory: graphqlModuleFactory,
         }),
         ArticleModule,
+        CommentModule,
     ],
     providers: [Logger],
     exports: [Logger],
