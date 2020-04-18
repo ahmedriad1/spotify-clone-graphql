@@ -45,3 +45,7 @@ to graphql api.
 
 -   [Backend API spec](https://github.com/gothinkster/realworld/tree/master/api)
 -   [Postman collection](https://github.com/gothinkster/realworld/blob/master/api/Conduit.postman_collection.json) that you can use to test your API endpoints as you build your app.
+
+## Todo
+
+-   Update to Nest 7
