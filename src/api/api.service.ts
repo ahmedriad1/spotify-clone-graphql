@@ -351,6 +351,20 @@ export class ApiService {
         );
     }
 
+    async deleteArticle({ token, slug }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${token}`);
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                mutation deleteArticle($where: ArticleWhereUniqueInput!) {
+                    deleteArticle(where: $where) {
+                        id
+                    }
+                }
+            `,
+            { where: { slug } },
+        );
+    }
+
     /**
      * Returns a list of tags.
      */

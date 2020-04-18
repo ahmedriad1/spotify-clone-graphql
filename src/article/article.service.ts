@@ -17,6 +17,9 @@ import { SlugService } from './slug/slug.service';
 @Injectable()
 export class ArticleService {
     update = this.prisma.article.update;
+    delete = this.prisma.article.delete;
+    findOne = this.prisma.article.findOne;
+    findMany = this.prisma.article.findMany;
 
     constructor(
         private readonly prisma: PrismaService,
@@ -57,17 +60,9 @@ export class ArticleService {
     }
 
     /**
-     * Get all articles.
+     * Get count article by condition.
      */
-    async findMany(args: FindManyArticleArgs) {
-        return this.prisma.article.findMany(args);
-    }
-
     async count(where: ArticleWhereInput) {
         return this.prisma.article.count({ where });
-    }
-
-    async findOne(args: FindOneArticleArgs) {
-        return this.prisma.article.findOne(args);
     }
 }

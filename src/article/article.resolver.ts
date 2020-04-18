@@ -91,7 +91,6 @@ export class ArticleResolver {
     }
 
     // TODO: Tags are not updated
-    // TODO: Protect by guard
     @Mutation(() => Article)
     @UseGuards(GraphqlAuthGuard, AuthorGuard)
     async updateArticle(
@@ -105,6 +104,25 @@ export class ArticleResolver {
         }
         return this.service.update({
             data,
+            where,
+            include: {
+                author: Boolean(fields.author),
+                tags: Boolean(fields.tags),
+            },
+        });
+    }
+
+    @Mutation(() => Article, { nullable: true })
+    @UseGuards(GraphqlAuthGuard, AuthorGuard)
+    async deleteArticle(
+        @Args('where') where: ArticleWhereUniqueInput,
+        @GraphqlFields() fields: PlainObject,
+    ) {
+        const article = await this.service.findOne({ where });
+        if (!article) {
+            throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
+        }
+        return this.service.delete({
             where,
             include: {
                 author: Boolean(fields.author),

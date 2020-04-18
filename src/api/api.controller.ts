@@ -156,8 +156,8 @@ export class ApiController {
 
     @Delete('articles/:slug')
     @UseInterceptors(TagListInterceptor)
-    async deleteArticle() {
-        return {};
+    async deleteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+        return this.apiService.deleteArticle({ token, slug });
     }
 
     @Post('articles/:slug/comments')
