@@ -38,7 +38,7 @@ export class ApiController {
      */
     @Post('users')
     async createUser(@Req() request: any) {
-        return this.service.createUser(request.body);
+        return this.service.createUser(request.body.user);
     }
 
     /**
@@ -46,7 +46,7 @@ export class ApiController {
      */
     @Post('users/login')
     async postUsersLogin(@Req() request: any) {
-        return this.service.loginUser(request.body);
+        return this.service.loginUser(request.body.user);
     }
 
     /**
@@ -124,15 +124,6 @@ export class ApiController {
     }
 
     /**
-     * Get article by slug.
-     */
-    @Get('articles/:slug')
-    @UseInterceptors(TagListInterceptor)
-    async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
-        return this.service.getArticle({ token, slug });
-    }
-
-    /**
      * Feed Articles.
      * Return multiple articles created by followed users, ordered by most recent first.
      * Authentication required.
@@ -140,7 +131,20 @@ export class ApiController {
     @Get('articles/feed')
     @UseInterceptors(TagListInterceptor)
     async articlesFeed(@AuthorizationToken() token: string, @Query() query?: GetArticlesDto) {
-        return this.service.feedArticles({ token, limit: query?.limit, offset: query?.offset });
+        return this.service.feedArticles({
+            token,
+            limit: query?.limit,
+            offset: query?.offset,
+        });
+    }
+
+    /**
+     * Get article by slug.
+     */
+    @Get('articles/:slug')
+    @UseInterceptors(TagListInterceptor)
+    async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+        return this.service.getArticle({ token, slug });
     }
 
     /**
@@ -185,11 +189,13 @@ export class ApiController {
     }
 
     @Post('articles/:slug/favorite')
+    @UseInterceptors(TagListInterceptor)
     async favoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
         return this.service.favoriteArticle({ token, slug, value: true });
     }
 
     @Delete('articles/:slug/favorite')
+    @UseInterceptors(TagListInterceptor)
     async unfavoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
         return this.service.favoriteArticle({ token, slug, value: false });
     }

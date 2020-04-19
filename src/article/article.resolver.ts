@@ -38,7 +38,18 @@ export class ArticleResolver {
     }
 
     @Query(() => Int)
-    async countArticles(@Args('where') where: ArticleWhereInput) {
+    @UseGuards(OptionalGraphqlAuthGuard)
+    async countArticles(
+        @Args({ name: 'where', nullable: true, type: () => ArticleWhereInput })
+        where: ArticleWhereInput,
+        @Args({ name: 'feed', nullable: true, type: () => Boolean })
+        feed: boolean,
+        @CurrentUser() user?: { id: string },
+    ) {
+        // todo: move logic for feed count and select to service
+        if (feed && user) {
+            where = this.service.feedWhereConditions(user.id);
+        }
         return this.service.count(where);
     }
 
@@ -66,11 +77,7 @@ export class ArticleResolver {
         @GraphqlFields() fields: PlainObject,
     ) {
         return this.service.findMany({
-            where: {
-                author: {
-                    followers: { some: { id: { equals: user.id } } },
-                },
-            },
+            where: this.service.feedWhereConditions(user.id),
             include: {
                 author: Boolean(fields.author),
                 tags: Boolean(fields.tags),

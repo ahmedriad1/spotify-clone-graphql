@@ -71,4 +71,12 @@ export class ArticleService {
         });
         return count > 0;
     }
+
+    feedWhereConditions(userId: string) {
+        return {
+            author: {
+                followers: { some: { id: { equals: userId } } },
+            },
+        };
+    }
 }

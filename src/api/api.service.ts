@@ -2,12 +2,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ArticleWhereInput } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 
+import { articleFields, userFields } from './fragments';
+import { commentFields } from './fragments/comment';
 import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
 import { CreateUserDto } from './models/create-user.dto';
 import { LoginUserDto } from './models/login-user.dto';
 import { UpdateUserDto } from './models/update-user.dto';
-import { UserEnvelope } from './models/user-envelope';
 
 @Injectable()
 export class ApiService {
@@ -16,20 +17,17 @@ export class ApiService {
     /**
      * Send mutation query to create user.
      */
-    async createUser(envelope: UserEnvelope<CreateUserDto>) {
+    async createUser(createUser: CreateUserDto) {
         const createUserData = {
-            name: envelope.user.username,
-            email: envelope.user.email,
-            password: envelope.user.password,
+            name: createUser.username,
+            email: createUser.email,
+            password: createUser.password,
         };
         const query = /* GraphQL */ `
             mutation createUser($createUserData: UserCreateInput!) {
                 user: createUser(data: $createUserData) {
-                    email
-                    username: name
+                    ${userFields}
                     token
-                    bio
-                    image
                 }
             }
         `;
@@ -39,22 +37,20 @@ export class ApiService {
     /**
      * Send mutation query for login.
      */
-    async loginUser(envelope: UserEnvelope<LoginUserDto>) {
+    async loginUser(loginUser: LoginUserDto) {
         const loginUserData = {
-            email: envelope.user.email,
-            password: envelope.user.password,
+            email: loginUser.email,
+            password: loginUser.password,
         };
         const query = /* GraphQL */ `
             mutation loginUser($data: UserLoginInput!) {
                 user: loginUser(data: $data) {
-                    email
-                    username: name
+                    ${userFields}
                     token
-                    bio
-                    image
                 }
             }
         `;
+        console.log('query', query);
         return this.graphqlClient.request(query, { data: loginUserData });
     }
 
@@ -65,11 +61,8 @@ export class ApiService {
         const query = /* GraphQL */ `
             query {
                 user: me {
-                    email
-                    username: name
+                    ${userFields}
                     token
-                    bio
-                    image
                 }
             }
         `;
@@ -83,11 +76,8 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation updateUser($data: UserUpdateInput!) {
                 user: updateUser(data: $data) {
-                    email
-                    username: name
+                    ${userFields}
                     token
-                    bio
-                    image
                 }
             }
         `;
@@ -104,9 +94,7 @@ export class ApiService {
         const query = /* GraphQL */ `
             query user($input: UserWhereUniqueInput!) {
                 profile: user(where: $input) {
-                    username: name
-                    bio
-                    image
+                    ${userFields}
                     following
                 }
             }
@@ -130,23 +118,7 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation createArticle($input: ArticleCreateInput!) {
                 article: createArticle(input: $input) {
-                    slug
-                    title
-                    description
-                    body
-                    tags {
-                        name
-                    }
-                    createdAt
-                    updatedAt
-                    favorited
-                    favoritesCount
-                    author {
-                        username: name
-                        bio
-                        image
-                        following
-                    }
+                    ${articleFields}
                 }
             }
         `;
@@ -196,23 +168,7 @@ export class ApiService {
         const query = /* GraphQL */ `
             query articles($where: ArticleWhereInput!) {
                 articles: articles(where: $where, orderBy: { id: desc }) {
-                    slug
-                    title
-                    description
-                    body
-                    tags {
-                        name
-                    }
-                    createdAt
-                    updatedAt
-                    favorited
-                    favoritesCount
-                    author {
-                        username: name
-                        bio
-                        image
-                        following
-                    }
+                    ${articleFields}
                 }
                 articlesCount: countArticles(where: $where)
             }
@@ -234,9 +190,7 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation follow($where: UserWhereInput!, value: Boolean!) {
                 follow(where: $where, value: $value) {
-                    username: name
-                    bio
-                    image
+                    ${userFields}
                     following
                 }
             }
@@ -253,24 +207,7 @@ export class ApiService {
             /* GraphQL */ `
                 query article($where: ArticleWhereUniqueInput!) {
                     article(where: $where) {
-                        id
-                        slug
-                        title
-                        description
-                        body
-                        tags {
-                            name
-                        }
-                        createdAt
-                        updatedAt
-                        favorited
-                        favoritesCount
-                        author {
-                            username: name
-                            bio
-                            image
-                            following
-                        }
+                        ${articleFields}
                     }
                 }
             `,
@@ -291,26 +228,10 @@ export class ApiService {
         return this.graphqlClient.request(
             /* GraphQL */ `
                 query feed($limit: Int = 20, $offset: Int = 0) {
-                    feed(limit: $limit, offset: $offset) {
-                        id
-                        slug
-                        title
-                        description
-                        body
-                        tags {
-                            name
-                        }
-                        createdAt
-                        updatedAt
-                        favorited
-                        favoritesCount
-                        author {
-                            username: name
-                            bio
-                            image
-                            following
-                        }
+                    articles: feed(limit: $limit, offset: $offset) {
+                        ${articleFields}
                     }
+                    articlesCount: countArticles(feed: true)
                 }
             `,
             { offset, limit },
@@ -326,24 +247,7 @@ export class ApiService {
                     $data: ArticleUpdateInput!
                 ) {
                     updateArticle(where: $where, data: $data) {
-                        id
-                        slug
-                        title
-                        description
-                        body
-                        tags {
-                            name
-                        }
-                        createdAt
-                        updatedAt
-                        favorited
-                        favoritesCount
-                        author {
-                            username: name
-                            bio
-                            image
-                            following
-                        }
+                        ${articleFields}
                     }
                 }
             `,
@@ -377,8 +281,8 @@ export class ApiService {
                     $data: CreateCommentInput!
                     $where: ArticleWhereUniqueInput!
                 ) {
-                    createComment(data: $data, where: $where) {
-                        id
+                    comment: createComment(data: $data, where: $where) {
+                        ${commentFields}
                     }
                 }
             `,
@@ -397,9 +301,7 @@ export class ApiService {
                         updatedAt
                         body
                         author {
-                            username
-                            bio
-                            image
+                            ${userFields}
                             following
                         }
                     }
@@ -430,24 +332,7 @@ export class ApiService {
             /* GraphQL */ `
                 mutation favoriteArticle($where: ArticleWhereUniqueInput!, $value: Boolean!) {
                     article: favoriteArticle(where: $where, value: $value) {
-                        id
-                        slug
-                        title
-                        description
-                        body
-                        tags {
-                            name
-                        }
-                        createdAt
-                        updatedAt
-                        favorited
-                        favoritesCount
-                        author {
-                            username: name
-                            bio
-                            image
-                            following
-                        }
+                        ${articleFields}
                     }
                 }
             `,
