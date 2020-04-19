@@ -386,6 +386,29 @@ export class ApiService {
         );
     }
 
+    async getArticleComments(args: { token: string; slug: string }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                query getArticleComments($where: ArticleWhereUniqueInput!) {
+                    getArticleComments(where: $where) {
+                        id
+                        createdAt
+                        updatedAt
+                        body
+                        author {
+                            username
+                            bio
+                            image
+                            following
+                        }
+                    }
+                }
+            `,
+            { where: { slug: args.slug } },
+        );
+    }
+
     /**
      * Returns a list of tags.
      */

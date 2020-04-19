@@ -109,6 +109,9 @@ export class UserResolver {
         if (!currentUser) {
             return false;
         }
+        if (Array.isArray(user.followers)) {
+            return user.followers.some((follower) => follower.id === currentUser.id);
+        }
         return this.userService.isFollowing(user.id, currentUser.id);
     }
 }

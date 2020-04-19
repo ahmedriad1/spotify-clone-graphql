@@ -171,9 +171,12 @@ export class ApiController {
         return this.service.createArticleComment({ token, slug, comment });
     }
 
+    /**
+     * Get comments from an article.
+     */
     @Get('articles/:slug/comments')
-    async articlesSlugComments() {
-        return {};
+    async getArticleComments(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+        return this.service.getArticleComments({ token, slug });
     }
 
     @Delete('articles/:slug/comments/:id')
