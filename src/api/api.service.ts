@@ -386,12 +386,12 @@ export class ApiService {
         );
     }
 
-    async getArticleComments(args: { token: string; slug: string }) {
+    async articleComments(args: { token: string; slug: string }) {
         this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
         return this.graphqlClient.request(
             /* GraphQL */ `
-                query getArticleComments($where: ArticleWhereUniqueInput!) {
-                    getArticleComments(where: $where) {
+                query articleComments($where: ArticleWhereUniqueInput!) {
+                    articleComments(where: $where) {
                         id
                         createdAt
                         updatedAt
@@ -420,6 +420,38 @@ export class ApiService {
                 }
             `,
             { where: { id: args.id } },
+        );
+    }
+
+    async favoriteArticle(args: { token: string; slug: string; value: boolean }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
+        // todo: move to fragment
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                mutation favoriteArticle($where: ArticleWhereUniqueInput!, $value: Boolean!) {
+                    article: favoriteArticle(where: $where, value: $value) {
+                        id
+                        slug
+                        title
+                        description
+                        body
+                        tags {
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                        favorited
+                        favoritesCount
+                        author {
+                            username: name
+                            bio
+                            image
+                            following
+                        }
+                    }
+                }
+            `,
+            { where: { slug: args.slug }, value: args.value },
         );
     }
 

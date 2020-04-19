@@ -74,6 +74,13 @@ export class ArticleResolver {
             include: {
                 author: Boolean(fields.author),
                 tags: Boolean(fields.tags),
+                favoritedBy: fields.favorited
+                    ? {
+                          first: 1,
+                          select: { id: true },
+                          where: { id: { equals: user.id } },
+                      }
+                    : false,
             },
             orderBy: { id: 'desc' },
             skip: offset,
@@ -131,6 +138,33 @@ export class ArticleResolver {
         });
     }
 
+    @Mutation(() => Article)
+    @UseGuards(GraphqlAuthGuard)
+    async favoriteArticle(
+        @Args('where') where: ArticleWhereUniqueInput,
+        @Args('value') value: boolean,
+        @GraphqlFields() fields: PlainObject,
+        @CurrentUser() currentUser: { id: string },
+    ) {
+        const article = await this.service.findOne({ where });
+        if (!article) {
+            throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
+        }
+
+        const user = { id: currentUser.id };
+
+        return this.service.update({
+            data: {
+                favoritedBy: value ? { connect: user } : { disconnect: user },
+            },
+            where,
+            include: {
+                author: Boolean(fields.author),
+                tags: Boolean(fields.tags),
+            },
+        });
+    }
+
     /**
      * Check if article is favorited by current user.
      * TODO: Implement me.
@@ -140,6 +174,12 @@ export class ArticleResolver {
         @Parent() article: Article,
         @CurrentUser() currentUser?: PassportUserFields,
     ): Promise<boolean> {
-        return false;
+        if (!currentUser) {
+            return false;
+        }
+        if (Array.isArray(article.favoritedBy)) {
+            return article.favoritedBy.some((user) => user.id === currentUser.id);
+        }
+        return this.service.isFavorited(article.id, currentUser.id);
     }
 }

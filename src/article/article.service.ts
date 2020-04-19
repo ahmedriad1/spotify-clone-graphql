@@ -60,4 +60,15 @@ export class ArticleService {
     async count(where: ArticleWhereInput) {
         return this.prisma.article.count({ where });
     }
+
+    /**
+     * Checks if article favorited by user.
+     */
+    async isFavorited(id: string, userId: string) {
+        const count = await this.prisma.article.count({
+            first: 1,
+            where: { id, favoritedBy: { some: { id: { equals: userId } } } },
+        });
+        return count > 0;
+    }
 }

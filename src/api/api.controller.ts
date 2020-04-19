@@ -175,23 +175,23 @@ export class ApiController {
      * Get comments from an article.
      */
     @Get('articles/:slug/comments')
-    async getArticleComments(@AuthorizationToken() token: string, @Param('slug') slug: string) {
-        return this.service.getArticleComments({ token, slug });
+    async articleComments(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+        return this.service.articleComments({ token, slug });
     }
 
     @Delete('articles/:slug/comments/:id')
-    async articlesSlugCommentsId(@AuthorizationToken() token: string, @Param('id') id: string) {
+    async deleteComment(@AuthorizationToken() token: string, @Param('id') id: string) {
         return this.service.deleteComment({ token, id });
     }
 
     @Post('articles/:slug/favorite')
-    async createArticlesSlugFavorite() {
-        return {};
+    async favoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+        return this.service.favoriteArticle({ token, slug, value: true });
     }
 
     @Delete('articles/:slug/favorite')
-    async deleteArticlesSlugFavorite() {
-        return {};
+    async unfavoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+        return this.service.favoriteArticle({ token, slug, value: false });
     }
 
     /**

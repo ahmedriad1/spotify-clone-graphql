@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-    CommentCreateArgs,
-    FindManyCommentArgs,
-    ArticleWhereUniqueInput,
-    UserArgs,
-} from '@prisma/client';
+import { ArticleWhereUniqueInput, CommentCreateArgs, FindManyCommentArgs } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
