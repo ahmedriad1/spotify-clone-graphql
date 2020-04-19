@@ -180,8 +180,8 @@ export class ApiController {
     }
 
     @Delete('articles/:slug/comments/:id')
-    async articlesSlugCommentsId() {
-        return {};
+    async articlesSlugCommentsId(@AuthorizationToken() token: string, @Param('id') id: string) {
+        return this.service.deleteComment({ token, id });
     }
 
     @Post('articles/:slug/favorite')

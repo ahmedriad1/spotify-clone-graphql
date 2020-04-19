@@ -409,6 +409,20 @@ export class ApiService {
         );
     }
 
+    async deleteComment(args: { token: string; id: string }) {
+        this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
+        return this.graphqlClient.request(
+            /* GraphQL */ `
+                mutation deleteComment($where: CommentWhereUniqueInput!) {
+                    deleteComment(where: $where) {
+                        id
+                    }
+                }
+            `,
+            { where: { id: args.id } },
+        );
+    }
+
     /**
      * Returns a list of tags.
      */

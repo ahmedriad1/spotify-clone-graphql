@@ -14,6 +14,8 @@ import { CreateCommentInput } from './models/create-comment.input';
 import { PlainObject } from 'simplytyped';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
 import { FindManyCommentArgs } from '@generated/type-graphql/resolvers/crud/Comment/args/FindManyCommentArgs';
+import { CommentWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/CommentWhereUniqueInput';
+import { AuthorGuard } from './author.guard';
 
 @Resolver(() => Comment)
 export class CommentResolver {
@@ -48,5 +50,11 @@ export class CommentResolver {
             throw new NotFoundException(`Article ${JSON.stringify(where)} does not exist`);
         }
         return this.commentService.createComment(where, data.body, user.id);
+    }
+
+    @Mutation(() => Comment)
+    @UseGuards(GraphqlAuthGuard, AuthorGuard)
+    async deleteComment(@Args('where') where: CommentWhereUniqueInput) {
+        return this.commentService.delete({ where });
     }
 }
