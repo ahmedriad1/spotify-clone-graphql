@@ -1,6 +1,9 @@
 import { Transform } from 'class-transformer';
 import { IsInt, IsOptional, Max } from 'class-validator';
 
+/**
+ * Type for query string when request list of articles.
+ */
 export class GetArticlesDto {
     @IsOptional()
     tag?: string;

@@ -5,4 +5,5 @@ export const graphqlFieldsImpl = (data, [root, args, context, info]) => {
     return graphqlFields(info);
 };
 
+// tslint:disable-next-line:variable-name
 export const GraphqlFields = createParamDecorator(graphqlFieldsImpl);

@@ -1,8 +1,7 @@
 import { createParamDecorator } from '@nestjs/common';
 import { IncomingMessage } from 'http';
 
-// type GraphQLArgs = [root, args, context, info]
-
+// tslint:disable-next-line:variable-name
 export const AuthorizationToken = createParamDecorator((data, requestOrArgs) => {
     const request = getRequest(requestOrArgs);
     const authorization = request.headers.authorization;

@@ -7,7 +7,7 @@ import { ArticleCreateInput } from './models/article-create.input';
 import { SlugService } from './slug/slug.service';
 
 /**
- * Service to manage articles.
+ * Service for managing articles.
  */
 @Injectable()
 export class ArticleService {

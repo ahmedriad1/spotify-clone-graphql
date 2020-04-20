@@ -13,6 +13,9 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+/**
+ * Intercept error and flat errors.
+ */
 @Injectable()
 export class GraphQLResponseInterceptor implements NestInterceptor {
     constructor(private readonly logger: Logger) {}

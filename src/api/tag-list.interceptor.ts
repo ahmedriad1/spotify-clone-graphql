@@ -17,7 +17,7 @@ export class TagListInterceptor implements NestInterceptor {
     }
 }
 
-function toArticleDto(article: any) {
+function toArticleDto(article: { tags: { name: string }[] }) {
     const { tags, ...temporaryArticle } = article;
     return {
         ...temporaryArticle,

@@ -1,6 +1,9 @@
 import { IsNotEmpty } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
+/**
+ * Create article input object type.
+ */
 @InputType()
 export class ArticleCreateInput {
     @IsNotEmpty()
@@ -17,5 +20,5 @@ export class ArticleCreateInput {
 
     // todo: validate for slug
     @Field(() => [String], { nullable: true })
-    tags: string[];
+    tags?: string[];
 }

@@ -16,6 +16,9 @@ import { CommentService } from './comment.service';
 import { Comment } from './models/comment';
 import { CreateCommentInput } from './models/create-comment.input';
 
+/**
+ * Resolver for article comment type.
+ */
 @Resolver(() => Comment)
 export class CommentResolver {
     constructor(

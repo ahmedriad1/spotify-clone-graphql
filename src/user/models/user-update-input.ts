@@ -1,5 +1,8 @@
 import { Field, InputType } from 'type-graphql';
 
+/**
+ * Update user input type.
+ */
 @InputType()
 export class UserUpdateInput {
     @Field(() => String, {

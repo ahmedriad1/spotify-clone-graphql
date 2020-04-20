@@ -116,6 +116,9 @@ export class ApiController {
         });
     }
 
+    /**
+     * Unfollow user.
+     */
     @Delete('profiles/:username/follow')
     async unfollowUser(@AuthorizationToken() token: string, @Param('username') username: string) {
         return this.service.followUser({
@@ -151,6 +154,7 @@ export class ApiController {
 
     /**
      * Update article.
+     * Authentication required.
      */
     @Put('articles/:slug')
     @UseInterceptors(TagListInterceptor)
@@ -162,12 +166,19 @@ export class ApiController {
         return this.service.updateArticle({ token, slug, data: request.body.article });
     }
 
+    /**
+     * Delete article.
+     * Authentication required.
+     */
     @Delete('articles/:slug')
     @UseInterceptors(TagListInterceptor)
     async deleteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
         return this.service.deleteArticle({ token, slug });
     }
 
+    /**
+     * Add comments to an article.
+     */
     @Post('articles/:slug/comments')
     async createArticleComment(
         @AuthorizationToken() token: string,
@@ -185,17 +196,26 @@ export class ApiController {
         return this.service.articleComments({ token, slug });
     }
 
+    /**
+     * Delete comment by id.
+     */
     @Delete('articles/:slug/comments/:id')
     async deleteComment(@AuthorizationToken() token: string, @Param('id') id: string) {
         return this.service.deleteComment({ token, id });
     }
 
+    /**
+     * Favorite article.
+     */
     @Post('articles/:slug/favorite')
     @UseInterceptors(TagListInterceptor)
     async favoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
         return this.service.favoriteArticle({ token, slug, value: true });
     }
 
+    /**
+     * Unfavorite article.
+     */
     @Delete('articles/:slug/favorite')
     @UseInterceptors(TagListInterceptor)
     async unfavoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {

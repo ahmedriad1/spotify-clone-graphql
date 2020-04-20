@@ -20,7 +20,7 @@ import { ArticleCreateInput } from './models/article-create.input';
 import { ArticleUpdateInput } from './models/article-update.input';
 
 /**
- * Article resolver.
+ * Resolver for article type.
  */
 @Resolver(() => Article)
 export class ArticleResolver {

@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import {
     FindManyUserArgs,
     UserCreateInput,
+    UserUpdateInput,
     UserUpdateManyWithoutFollowingInput,
     UserWhereUniqueInput,
 } from '@prisma/client';
 
-import { UserUpdateInput } from './models/user-update-input';
 import { UserRepository } from './user.repository';
 
 /**

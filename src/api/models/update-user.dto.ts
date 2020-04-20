@@ -1,3 +1,6 @@
+/**
+ * User submits when update.
+ */
 export class UpdateUserDto {
     email?: string;
     username?: string;

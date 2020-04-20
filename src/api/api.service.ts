@@ -10,6 +10,10 @@ import { CreateUserDto } from './models/create-user.dto';
 import { LoginUserDto } from './models/login-user.dto';
 import { UpdateUserDto } from './models/update-user.dto';
 
+/**
+ * Service for sending graphql requests to graphql endpoint
+ * and return to api controller.
+ */
 @Injectable()
 export class ApiService {
     constructor(@Inject('GraphQLClient') private readonly graphqlClient: GraphQLClient) {}
@@ -105,7 +109,6 @@ export class ApiService {
 
     /**
      * Create article.
-     * TODO: Make fragments for article.
      */
     async createArticle({
         token,
@@ -132,6 +135,9 @@ export class ApiService {
             .request(query, { input });
     }
 
+    /**
+     * Get all articles with optional filters.
+     */
     async getArticles(
         options: Partial<{
             token: string;
@@ -177,6 +183,9 @@ export class ApiService {
             .request(query, { where, skip, first });
     }
 
+    /**
+     * Follow or unfollow user.
+     */
     async followUser({
         token,
         username,
@@ -200,6 +209,9 @@ export class ApiService {
         });
     }
 
+    /**
+     * Get article by slug.
+     */
     async getArticle({ token, slug }: { token: string; slug: string }) {
         this.graphqlClient.setHeader('Authorization', `Bearer ${token}`);
         return this.graphqlClient.request(
@@ -214,6 +226,9 @@ export class ApiService {
         );
     }
 
+    /**
+     * Feed articles.
+     */
     async feedArticles({
         token,
         offset = 0,
@@ -324,9 +339,11 @@ export class ApiService {
         );
     }
 
+    /**
+     * Favorite (value: true) or unfavorite (value: false) article.
+     */
     async favoriteArticle(args: { token: string; slug: string; value: boolean }) {
         this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
-        // todo: move to fragment
         return this.graphqlClient.request(
             /* GraphQL */ `
                 mutation favoriteArticle($where: ArticleWhereUniqueInput!, $value: Boolean!) {

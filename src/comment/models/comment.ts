@@ -2,6 +2,9 @@ import { Field, ID, ObjectType } from 'type-graphql';
 
 import { User } from '../../user/models/user';
 
+/**
+ * Represents article comment object type.
+ */
 @ObjectType()
 export class Comment {
     @Field(() => ID)

@@ -3,6 +3,9 @@ import { ArticleWhereUniqueInput, CommentCreateArgs, FindManyCommentArgs } from 
 
 import { PrismaService } from '../prisma/prisma.service';
 
+/**
+ * Service for managing article comments.
+ */
 @Injectable()
 export class CommentService {
     update = this.prisma.comment.update;

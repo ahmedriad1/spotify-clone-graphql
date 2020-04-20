@@ -1,6 +1,9 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
+/**
+ * Update article input type.
+ */
 @InputType()
 export class ArticleUpdateInput {
     @IsOptional()
