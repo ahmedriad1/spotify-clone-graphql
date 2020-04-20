@@ -46,6 +46,7 @@
     "migrate:down": "node -r dotenv-flow/config node_modules/@prisma/cli/build/index.js migrate down --experimental 1",
     "prisma:w": "node -r dotenv-flow/config node_modules/@prisma/cli/build/index.js generate --watch",
     "prisma:g": "node -r dotenv-flow/config node_modules/@prisma/cli/build/index.js generate",
+    "prisma:seed": "node -r dotenv-flow/config -r ts-node/register prisma/seed",
     "prisma:studio": "node -r dotenv-flow/config node_modules/@prisma/cli/build/index.js studio --experimental",
     "dev:update": "updtr --out --to latest --test \"npm test:r\"",
     "sync-dotenv": "npx sync-dotenv"

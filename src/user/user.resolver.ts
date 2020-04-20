@@ -80,12 +80,16 @@ export class UserResolver {
     @Mutation(() => User)
     @UseGuards(GraphqlAuthGuard)
     async follow(
-        @CurrentUser() user: PassportUserFields,
+        @CurrentUser() currentUser: PassportUserFields,
         @Args('where') where: UserWhereUniqueInput,
         @Args('value') value: boolean,
     ) {
-        const followedBy = { id: user.id };
-        return this.userService.follow(where, followedBy, value);
+        const user = await this.userService.findOne(where);
+        if (!user) {
+            throw new NotFoundException(`User ${JSON.stringify(where)} do not exists`);
+        }
+        const follower = { id: currentUser.id };
+        return this.userService.follow(where, follower, value);
     }
 
     @ResolveProperty(() => String, { nullable: true })

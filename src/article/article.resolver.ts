@@ -160,9 +160,13 @@ export class ArticleResolver {
 
         const user = { id: currentUser.id };
 
+        // todo: Move to transaction prisma.transaction
+        const favoritesCount = article.favoritesCount + (value ? +1 : -1);
+
         return this.service.update({
             data: {
                 favoritedBy: value ? { connect: user } : { disconnect: user },
+                favoritesCount,
             },
             where,
             include: {

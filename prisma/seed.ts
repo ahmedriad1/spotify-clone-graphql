@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import 'dotenv-flow/config';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -90,6 +90,7 @@ async function main() {
                     { name: 'realword' },
                 ],
             },
+            favoritesCount: 3,
             favoritedBy: { connect: [{ name: 'root' }, { name: 'bob' }, { name: 'alice' }] },
         },
     });
@@ -112,6 +113,7 @@ async function main() {
                 create: [{ name: 'interrogator' }, { name: 'understream' }, { name: 'vinculum' }],
                 connect: [{ name: 'angular' }, { name: 'nestjs' }],
             },
+            favoritesCount: 2,
             favoritedBy: { connect: [{ name: 'bob' }, { name: 'alice' }] },
         },
     });
@@ -119,8 +121,8 @@ async function main() {
     await prisma.article.create({
         data: {
             author: { connect: { name: 'alice' } },
-            title: 'Thiefmaking',
-            slug: 'thiefmaking',
+            title: 'How to train your dragon',
+            slug: 'how-to-train-your-dragon',
             body:
                 'Fermentative poignantly northest psammosarcoma Antu hydrosomatous hemipteran bronchotyphoid',
             description: 'Polymeride noblewoman hasher presentisttulip',

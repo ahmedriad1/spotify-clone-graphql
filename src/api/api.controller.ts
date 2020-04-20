@@ -3,6 +3,7 @@ import {
     Controller,
     Delete,
     Get,
+    HttpCode,
     Param,
     Post,
     Put,
@@ -106,6 +107,7 @@ export class ApiController {
      * Follow user.
      */
     @Post('profiles/:username/follow')
+    @HttpCode(200)
     async followUser(@AuthorizationToken() token: string, @Param('username') username: string) {
         return this.service.followUser({
             token,

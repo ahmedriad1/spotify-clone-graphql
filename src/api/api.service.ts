@@ -50,7 +50,6 @@ export class ApiService {
                 }
             }
         `;
-        console.log('query', query);
         return this.graphqlClient.request(query, { data: loginUserData });
     }
 
@@ -188,8 +187,8 @@ export class ApiService {
         value: boolean;
     }) {
         const query = /* GraphQL */ `
-            mutation follow($where: UserWhereInput!, value: Boolean!) {
-                follow(where: $where, value: $value) {
+            mutation follow($where: UserWhereUniqueInput!, $value: Boolean!) {
+                profile: follow(where: $where, value: $value) {
                     ${userFields}
                     following
                 }
@@ -246,7 +245,7 @@ export class ApiService {
                     $where: ArticleWhereUniqueInput!
                     $data: ArticleUpdateInput!
                 ) {
-                    updateArticle(where: $where, data: $data) {
+                    article: updateArticle(where: $where, data: $data) {
                         ${articleFields}
                     }
                 }
@@ -295,7 +294,7 @@ export class ApiService {
         return this.graphqlClient.request(
             /* GraphQL */ `
                 query articleComments($where: ArticleWhereUniqueInput!) {
-                    articleComments(where: $where) {
+                    comments: articleComments(where: $where) {
                         id
                         createdAt
                         updatedAt
