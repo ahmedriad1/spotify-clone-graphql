@@ -30,10 +30,11 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation createUser($createUserData: UserCreateInput!) {
                 user: createUser(data: $createUserData) {
-                    ${userFields}
+                    ...userFields
                     token
                 }
             }
+            ${userFields}
         `;
         return this.graphqlClient.request(query, { createUserData });
     }
@@ -49,10 +50,11 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation loginUser($data: UserLoginInput!) {
                 user: loginUser(data: $data) {
-                    ${userFields}
+                    ...userFields
                     token
                 }
             }
+            ${userFields}
         `;
         return this.graphqlClient.request(query, { data: loginUserData });
     }
@@ -64,10 +66,11 @@ export class ApiService {
         const query = /* GraphQL */ `
             query {
                 user: me {
-                    ${userFields}
+                    ...userFields
                     token
                 }
             }
+            ${userFields}
         `;
         return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query);
     }
@@ -79,10 +82,11 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation updateUser($data: UserUpdateInput!) {
                 user: updateUser(data: $data) {
-                    ${userFields}
+                    ...userFields
                     token
                 }
             }
+            ${userFields}
         `;
         return this.graphqlClient
             .setHeader('Authorization', `Bearer ${token}`)
@@ -97,10 +101,11 @@ export class ApiService {
         const query = /* GraphQL */ `
             query user($input: UserWhereUniqueInput!) {
                 profile: user(where: $input) {
-                    ${userFields}
+                    ...userFields
                     following
                 }
             }
+            ${userFields}
         `;
         return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {
             input: { name },
@@ -109,6 +114,7 @@ export class ApiService {
 
     /**
      * Create article.
+     * Authentication required.
      */
     async createArticle({
         token,
@@ -120,11 +126,12 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation createArticle($input: ArticleCreateInput!) {
                 article: createArticle(input: $input) {
-                    ${articleFields}
+                    ...articleFields
                 }
             }
+            ${articleFields}
         `;
-        const input: any = {
+        const input = {
             body: createArticleDto.body,
             description: createArticleDto.description,
             title: createArticleDto.title,
@@ -173,10 +180,11 @@ export class ApiService {
         const query = /* GraphQL */ `
             query articles($where: ArticleWhereInput!) {
                 articles: articles(where: $where, orderBy: { id: desc }) {
-                    ${articleFields}
+                    ...articleFields
                 }
                 articlesCount: countArticles(where: $where)
             }
+            ${articleFields}
         `;
         return this.graphqlClient
             .setHeader('Authorization', `Bearer ${options.token}`)
@@ -198,10 +206,11 @@ export class ApiService {
         const query = /* GraphQL */ `
             mutation follow($where: UserWhereUniqueInput!, $value: Boolean!) {
                 profile: follow(where: $where, value: $value) {
-                    ${userFields}
+                    ...userFields
                     following
                 }
             }
+            ${userFields}
         `;
         return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {
             where: { name: username },
@@ -217,10 +226,10 @@ export class ApiService {
         return this.graphqlClient.request(
             /* GraphQL */ `
                 query article($where: ArticleWhereUniqueInput!) {
-                    article(where: $where) {
-                        ${articleFields}
+                        ...articleFields
                     }
                 }
+                ${articleFields}
             `,
             { where: { slug } },
         );
@@ -228,6 +237,7 @@ export class ApiService {
 
     /**
      * Feed articles.
+     * Authentication required.
      */
     async feedArticles({
         token,
@@ -243,16 +253,25 @@ export class ApiService {
             /* GraphQL */ `
                 query feed($limit: Int = 20, $offset: Int = 0) {
                     articles: feed(limit: $limit, offset: $offset) {
-                        ${articleFields}
+                        ...articleFields
                     }
                     articlesCount: countArticles(feed: true)
                 }
+                ${articleFields}
             `,
             { offset, limit },
         );
     }
 
-    async updateArticle({ token, slug, data }: { token: string; slug: string; data: any }) {
+    async updateArticle({
+        token,
+        slug,
+        data,
+    }: {
+        token: string;
+        slug: string;
+        data: Record<string, unknown>;
+    }) {
         this.graphqlClient.setHeader('Authorization', `Bearer ${token}`);
         return this.graphqlClient.request(
             /* GraphQL */ `
@@ -261,9 +280,10 @@ export class ApiService {
                     $data: ArticleUpdateInput!
                 ) {
                     article: updateArticle(where: $where, data: $data) {
-                        ${articleFields}
+                        ...articleFields
                     }
                 }
+                ${articleFields}
             `,
             { where: { slug }, data },
         );
@@ -296,9 +316,10 @@ export class ApiService {
                     $where: ArticleWhereUniqueInput!
                 ) {
                     comment: createComment(data: $data, where: $where) {
-                        ${commentFields}
+                        ...commentFields
                     }
                 }
+                ${commentFields}
             `,
             { data: args.comment, where: { slug: args.slug } },
         );
@@ -310,16 +331,10 @@ export class ApiService {
             /* GraphQL */ `
                 query articleComments($where: ArticleWhereUniqueInput!) {
                     comments: articleComments(where: $where) {
-                        id
-                        createdAt
-                        updatedAt
-                        body
-                        author {
-                            ${userFields}
-                            following
-                        }
+                        ...commentFields
                     }
                 }
+                ${commentFields}
             `,
             { where: { slug: args.slug } },
         );
@@ -348,9 +363,10 @@ export class ApiService {
             /* GraphQL */ `
                 mutation favoriteArticle($where: ArticleWhereUniqueInput!, $value: Boolean!) {
                     article: favoriteArticle(where: $where, value: $value) {
-                        ${articleFields}
+                        ...articleFields
                     }
                 }
+                ${articleFields}
             `,
             { where: { slug: args.slug }, value: args.value },
         );

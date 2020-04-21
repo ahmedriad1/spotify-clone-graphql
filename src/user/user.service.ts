@@ -41,7 +41,6 @@ export class UserService {
     }
 
     async create(data: UserCreateInput) {
-        // TODO: hash password
         // TODO: check email unique, throw 409
         return this.repository.create({ data });
     }

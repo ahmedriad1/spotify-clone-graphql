@@ -19,6 +19,7 @@ import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
 import { GetArticlesDto } from './models/get-articles.dto';
 import { TagListInterceptor } from './tag-list.interceptor';
+import { Request } from 'express';
 
 /**
  * This is REST API wrapper around graphql.
@@ -60,6 +61,7 @@ export class ApiController {
 
     /**
      * Update user.
+     * Authentication required.
      */
     @Put('user')
     async updateUser(@AuthorizationToken() token: string, @Req() request: any) {
@@ -104,7 +106,7 @@ export class ApiController {
     }
 
     /**
-     * Follow user.
+     * Follow user, authentication required.
      */
     @Post('profiles/:username/follow')
     @HttpCode(200)
@@ -117,7 +119,7 @@ export class ApiController {
     }
 
     /**
-     * Unfollow user.
+     * Follow user, authentication required.
      */
     @Delete('profiles/:username/follow')
     async unfollowUser(@AuthorizationToken() token: string, @Param('username') username: string) {
@@ -205,7 +207,8 @@ export class ApiController {
     }
 
     /**
-     * Favorite article.
+     * Favorite article by slug.
+     * Authentication required.
      */
     @Post('articles/:slug/favorite')
     @UseInterceptors(TagListInterceptor)
@@ -214,7 +217,8 @@ export class ApiController {
     }
 
     /**
-     * Unfavorite article.
+     * Unfavorite article by slug.
+     * Authentication required.
      */
     @Delete('articles/:slug/favorite')
     @UseInterceptors(TagListInterceptor)

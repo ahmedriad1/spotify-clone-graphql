@@ -1,6 +1,9 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 
+/**
+ * Remap field value tags {name} to taglist [string].
+ */
 @Injectable()
 export class TagListInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler) {

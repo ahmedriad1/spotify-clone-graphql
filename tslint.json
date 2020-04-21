@@ -13,6 +13,7 @@
     "node_modules/tslint-consistent-codestyle"
   ],
   "rules": {
+    "prefer-type-cast": false,
     "await-promise": [true, "UserClient", "CommentClient", "TagClient", "ArticleClient"],
     "no-null-keyword": false,
     "no-implicit-dependencies": false,

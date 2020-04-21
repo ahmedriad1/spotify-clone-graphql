@@ -20,7 +20,7 @@ import { catchError } from 'rxjs/operators';
 export class GraphQLResponseInterceptor implements NestInterceptor {
     constructor(private readonly logger: Logger) {}
 
-    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
         return next.handle().pipe(
             catchError((err) => {
                 // todo: format
@@ -31,7 +31,7 @@ export class GraphQLResponseInterceptor implements NestInterceptor {
                         validationErrors.length > 0 &&
                         validationErrors.some(isValidationError))
                 ) {
-                    const message = classValidatorFlatFormatter(validationErrors as any);
+                    const message = classValidatorFlatFormatter(validationErrors);
                     return throwError(new UnprocessableEntityException(message));
                 }
                 return throwError(err);

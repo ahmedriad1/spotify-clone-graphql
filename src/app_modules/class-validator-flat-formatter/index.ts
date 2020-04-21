@@ -4,7 +4,10 @@ import { ValidationError } from './validation-error';
  * Slightly refactored ValidationError.toString()
  * https://github.com/typestack/class-validator/blob/master/src/validation/ValidationError.ts
  */
-export function classValidatorFlatFormatter(errors: ValidationError[], parentPath = '') {
+export function classValidatorFlatFormatter(
+    errors: ValidationError[] | ValidationError,
+    parentPath = '',
+) {
     if (!Array.isArray(errors)) {
         errors = [errors];
     }
