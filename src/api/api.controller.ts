@@ -19,7 +19,6 @@ import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
 import { GetArticlesDto } from './models/get-articles.dto';
 import { TagListInterceptor } from './tag-list.interceptor';
-import { Request } from 'express';
 
 /**
  * This is REST API wrapper around graphql.
@@ -84,7 +83,7 @@ export class ApiController {
     }
 
     /**
-     * Create article.
+     * Create article, authentication required.
      */
     @Post('articles')
     @UseInterceptors(TagListInterceptor)

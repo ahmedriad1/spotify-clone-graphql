@@ -54,10 +54,6 @@ build_package() {
 
     build_package_json
 
-    # Remark
-    [ ! -f ./.remarkrc.js ] && cp -vf "$root/.remarkrc.js" . || true
-    npx remark-cli README.md --output
-
     # Merge root and local tsconfig files
     localTsConfig=`cat tsconfig.json || echo {}`
     echo "$rootTsConfig" "$localTsConfig" \

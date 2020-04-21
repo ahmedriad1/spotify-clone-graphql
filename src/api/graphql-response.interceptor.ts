@@ -23,7 +23,6 @@ export class GraphQLResponseInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
         return next.handle().pipe(
             catchError((err) => {
-                // todo: format
                 const validationErrors = err.response?.errors?.[0]?.message?.message;
                 if (
                     isValidationError(validationErrors) ||

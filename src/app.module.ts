@@ -23,6 +23,7 @@ export async function graphqlModuleFactory(prismaService: PrismaService) {
                 req: data.req as IncomingMessage,
             };
         },
+        // todo: format
         // formatError: null as any,
     };
 }

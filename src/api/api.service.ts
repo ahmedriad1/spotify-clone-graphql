@@ -2,8 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ArticleWhereInput } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 
-import { articleFields, userFields } from './fragments';
-import { commentFields } from './fragments/comment';
+import { articleFields, commentFields, userFields } from './fragments';
 import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
 import { CreateUserDto } from './models/create-user.dto';
