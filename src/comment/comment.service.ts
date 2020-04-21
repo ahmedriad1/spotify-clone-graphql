@@ -37,20 +37,21 @@ export class CommentService {
         return this.findMany(parameters);
     }
 
-    async createComment(where: ArticleWhereUniqueInput, body: string, authorId: string) {
-        // todo: select author.following
-        const args: CommentCreateArgs = {
+    async createComment(args: { where: ArticleWhereUniqueInput; body: string; authorId: string }) {
+        const commentCreateArgs: CommentCreateArgs = {
             data: {
-                body,
+                body: args.body,
                 author: {
-                    connect: { id: authorId },
+                    connect: { id: args.authorId },
                 },
                 article: {
-                    connect: where,
+                    connect: args.where,
                 },
             },
-            include: { author: true },
+            include: {
+                author: true,
+            },
         };
-        return this.prisma.comment.create(args);
+        return this.prisma.comment.create(commentCreateArgs);
     }
 }

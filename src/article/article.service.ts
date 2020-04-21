@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ArticleCreateInput as ArticleCreateInputData, ArticleWhereInput } from '@prisma/client';
+import {
+    Article,
+    ArticleCreateInput as ArticleCreateInputData,
+    ArticleInclude,
+    ArticleWhereInput,
+    ArticleWhereUniqueInput,
+} from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
@@ -62,7 +68,7 @@ export class ArticleService {
     }
 
     /**
-     * Checks if article favorited by user.
+     * Checks if article with {id} favorited by user {userId}.
      */
     async isFavorited(id: string, userId: string) {
         const count = await this.prisma.article.count({
@@ -78,5 +84,32 @@ export class ArticleService {
                 followers: { some: { id: { equals: userId } } },
             },
         };
+    }
+
+    /**
+     * Favorite or unfavorite article {article or where} by user {favoritedByUserId}.
+     */
+    async favorite(args: {
+        article?: Article;
+        where?: ArticleWhereUniqueInput;
+        favoritedByUserId: string;
+        value: boolean;
+        include: ArticleInclude;
+    }) {
+        const article = args.article || (args.where && (await this.findOne({ where: args.where })));
+        if (!article) {
+            throw new TypeError('Expected article or where arguments');
+        }
+        const user = { id: args.favoritedByUserId };
+        const favoritesCount = article.favoritesCount + (args.value ? +1 : -1);
+
+        return this.update({
+            data: {
+                favoritedBy: args.value ? { connect: user } : { disconnect: user },
+                favoritesCount,
+            },
+            where: { id: article.id },
+            include: args.include,
+        });
     }
 }

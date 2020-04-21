@@ -1,5 +1,7 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength, Validate } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
+
+import { UserExistsValidator } from '../validators/user-exists.validator';
 
 /**
  * Input type for create user mutation.
@@ -9,11 +11,13 @@ export class UserCreateInput {
     @IsNotEmpty()
     @IsEmail()
     @Field(() => String, { nullable: false })
+    @Validate(UserExistsValidator)
     email: string;
 
     @IsNotEmpty()
     @MinLength(3)
     @Field(() => String, { nullable: false })
+    @Validate(UserExistsValidator)
     name: string;
 
     @IsNotEmpty()

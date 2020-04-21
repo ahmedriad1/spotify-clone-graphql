@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { useContainer } from 'class-validator';
 
 import { AppModule } from './app.module';
 
@@ -15,6 +16,7 @@ export async function bootstrap() {
             },
         }),
     );
+    useContainer(app.select(AppModule), { fallbackOnErrors: true });
     const port = config.get('port');
     await app.listen(port);
     return app;

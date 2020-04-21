@@ -45,13 +45,17 @@ export class CommentResolver {
     async createComment(
         @Args('data') data: CreateCommentInput,
         @Args('where') where: ArticleWhereUniqueInput,
-        @CurrentUser() user: { id: string },
+        @CurrentUser() currentUser: { id: string },
     ) {
         const articleExists = (await this.articleService.count(where)) !== 0;
         if (!articleExists) {
             throw new NotFoundException(`Article ${JSON.stringify(where)} does not exist`);
         }
-        return this.commentService.createComment(where, data.body, user.id);
+        return this.commentService.createComment({
+            where,
+            body: data.body,
+            authorId: currentUser.id,
+        });
     }
 
     @Mutation(() => Comment)

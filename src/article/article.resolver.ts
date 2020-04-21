@@ -157,18 +157,10 @@ export class ArticleResolver {
         if (!article) {
             throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
         }
-
-        const user = { id: currentUser.id };
-
-        // todo: Move to transaction prisma.transaction
-        const favoritesCount = article.favoritesCount + (value ? +1 : -1);
-
-        return this.service.update({
-            data: {
-                favoritedBy: value ? { connect: user } : { disconnect: user },
-                favoritesCount,
-            },
-            where,
+        return this.service.favorite({
+            article,
+            favoritedByUserId: currentUser.id,
+            value,
             include: {
                 author: Boolean(fields.author),
                 tags: Boolean(fields.tags),
@@ -177,8 +169,7 @@ export class ArticleResolver {
     }
 
     /**
-     * Check if article is favorited by current user.
-     * TODO: Implement me.
+     * Checks if article is favorited by current user.
      */
     @ResolveProperty(() => Boolean)
     async favorited(

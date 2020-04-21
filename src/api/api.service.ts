@@ -134,7 +134,7 @@ export class ApiService {
             body: createArticleDto.body,
             description: createArticleDto.description,
             title: createArticleDto.title,
-            tags: createArticleDto.tagsList,
+            tags: createArticleDto.tagList,
         };
         return this.graphqlClient
             .setHeader('Authorization', `Bearer ${token}`)
@@ -225,6 +225,7 @@ export class ApiService {
         return this.graphqlClient.request(
             /* GraphQL */ `
                 query article($where: ArticleWhereUniqueInput!) {
+                    article(where: $where) {
                         ...articleFields
                     }
                 }
