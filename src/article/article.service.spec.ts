@@ -16,15 +16,16 @@ describe('ArticleService', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                ArticleService,
-                SlugService,
-                TagService,
                 {
                     provide: PrismaService,
                     useValue: {
                         article: toMockedInstance(PrismaRepository),
+                        tag: toMockedInstance(PrismaRepository),
                     },
                 },
+                ArticleService,
+                SlugService,
+                TagService,
             ],
         }).compile();
 
@@ -32,7 +33,7 @@ describe('ArticleService', () => {
         repository = module.get(PrismaService).article as typeof repository;
     });
 
-    it('should be defined', () => {
+    fit('should be defined', () => {
         expect(service).toBeDefined();
     });
 

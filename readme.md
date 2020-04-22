@@ -50,3 +50,4 @@ to graphql api.
 
 -   Update to Nest 7
 -   Runnning test:e2e on CI
+-   ArticleService.updateArticle() Updating tags does not workm check it later

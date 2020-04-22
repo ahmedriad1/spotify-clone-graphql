@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
     Body,
     Controller,
@@ -12,6 +13,7 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { AuthorizationToken } from 'app_modules/nestjs-authorization-token';
+import { Request } from 'express';
 
 import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
@@ -38,7 +40,7 @@ export class ApiController {
      * Registration.
      */
     @Post('users')
-    async createUser(@Req() request: any) {
+    async createUser(@Req() request: Request) {
         return this.service.createUser(request.body.user);
     }
 
@@ -46,7 +48,7 @@ export class ApiController {
      * Authentication.
      */
     @Post('users/login')
-    async postUsersLogin(@Req() request: any) {
+    async postUsersLogin(@Req() request: Request) {
         return this.service.loginUser(request.body.user);
     }
 
@@ -63,7 +65,7 @@ export class ApiController {
      * Authentication required.
      */
     @Put('user')
-    async updateUser(@AuthorizationToken() token: string, @Req() request: any) {
+    async updateUser(@AuthorizationToken() token: string, @Req() request: Request) {
         return this.service.updateUser({
             token,
             user: request.body.user,
@@ -87,7 +89,7 @@ export class ApiController {
      */
     @Post('articles')
     @UseInterceptors(TagListInterceptor)
-    async createArticle(@Req() request: any, @AuthorizationToken() token: string) {
+    async createArticle(@Req() request: Request, @AuthorizationToken() token: string) {
         const createArticleDto: CreateArticleDto = request.body.article;
         return this.service.createArticle({ token, createArticleDto });
     }
@@ -147,7 +149,7 @@ export class ApiController {
     /**
      * Get article by slug.
      */
-    @Get('articles/:slug')
+    @Get('articles/:slug') // eslint-disable-line sonarjs/no-duplicate-string
     @UseInterceptors(TagListInterceptor)
     async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
         return this.service.getArticle({ token, slug });
@@ -162,7 +164,7 @@ export class ApiController {
     async updateArticle(
         @AuthorizationToken() token: string,
         @Param('slug') slug: string,
-        @Req() request: any,
+        @Req() request: Request,
     ) {
         return this.service.updateArticle({ token, slug, data: request.body.article });
     }

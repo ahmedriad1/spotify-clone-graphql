@@ -12,7 +12,6 @@ import {
 import { PlainObject } from 'simplytyped';
 import { Int } from 'type-graphql';
 
-import { PassportUserFields } from '../auth/models/passport-user-fields';
 import { ArticleService } from './article.service';
 import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
@@ -44,11 +43,10 @@ export class ArticleResolver {
         where: ArticleWhereInput,
         @Args({ name: 'feed', nullable: true, type: () => Boolean })
         feed: boolean,
-        @CurrentUser() user?: { id: string },
+        @CurrentUser() currentUser?: { id: string },
     ) {
-        // todo: move logic for feed count and select to service
-        if (feed && user) {
-            where = this.service.feedWhereConditions(user.id);
+        if (feed && currentUser) {
+            where = this.service.feedWhereConditions(currentUser.id);
         }
         return this.service.count(where);
     }
@@ -104,7 +102,6 @@ export class ArticleResolver {
         return this.service.create({ input, author });
     }
 
-    // TODO: Tags are not updated
     @Mutation(() => Article)
     @UseGuards(GraphqlAuthGuard, AuthorGuard)
     async updateArticle(
@@ -116,9 +113,9 @@ export class ArticleResolver {
         if (!article) {
             throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
         }
-        return this.service.update({
-            data,
-            where,
+        return this.service.updateArticle({
+            input: data,
+            article,
             include: {
                 author: Boolean(fields.author),
                 tags: Boolean(fields.tags),
@@ -174,7 +171,7 @@ export class ArticleResolver {
     @ResolveProperty(() => Boolean)
     async favorited(
         @Parent() article: Article,
-        @CurrentUser() currentUser?: PassportUserFields,
+        @CurrentUser() currentUser?: { id: string },
     ): Promise<boolean> {
         if (!currentUser) {
             return false;

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Inject, Injectable } from '@nestjs/common';
 import { ArticleWhereInput } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';

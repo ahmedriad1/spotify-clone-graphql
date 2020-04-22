@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import {
+    ArrayUnique,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+    MaxLength,
+    MinLength,
+} from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 /**
@@ -20,4 +27,12 @@ export class ArticleUpdateInput {
     @IsNotEmpty()
     @Field(() => String, { nullable: true })
     body: string;
+
+    @IsOptional()
+    @IsString({ each: true })
+    @MinLength(3, { each: true })
+    @MaxLength(50, { each: true })
+    @ArrayUnique()
+    @Field(() => [String], { nullable: true })
+    tags?: string[];
 }

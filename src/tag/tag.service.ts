@@ -7,6 +7,8 @@ import { PrismaService } from '../prisma/prisma.service';
  */
 @Injectable()
 export class TagService {
+    findMany = this.prisma.tag.findMany;
+
     constructor(private readonly prisma: PrismaService) {}
 
     /**

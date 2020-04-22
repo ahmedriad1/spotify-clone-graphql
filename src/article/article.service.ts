@@ -10,6 +10,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
 import { ArticleCreateInput } from './models/article-create.input';
+import { ArticleUpdateInput as ArticleUpdateInputModel } from './models/article-update.input';
 import { SlugService } from './slug/slug.service';
 
 /**
@@ -27,6 +28,42 @@ export class ArticleService {
         private readonly slug: SlugService,
         private readonly tag: TagService,
     ) {}
+
+    async updateArticle(args: {
+        input: ArticleUpdateInputModel;
+        where?: ArticleWhereUniqueInput;
+        article?: Article;
+        include?: ArticleInclude;
+    }) {
+        const article = args.article || (args.where && (await this.findOne({ where: args.where })));
+        if (!article) {
+            throw new TypeError('Expected Article or ArticleWhereUniqueInput arguments');
+        }
+
+        // const [existingTags, newTags] = await Promise.all([
+        //     this.tag.findMany({
+        //         select: { id: true },
+        //         where: { articles: { every: { id: { equals: article.id } } } },
+        //     }),
+        //     this.tag.createTags(args.input.tags || []),
+        // ]);
+
+        return this.prisma.article.update({
+            data: {
+                title: args.input.title,
+                description: args.input.description,
+                body: args.input.body,
+                // tags: {
+                //     disconnect: existingTags,
+                //     connect: newTags.map((tag) => ({ id: tag.id })),
+                // },
+            },
+            where: {
+                id: article.id,
+            },
+            include: args.include,
+        });
+    }
 
     /**
      * Create article from input, user.
@@ -98,7 +135,7 @@ export class ArticleService {
     }) {
         const article = args.article || (args.where && (await this.findOne({ where: args.where })));
         if (!article) {
-            throw new TypeError('Expected article or where arguments');
+            throw new TypeError('Expected Article or ArticleWhereUniqueInput arguments');
         }
         const user = { id: args.favoritedByUserId };
         const favoritesCount = article.favoritesCount + (args.value ? +1 : -1);

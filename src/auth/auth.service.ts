@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { randomBytes } from 'crypto';
 
 import { User } from '../user/models/user';
-import { accessTokenExpiresIn, refreshTokenExpiresIn } from './auth.constants';
 import { SessionTokenFields } from './models/session-user-fields';
 
 /**
@@ -10,24 +11,48 @@ import { SessionTokenFields } from './models/session-user-fields';
  */
 @Injectable()
 export class AuthService {
-    constructor(private readonly jwtService: JwtService) {}
+    constructor(
+        private readonly jwtService: JwtService,
+        private readonly configService: ConfigService,
+    ) {}
 
     /**
      * Returns accessToken.
      */
     async session(user: User) {
-        // const refreshToken = v4();
         const date = new Date();
 
         const payload: SessionTokenFields = { sub: user.id, email: user.email };
+
+        const accessTokenExpiresIn = this.configService.get<number>(
+            'accessTokenExpiresIn',
+            18 * 3600 * 1000,
+        );
+        const refreshTokenExpiresIn = this.configService.get<number>(
+            'refreshTokenExpiresIn',
+            30 * 24 * 3600 * 1000,
+        );
 
         return {
             accessToken: await this.jwtService.signAsync(payload, {
                 expiresIn: accessTokenExpiresIn / 1000,
             }),
-            refreshToken: '', // TODO: create refresh token
+            refreshToken: randomBytes(Math.random() * 20 + 20).toString('hex'), // tslint:disable-line:insecure-random
             accessTokenExpiresAt: date.getTime() + accessTokenExpiresIn,
             refreshTokenExpiresAt: date.getTime() + refreshTokenExpiresIn,
         };
     }
+
+    /**
+     * Get user from store by refresh token and return new session.
+     */
+    // public async refresh(where: {}) {
+    //     const authEntity = this.userService.findOne(where);
+
+    //     if (!authEntity || authEntity.refreshTokenExpiresAt > new Date().getTime()) {
+    //         throw new UnauthorizedException();
+    //     }
+
+    //     return this.session(authEntity.user);
+    // }
 }
