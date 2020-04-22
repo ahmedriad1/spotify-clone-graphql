@@ -33,7 +33,10 @@ export class ApiController {
 
     @Get('/')
     index() {
-        return 'https://github.com/gothinkster/realworld/tree/master/api';
+        return [
+            'https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app',
+            'https://github.com/gothinkster/realworld/tree/master/api',
+        ];
     }
 
     /**
