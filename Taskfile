@@ -106,6 +106,14 @@ build_package_json() {
     return 0
 }
 
+
+postbuild() {
+    # if we are on heroku
+    if [ "$STACK" = 'heroku-18' ]; then
+        npm run migrate:up
+    fi
+}
+
 preinstall() {
     set -x
     # This is hacky solution to deploy on heroku
