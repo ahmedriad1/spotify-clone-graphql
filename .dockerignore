@@ -1,0 +1,7 @@
+*
+!/package.json
+!/package-lock.json
+!/Taskfile
+!/tsconfig.json
+!/src
+!/prisma
