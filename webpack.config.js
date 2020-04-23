@@ -1,3 +1,7 @@
+// const webpack = require('webpack');
+// const nodeExternals = require('webpack-node-externals');
+// const StartServerPlugin = require('start-server-webpack-plugin');
+
 module.exports = (config) => {
     // Remove ForkTsCheckerWebpackPlugin
     const index = config.plugins.findIndex(
@@ -13,7 +17,21 @@ module.exports = (config) => {
         tsLoader.options.transpileOnly = true;
     }
 
-    // todo: hot reload
+    // Hot reload
+    // const hotReloadEntry = 'webpack/hot/poll?1000';
+
+    // config.entry = [hotReloadEntry, config.entry];
+    // config.watch = true;
+    // config.externals = [
+    //     nodeExternals({
+    //         whitelist: [hotReloadEntry],
+    //     }),
+    // ];
+    // config.plugins.push(
+    //     new webpack.HotModuleReplacementPlugin(),
+    //     new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
+    //     new StartServerPlugin({ name: config.output.filename }),
+    // );
 
     return config;
 };
