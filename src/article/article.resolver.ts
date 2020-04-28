@@ -1,7 +1,7 @@
 import { FindManyArticleArgs } from '@generated/type-graphql/resolvers/crud/Article/args/FindManyArticleArgs';
 import { ArticleWhereInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereInput';
 import { ArticleWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereUniqueInput';
-import { NotFoundException, UseGuards } from '@nestjs/common';
+import { ConflictException, NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
@@ -150,9 +150,23 @@ export class ArticleResolver {
         @GraphqlFields() fields: PlainObject,
         @CurrentUser() currentUser: { id: string },
     ) {
-        const article = await this.service.findOne({ where });
+        const article = await this.service.findOne({
+            where,
+            include: {
+                favoritedBy: {
+                    first: 1,
+                    where: { id: currentUser.id },
+                },
+            },
+        });
         if (!article) {
-            throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
+            throw new NotFoundException(`Article do not exists`);
+        }
+        if (value && article.favoritedBy.length > 0) {
+            throw new ConflictException(`Article is already in favorite list`);
+        }
+        if (!value && article.favoritedBy.length === 0) {
+            throw new ConflictException(`Article is not in favorite list`);
         }
         return this.service.favorite({
             article,

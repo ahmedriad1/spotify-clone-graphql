@@ -53,6 +53,7 @@ export class ArticleService {
                 title: args.input.title,
                 description: args.input.description,
                 body: args.input.body,
+                // todo: Figure out why connect disconnect does not work
                 // tags: {
                 //     disconnect: existingTags,
                 //     connect: newTags.map((tag) => ({ id: tag.id })),
@@ -131,12 +132,13 @@ export class ArticleService {
         where?: ArticleWhereUniqueInput;
         favoritedByUserId: string;
         value: boolean;
-        include: ArticleInclude;
+        include?: ArticleInclude;
     }) {
         const article = args.article || (args.where && (await this.findOne({ where: args.where })));
         if (!article) {
             throw new TypeError('Expected Article or ArticleWhereUniqueInput arguments');
         }
+
         const user = { id: args.favoritedByUserId };
         const favoritesCount = article.favoritesCount + (args.value ? +1 : -1);
 

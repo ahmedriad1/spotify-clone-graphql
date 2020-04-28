@@ -10,8 +10,8 @@ import { SlugService } from './slug/slug.service';
 setGlobalMockMethod(jest.fn);
 
 describe('ArticleService', () => {
-    let service: ArticleService;
     let repository: jest.Mocked<PrismaService['article']>;
+    let service: ArticleService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
