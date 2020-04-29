@@ -12,6 +12,7 @@ export class CommentService {
     delete = this.prisma.comment.delete;
     findOne = this.prisma.comment.findOne;
     findMany = this.prisma.comment.findMany;
+
     constructor(private readonly prisma: PrismaService) {}
 
     async get(args: { where: ArticleWhereUniqueInput; follower?: { id: string } }) {
@@ -26,7 +27,7 @@ export class CommentService {
                         ? {
                               followers: {
                                   select: { id: true },
-                                  where: { id: { equals: args.follower.id } },
+                                  where: { id: args.follower.id },
                                   first: 1,
                               },
                           }

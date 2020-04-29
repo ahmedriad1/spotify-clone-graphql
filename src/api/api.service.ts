@@ -160,13 +160,13 @@ export class ApiService {
     ) {
         const where: ArticleWhereInput = {};
         if (options.tag) {
-            where.tags = { some: { name: { equals: options.tag } } };
+            where.tags = { some: { name: options.tag } };
         }
         if (options.author) {
-            where.author = { name: { equals: options.author } };
+            where.author = { name: options.author };
         }
         if (options.favorited) {
-            where.favoritedBy = { some: { name: { equals: options.favorited } } };
+            where.favoritedBy = { some: { name: options.favorited } };
         }
         let skip: number | null = null;
         if (options.offset && options.offset > 0) {

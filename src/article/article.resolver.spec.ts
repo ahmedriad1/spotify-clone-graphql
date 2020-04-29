@@ -1,11 +1,13 @@
 import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { toMockedInstance } from 'to-mock';
+import { setGlobalMockMethod, toMockedInstance } from 'to-mock';
 
 import { createUser } from '../user/testing';
 import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
 import { createArticle } from './testing';
+
+setGlobalMockMethod(jest.fn);
 
 describe('ArticleResolver', () => {
     let resolver: ArticleResolver;
@@ -24,8 +26,10 @@ describe('ArticleResolver', () => {
 
         resolver = module.get(ArticleResolver);
         service = module.get(ArticleService);
+
         service.findOne = jest.fn();
         service.favorite = jest.fn();
+        service.isFavorited = jest.fn();
     });
 
     it('should be defined', () => {
@@ -51,5 +55,19 @@ describe('ArticleResolver', () => {
 
         const result = await resolver.favoriteArticle({ id: '1' }, false, {}, { id: '2' });
         expect(result).toEqual(expect.objectContaining({ favoritesCount: 1 }));
+    });
+
+    it('favorited resolve property should return true for favoritedBy property', async () => {
+        const article = createArticle({ favoritedBy: [createUser({ id: 'user1' })] });
+        expect(await resolver.favorited(article, { id: 'user1' })).toBe(true);
+    });
+
+    it('favorited resolve property should return false', async () => {
+        let article = createArticle({ favoritedBy: [createUser({ id: 'foo1' })] });
+        expect(await resolver.favorited(article, { id: 'user1' })).toBe(false);
+
+        article = createArticle({ favoritedBy: [] });
+        expect(await resolver.favorited(article, { id: 'user1' })).toBe(false);
+        expect(await resolver.favorited(article, { id: 'user2' })).toBe(false);
     });
 });

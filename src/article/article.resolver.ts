@@ -83,7 +83,7 @@ export class ArticleResolver {
                     ? {
                           first: 1,
                           select: { id: true },
-                          where: { id: { equals: user.id } },
+                          where: { id: user.id },
                       }
                     : false,
             },

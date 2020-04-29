@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { toMockedInstance } from 'to-mock';
+import { setGlobalMockMethod, toMockedInstance } from 'to-mock';
 
 import { ArticleService } from '../article/article.service';
 import { CommentResolver } from './comment.resolver';
 import { CommentService } from './comment.service';
+
+setGlobalMockMethod(jest.fn);
 
 describe('CommentResolver', () => {
     let resolver: CommentResolver;
