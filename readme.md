@@ -40,6 +40,10 @@ to graphql api.
 2: npm run api:spec
 ```
 
+## Old Versions
+
+-   [v6](https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app/tree/v6) Nest.JS v6, TypeGraphQL, TSLint
+
 ## Known Issues
 
 -   Passwords is not hashed
