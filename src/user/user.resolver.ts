@@ -1,4 +1,4 @@
-import { UserWhereUniqueInput } from '@generated/nestjs-graphql/user/user-where-unique.input';
+import { UserWhereUniqueInput } from '@generated/user/user-where-unique.input';
 import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import {
     Args,

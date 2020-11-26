@@ -1,5 +1,5 @@
-import { ArticleWhereUniqueInput } from '@generated/nestjs-graphql/article/article-where-unique.input';
-import { CommentWhereUniqueInput } from '@generated/nestjs-graphql/comment/comment-where-unique.input';
+import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
+import { CommentWhereUniqueInput } from '@generated/comment/comment-where-unique.input';
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'app_modules/current-user-decorator';

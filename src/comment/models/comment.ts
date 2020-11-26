@@ -1,2 +1,2 @@
-import { Comment } from '@generated/nestjs-graphql/comment/comment.model';
+import { Comment } from '@generated/comment/comment.model';
 export { Comment };

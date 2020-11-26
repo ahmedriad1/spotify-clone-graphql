@@ -393,5 +393,4 @@ dist
 app_bin
 .stryker-tmp
 stryker-tmp
-@generated/
 /prisma/Studio/

@@ -1,6 +1,6 @@
-import { FindManyArticleArgs } from '@generated/nestjs-graphql/article/find-many-article.args';
-import { ArticleWhereInput } from '@generated/nestjs-graphql/article/article-where.input';
-import { ArticleWhereUniqueInput } from '@generated/nestjs-graphql/article/article-where-unique.input';
+import { FindManyArticleArgs } from '@generated/article/find-many-article.args';
+import { ArticleWhereInput } from '@generated/article/article-where.input';
+import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
 import { ConflictException, NotFoundException, UseGuards } from '@nestjs/common';
 import {
     Args,

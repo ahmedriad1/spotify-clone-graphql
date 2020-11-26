@@ -1,0 +1,23 @@
+import { InputType, Field } from '@nestjs/graphql';
+import { ArticleWhereInput } from './article-where.input';
+
+@InputType()
+export class ArticleListRelationFilter {
+    @Field(() => ArticleWhereInput, {
+        nullable: true,
+        description: undefined,
+    })
+    every?: ArticleWhereInput;
+
+    @Field(() => ArticleWhereInput, {
+        nullable: true,
+        description: undefined,
+    })
+    some?: ArticleWhereInput;
+
+    @Field(() => ArticleWhereInput, {
+        nullable: true,
+        description: undefined,
+    })
+    none?: ArticleWhereInput;
+}

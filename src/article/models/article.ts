@@ -1,4 +1,4 @@
-import { Article } from '@generated/nestjs-graphql/article/article.model';
+import { Article } from '@generated/article/article.model';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 import { Tag } from '../../tag/tag.model';
