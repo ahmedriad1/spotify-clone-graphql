@@ -6,7 +6,7 @@ import {
     MaxLength,
     MinLength,
 } from 'class-validator';
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 /**
  * Create article input object type.

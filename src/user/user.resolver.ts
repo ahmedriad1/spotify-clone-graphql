@@ -1,4 +1,4 @@
-import { UserWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/UserWhereUniqueInput';
+import { UserWhereUniqueInput } from '@generated/nestjs-graphql/user/user-where-unique.input';
 import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import {
     Args,
@@ -7,6 +7,7 @@ import {
     Mutation,
     Parent,
     Query,
+    ResolveField,
     ResolveProperty,
     Resolver,
 } from '@nestjs/graphql';
@@ -57,6 +58,7 @@ export class UserResolver {
     @Mutation(() => User)
     async createUser(@Args('data') data: UserCreateInput, @Context() context: GraphQLContext) {
         const user = await this.userService.create(data);
+        // @ts-ignore
         ({ accessToken: context.token } = await this.authService.session(user));
         return user;
     }
@@ -64,6 +66,7 @@ export class UserResolver {
     @Mutation(() => User)
     @UseGuards(GraphqlAuthGuard)
     async updateUser(@Args('data') data: UserUpdateInput, @CurrentUser() user: PassportUserFields) {
+        // @ts-ignore
         return this.userService.update({ id: user.id }, data);
     }
 
@@ -73,6 +76,7 @@ export class UserResolver {
         if (!user) {
             throw new UnauthorizedException();
         }
+        // @ts-ignore
         ({ accessToken: context.token } = await this.authService.session(user));
         return user;
     }
@@ -92,12 +96,12 @@ export class UserResolver {
         return this.userService.follow(where, follower, value);
     }
 
-    @ResolveProperty(() => String, { nullable: true })
+    @ResolveField(() => String, { nullable: true })
     password(@Parent() user: User) {
-        return undefined;
+        return;
     }
 
-    @ResolveProperty(() => String, { nullable: true })
+    @ResolveField(() => String, { nullable: true })
     async token(@Parent() user: User, @Context() context: GraphQLContext) {
         return context.token;
     }
@@ -105,7 +109,7 @@ export class UserResolver {
     /**
      * Check if current user is follow some user.
      */
-    @ResolveProperty(() => Boolean)
+    @ResolveField(() => Boolean)
     async following(
         @Parent() user: User,
         @CurrentUser() currentUser?: PassportUserFields,

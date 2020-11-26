@@ -82,7 +82,6 @@ module.exports = {
         '@typescript-eslint/no-floating-promises': 1,
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/ban-ts-ignore': 0,
-        '@typescript-eslint/no-unnecessary-condition': [1, { ignoreRhs: true }],
         '@typescript-eslint/no-unused-vars': 0,
     },
     overrides: [

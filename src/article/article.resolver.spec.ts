@@ -59,15 +59,19 @@ describe('ArticleResolver', () => {
 
     it('favorited resolve property should return true for favoritedBy property', async () => {
         const article = createArticle({ favoritedBy: [createUser({ id: 'user1' })] });
+        // @ts-ignore
         expect(await resolver.favorited(article, { id: 'user1' })).toBe(true);
     });
 
     it('favorited resolve property should return false', async () => {
         let article = createArticle({ favoritedBy: [createUser({ id: 'foo1' })] });
+        // @ts-ignore
         expect(await resolver.favorited(article, { id: 'user1' })).toBe(false);
 
         article = createArticle({ favoritedBy: [] });
+        // @ts-ignore
         expect(await resolver.favorited(article, { id: 'user1' })).toBe(false);
+        // @ts-ignore
         expect(await resolver.favorited(article, { id: 'user2' })).toBe(false);
     });
 });

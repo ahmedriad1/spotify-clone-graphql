@@ -1,6 +1,6 @@
-import { ArticleGetPayload } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
-type ArticlePayload = ArticleGetPayload<{
+type ArticlePayload = Prisma.ArticleGetPayload<{
     include: {
         author: true;
         tags: true;

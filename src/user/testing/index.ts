@@ -1,6 +1,6 @@
-import { UserGetPayload } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
-type UserPayload = UserGetPayload<{}>;
+type UserPayload = Prisma.UserGetPayload<{}>;
 
 export function createUser(parts: Partial<UserPayload> = {}): UserPayload {
     return {

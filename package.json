@@ -71,12 +71,12 @@
     "graphql-info-transformer": "0.0.1",
     "graphql-request": "^3.3.0",
     "graphql-tools": "^7.0.2",
+    "jsonwebtoken": "^8.5.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3",
-    "tslib": "^2.0.3",
-    "type-graphql": "^1.1.1"
+    "tslib": "^2.0.3"
   },
   "husky": {
     "hooks": {

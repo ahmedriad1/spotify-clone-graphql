@@ -47,7 +47,7 @@ export class UserService {
     async isFollowing(userId: string, byUserId: string) {
         const result = await this.repository
             .findOne({ where: { id: userId } })
-            .followers({ where: { id: byUserId }, first: 1 });
+            .followers({ where: { id: byUserId }, take: 1 });
         return result.length > 0;
     }
 

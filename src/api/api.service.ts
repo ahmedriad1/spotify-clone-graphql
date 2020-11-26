@@ -172,9 +172,9 @@ export class ApiService {
         if (options.offset && options.offset > 0) {
             skip = options.offset;
         }
-        let first: number | null = null;
+        let take: number | null = null;
         if (options.limit) {
-            first = options.limit;
+            take = options.limit;
         }
 
         const query = /* GraphQL */ `
@@ -186,9 +186,10 @@ export class ApiService {
             }
             ${articleFields}
         `;
+        console.log('query', query);
         return this.graphqlClient
             .setHeader('Authorization', `Bearer ${options.token}`)
-            .request(query, { where, skip, first });
+            .request(query, { where, skip, take });
     }
 
     /**

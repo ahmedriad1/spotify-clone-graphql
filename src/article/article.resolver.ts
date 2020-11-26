@@ -1,8 +1,17 @@
-import { FindManyArticleArgs } from '@generated/type-graphql/resolvers/crud/Article/args/FindManyArticleArgs';
-import { ArticleWhereInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereInput';
-import { ArticleWhereUniqueInput } from '@generated/type-graphql/resolvers/inputs/ArticleWhereUniqueInput';
+import { FindManyArticleArgs } from '@generated/nestjs-graphql/article/find-many-article.args';
+import { ArticleWhereInput } from '@generated/nestjs-graphql/article/article-where.input';
+import { ArticleWhereUniqueInput } from '@generated/nestjs-graphql/article/article-where-unique.input';
 import { ConflictException, NotFoundException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
+import {
+    Args,
+    Int,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    ResolveProperty,
+    Resolver,
+} from '@nestjs/graphql';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
 import {
@@ -10,7 +19,6 @@ import {
     OptionalGraphqlAuthGuard,
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
 import { PlainObject } from 'simplytyped';
-import { Int } from 'type-graphql';
 
 import { ArticleService } from './article.service';
 import { AuthorGuard } from './author.guard';
@@ -28,7 +36,9 @@ export class ArticleResolver {
     @Query(() => [Article])
     async articles(@Args() args: FindManyArticleArgs, @GraphqlFields() fields: PlainObject) {
         return this.service.findMany({
-            ...args,
+            orderBy: args.orderBy,
+            take: args.take,
+            skip: args.skip,
             include: {
                 author: Boolean(fields.author),
                 tags: Boolean(fields.tags),
@@ -48,6 +58,7 @@ export class ArticleResolver {
         if (feed && currentUser) {
             where = this.service.feedWhereConditions(currentUser.id);
         }
+        // @ts-ignore
         return this.service.count(where);
     }
 
@@ -81,7 +92,7 @@ export class ArticleResolver {
                 tags: Boolean(fields.tags),
                 favoritedBy: fields.favorited
                     ? {
-                          first: 1,
+                          take: 1,
                           select: { id: true },
                           where: { id: user.id },
                       }
@@ -89,7 +100,7 @@ export class ArticleResolver {
             },
             orderBy: { id: 'desc' },
             skip: offset,
-            first: limit,
+            take: limit,
         });
     }
 
@@ -154,7 +165,7 @@ export class ArticleResolver {
             where,
             include: {
                 favoritedBy: {
-                    first: 1,
+                    take: 1,
                     where: { id: currentUser.id },
                 },
             },
@@ -182,7 +193,7 @@ export class ArticleResolver {
     /**
      * Checks if article is favorited by current user.
      */
-    @ResolveProperty(() => Boolean)
+    @ResolveField(() => Boolean)
     async favorited(
         @Parent() article: Article,
         @CurrentUser() currentUser?: { id: string },

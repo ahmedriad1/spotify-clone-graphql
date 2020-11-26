@@ -1,13 +1,2 @@
-import { Field, ID, ObjectType } from 'type-graphql';
-
-/**
- * Represents tag object type.
- */
-@ObjectType()
-export class Tag {
-    @Field(() => ID, { nullable: false })
-    id: string;
-
-    @Field(() => String, { nullable: false })
-    name: string;
-}
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+export { Tag } from '@generated/nestjs-graphql/tag/tag.model';

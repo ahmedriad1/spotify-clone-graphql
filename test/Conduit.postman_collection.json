@@ -52,8 +52,8 @@
               "raw": "{\"user\":{\"email\":\"{{EMAIL}}\", \"password\":\"{{PASSWORD}}\", \"username\":\"{{USERNAME}}\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/users",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/users",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["users"]
             }
           },
@@ -102,8 +102,8 @@
               "raw": "{\"user\":{\"email\":\"{{EMAIL}}\", \"password\":\"{{PASSWORD}}\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/users/login",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/users/login",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["users", "login"]
             }
           },
@@ -157,8 +157,8 @@
               "raw": "{\"user\":{\"email\":\"{{EMAIL}}\", \"password\":\"{{PASSWORD}}\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/users/login",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/users/login",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["users", "login"]
             }
           },
@@ -205,8 +205,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/user",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/user",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["user"]
             }
           },
@@ -257,8 +257,8 @@
               "raw": "{\"user\":{\"email\":\"{{EMAIL}}\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/user",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/user",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["user"]
             }
           },
@@ -328,8 +328,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"]
             }
           },
@@ -393,8 +393,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?author=johnjacob",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?author=johnjacob",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -464,8 +464,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?favorited=jane",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?favorited=jane",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -535,8 +535,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?tag=dragons",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?tag=dragons",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -611,8 +611,8 @@
               "raw": "{\"article\":{\"title\":\"How to train your dragon\", \"description\":\"Ever wonder how?\", \"body\":\"Very carefully.\", \"tagList\":[\"dragons\",\"training\"]}}"
             },
             "url": {
-              "raw": "{{APIURL}}/articles",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"]
             }
           },
@@ -680,8 +680,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles/feed",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/feed",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "feed"]
             }
           },
@@ -749,8 +749,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"]
             }
           },
@@ -818,8 +818,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"]
             }
           },
@@ -887,8 +887,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?author={{USERNAME}}",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?author={{USERNAME}}",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -962,8 +962,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?author={{USERNAME}}",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?author={{USERNAME}}",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -1037,8 +1037,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?favorited=jane",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?favorited=jane",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -1112,8 +1112,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?favorited=jane",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?favorited=jane",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -1175,8 +1175,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}"]
             }
           },
@@ -1244,8 +1244,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles?tag=dragons",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles?tag=dragons",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles"],
               "query": [
                 {
@@ -1313,8 +1313,8 @@
               "raw": "{\"article\":{\"body\":\"With two hands\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}"]
             }
           },
@@ -1376,8 +1376,8 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}/favorite",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}/favorite",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}", "favorite"]
             }
           },
@@ -1438,8 +1438,8 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}/favorite",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}/favorite",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}", "favorite"]
             }
           },
@@ -1495,8 +1495,8 @@
               "raw": "{\"comment\":{\"body\":\"Thank you so much!\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}/comments",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}/comments",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}", "comments"]
             }
           },
@@ -1553,8 +1553,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}/comments",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}/comments",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}", "comments"]
             }
           },
@@ -1583,8 +1583,8 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}/comments/{{commentId}}",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}/comments/{{commentId}}",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}", "comments", "{{commentId}}"]
             }
           },
@@ -1613,8 +1613,8 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{APIURL}}/articles/{{slug}}",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/articles/{{slug}}",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["articles", "{{slug}}"]
             }
           },
@@ -1687,8 +1687,8 @@
               "raw": "{\"user\":{\"email\":\"celeb_{{EMAIL}}\", \"password\":\"{{PASSWORD}}\", \"username\":\"celeb_{{USERNAME}}\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/users",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/users",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["users"]
             }
           },
@@ -1742,8 +1742,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/profiles/celeb_{{USERNAME}}",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/profiles/celeb_{{USERNAME}}",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["profiles", "celeb_{{USERNAME}}"]
             }
           },
@@ -1802,8 +1802,8 @@
               "raw": "{\"user\":{\"email\":\"{{EMAIL}}\"}}"
             },
             "url": {
-              "raw": "{{APIURL}}/profiles/celeb_{{USERNAME}}/follow",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/profiles/celeb_{{USERNAME}}/follow",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["profiles", "celeb_{{USERNAME}}", "follow"]
             }
           },
@@ -1862,8 +1862,8 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{APIURL}}/profiles/celeb_{{USERNAME}}/follow",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/profiles/celeb_{{USERNAME}}/follow",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["profiles", "celeb_{{USERNAME}}", "follow"]
             }
           },
@@ -1913,8 +1913,8 @@
               }
             ],
             "url": {
-              "raw": "{{APIURL}}/tags",
-              "host": ["{{APIURL}}"],
+              "raw": "{{APISCHEME}}://{{APIURL}}/tags",
+              "host": ["{{APISCHEME}}://{{APIURL}}"],
               "path": ["tags"]
             }
           },

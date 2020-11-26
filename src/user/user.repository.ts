@@ -19,7 +19,7 @@ export class UserRepository extends PrismaRepository {
     }
 
     async randomUser() {
-        const [result] = await this.prisma.raw<User[]>(
+        const [result] = await this.prisma.$queryRaw<User[]>(
             /* SQL */ `SELECT * FROM "User" ORDER BY random() LIMIT 1`,
         );
         return result;

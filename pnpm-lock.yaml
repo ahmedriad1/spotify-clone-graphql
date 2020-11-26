@@ -16,12 +16,12 @@ dependencies:
   graphql-info-transformer: 0.0.1
   graphql-request: 3.3.0_graphql@15.4.0
   graphql-tools: 7.0.2_graphql@15.4.0
+  jsonwebtoken: 8.5.1
   passport: 0.4.1
   passport-jwt: 4.0.0
   reflect-metadata: 0.1.13
   rxjs: 6.6.3
   tslib: 2.0.3
-  type-graphql: 1.1.1_60d81cec7d8a2846c54f568d8b757f67
 devDependencies:
   '@nestjs/cli': 7.5.3
   '@nestjs/schematics': 7.2.2_typescript@4.1.2
@@ -1973,13 +1973,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-FKVPOCFbhCvZxpVAMhdBdTfVfXUpsh15wFHgqOKxh9N9vzWZVuWCSijZ5T4U34XYNnuj2oduh6xcs1i+LPI+BQ==
-  /@types/glob/7.1.3:
-    dependencies:
-      '@types/minimatch': 3.0.3
-      '@types/node': 14.14.10
-    dev: false
-    resolution:
-      integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==
   /@types/graceful-fs/4.1.4:
     dependencies:
       '@types/node': 14.14.10
@@ -2135,10 +2128,6 @@ packages:
   /@types/range-parser/1.2.3:
     resolution:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
-  /@types/semver/7.3.4:
-    dev: false
-    resolution:
-      integrity: sha512-+nVsLKlcUCeMzD2ufHEYuJ9a2ovstb6Dp52A5VsoKxDXgvE051XgHI/33I1EymwkRGQkwnA0LkhnUzituGs4EQ==
   /@types/serve-static/1.13.8:
     dependencies:
       '@types/mime': 2.0.3
@@ -5505,15 +5494,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GJfKwDP4eggm3MGOvwHgz1PjvqsZ6JhKS3EBNoknu6PeBkDWxmpRvcooHlORuuyagq+v6ricNQ9eSwKKidKS4w==
-  /graphql-query-complexity/0.7.2_graphql@15.4.0:
-    dependencies:
-      graphql: 15.4.0
-      lodash.get: 4.4.2
-    dev: false
-    peerDependencies:
-      graphql: ^0.13.0 || ^14.0.0 || ^15.0.0
-    resolution:
-      integrity: sha512-+VgmrfxGEjHI3zuojWOR8bsz7Ycz/BZjNjxnlUieTz5DsB92WoIrYCSZdWG7UWZ3rfcA1Gb2Nf+wB80GsaZWuQ==
   /graphql-request/3.3.0_graphql@15.4.0:
     dependencies:
       cross-fetch: 3.0.6
@@ -9172,6 +9152,7 @@ packages:
     resolution:
       integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
   /semver/7.3.2:
+    dev: true
     engines:
       node: '>=10'
     hasBin: true
@@ -10182,27 +10163,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
-  /type-graphql/1.1.1_60d81cec7d8a2846c54f568d8b757f67:
-    dependencies:
-      '@types/glob': 7.1.3
-      '@types/node': 14.14.10
-      '@types/semver': 7.3.4
-      class-validator: 0.12.2
-      glob: 7.1.6
-      graphql: 15.4.0
-      graphql-query-complexity: 0.7.2_graphql@15.4.0
-      graphql-subscriptions: 1.1.0_graphql@15.4.0
-      semver: 7.3.2
-      tslib: 2.0.3
-    dev: false
-    engines:
-      node: '>= 10.3'
-    peerDependencies:
-      class-validator: '>=0.12.0'
-      graphql: ^15.3.0
-    requiresBuild: true
-    resolution:
-      integrity: sha512-iOOWVn0ehCYMukmnXStbkRwFE9dcjt7/oDcBS1JyQZo9CbhlIll4lHHps54HMEk4A4c8bUPd+DjK8w1/ZrxB4A==
   /type-is/1.6.18:
     dependencies:
       media-typer: 0.3.0
@@ -10867,6 +10827,7 @@ specifiers:
   graphql-tools: ^7.0.2
   husky: ^4.3.0
   jest: ^26.6.3
+  jsonwebtoken: ^8.5.1
   newman: ^5.2.1
   node-fetch: ^2.6.1
   npm-run-all: ^4.1.5
@@ -10886,7 +10847,6 @@ specifiers:
   ts-node: ^9.0.0
   tsconfig-paths: ^3.9.0
   tslib: ^2.0.3
-  type-graphql: ^1.1.1
   typescript: ^4.1.2
   wait-on: ^5.2.0
   watchexec-bin: ^1.0.0

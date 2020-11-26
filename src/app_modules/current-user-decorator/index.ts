@@ -1,9 +1,9 @@
-import { createParamDecorator } from '@nestjs/common';
+import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 
 /**
  * Extract request.user property (which is written by passport).
  */
-// tslint:disable-next-line:variable-name
-export const CurrentUser = createParamDecorator((data, [root, args, context, info]) => {
-    return context.req.user;
+export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
+    const request = context.switchToHttp().getRequest();
+    return request?.user;
 });
