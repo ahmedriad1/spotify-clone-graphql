@@ -9,4 +9,4 @@ export enum UserDistinctFieldEnum {
     image = 'image',
 }
 
-registerEnumType(UserDistinctFieldEnum, { name: 'UserDistinctFieldEnum', description: undefined });
+registerEnumType(UserDistinctFieldEnum, { name: 'UserDistinctFieldEnum' });

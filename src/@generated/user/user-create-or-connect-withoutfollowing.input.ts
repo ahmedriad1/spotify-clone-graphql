@@ -6,13 +6,11 @@ import { UserCreateWithoutFollowingInput } from './user-create-without-following
 export class UserCreateOrConnectWithoutfollowingInput {
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: UserWhereUniqueInput;
 
     @Field(() => UserCreateWithoutFollowingInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutFollowingInput;
 }

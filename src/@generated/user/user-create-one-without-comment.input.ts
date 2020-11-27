@@ -7,19 +7,16 @@ import { UserCreateOrConnectWithoutCommentInput } from './user-create-or-connect
 export class UserCreateOneWithoutCommentInput {
     @Field(() => UserCreateWithoutCommentInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutCommentInput;
 
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     connect?: UserWhereUniqueInput;
 
     @Field(() => UserCreateOrConnectWithoutCommentInput, {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?: UserCreateOrConnectWithoutCommentInput;
 }

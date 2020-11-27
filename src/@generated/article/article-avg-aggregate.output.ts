@@ -4,7 +4,6 @@ import { ObjectType, Field, Float } from '@nestjs/graphql';
 export class ArticleAvgAggregate {
     @Field(() => Float, {
         nullable: true,
-        description: undefined,
     })
     favoritesCount?: number;
 }

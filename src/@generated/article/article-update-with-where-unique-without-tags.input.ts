@@ -6,13 +6,11 @@ import { ArticleUpdateWithoutTagsInput } from './article-update-without-tags.inp
 export class ArticleUpdateWithWhereUniqueWithoutTagsInput {
     @Field(() => ArticleWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: ArticleWhereUniqueInput;
 
     @Field(() => ArticleUpdateWithoutTagsInput, {
         nullable: true,
-        description: undefined,
     })
     data?: ArticleUpdateWithoutTagsInput;
 }

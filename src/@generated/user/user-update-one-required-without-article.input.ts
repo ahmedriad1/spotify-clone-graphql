@@ -9,31 +9,26 @@ import { UserCreateOrConnectWithoutArticleInput } from './user-create-or-connect
 export class UserUpdateOneRequiredWithoutArticleInput {
     @Field(() => UserCreateWithoutArticleInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutArticleInput;
 
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     connect?: UserWhereUniqueInput;
 
     @Field(() => UserUpdateWithoutArticleInput, {
         nullable: true,
-        description: undefined,
     })
     update?: UserUpdateWithoutArticleInput;
 
     @Field(() => UserUpsertWithoutArticleInput, {
         nullable: true,
-        description: undefined,
     })
     upsert?: UserUpsertWithoutArticleInput;
 
     @Field(() => UserCreateOrConnectWithoutArticleInput, {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?: UserCreateOrConnectWithoutArticleInput;
 }

@@ -7,19 +7,16 @@ import { ArticleCreateOrConnectWithoutfavoritedByInput } from './article-create-
 export class ArticleCreateManyWithoutFavoritedByInput {
     @Field(() => [ArticleCreateWithoutFavoritedByInput], {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutFavoritedByInput | Array<ArticleCreateWithoutFavoritedByInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleCreateOrConnectWithoutfavoritedByInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | ArticleCreateOrConnectWithoutfavoritedByInput

@@ -11,37 +11,31 @@ import { UserCreateOrConnectWithoutfavoriteArticlesInput } from './user-create-o
 export class UserUpdateManyWithoutFavoriteArticlesInput {
     @Field(() => [UserCreateWithoutFavoriteArticlesInput], {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutFavoriteArticlesInput | Array<UserCreateWithoutFavoriteArticlesInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     set?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     disconnect?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     delete?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserUpdateWithWhereUniqueWithoutFavoriteArticlesInput], {
         nullable: true,
-        description: undefined,
     })
     update?:
         | UserUpdateWithWhereUniqueWithoutFavoriteArticlesInput
@@ -49,7 +43,6 @@ export class UserUpdateManyWithoutFavoriteArticlesInput {
 
     @Field(() => [UserUpdateManyWithWhereWithoutFavoriteArticlesInput], {
         nullable: true,
-        description: undefined,
     })
     updateMany?:
         | UserUpdateManyWithWhereWithoutFavoriteArticlesInput
@@ -57,13 +50,11 @@ export class UserUpdateManyWithoutFavoriteArticlesInput {
 
     @Field(() => [UserScalarWhereInput], {
         nullable: true,
-        description: undefined,
     })
     deleteMany?: UserScalarWhereInput | Array<UserScalarWhereInput>;
 
     @Field(() => [UserUpsertWithWhereUniqueWithoutFavoriteArticlesInput], {
         nullable: true,
-        description: undefined,
     })
     upsert?:
         | UserUpsertWithWhereUniqueWithoutFavoriteArticlesInput
@@ -71,7 +62,6 @@ export class UserUpdateManyWithoutFavoriteArticlesInput {
 
     @Field(() => [UserCreateOrConnectWithoutfavoriteArticlesInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | UserCreateOrConnectWithoutfavoriteArticlesInput

@@ -6,13 +6,11 @@ import { UserUpdateWithoutFollowersInput } from './user-update-without-followers
 export class UserUpdateWithWhereUniqueWithoutFollowersInput {
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: UserWhereUniqueInput;
 
     @Field(() => UserUpdateWithoutFollowersInput, {
         nullable: true,
-        description: undefined,
     })
     data?: UserUpdateWithoutFollowersInput;
 }

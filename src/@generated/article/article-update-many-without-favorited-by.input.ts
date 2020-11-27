@@ -11,37 +11,31 @@ import { ArticleCreateOrConnectWithoutfavoritedByInput } from './article-create-
 export class ArticleUpdateManyWithoutFavoritedByInput {
     @Field(() => [ArticleCreateWithoutFavoritedByInput], {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutFavoritedByInput | Array<ArticleCreateWithoutFavoritedByInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     set?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     disconnect?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     delete?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleUpdateWithWhereUniqueWithoutFavoritedByInput], {
         nullable: true,
-        description: undefined,
     })
     update?:
         | ArticleUpdateWithWhereUniqueWithoutFavoritedByInput
@@ -49,7 +43,6 @@ export class ArticleUpdateManyWithoutFavoritedByInput {
 
     @Field(() => [ArticleUpdateManyWithWhereWithoutFavoritedByInput], {
         nullable: true,
-        description: undefined,
     })
     updateMany?:
         | ArticleUpdateManyWithWhereWithoutFavoritedByInput
@@ -57,13 +50,11 @@ export class ArticleUpdateManyWithoutFavoritedByInput {
 
     @Field(() => [ArticleScalarWhereInput], {
         nullable: true,
-        description: undefined,
     })
     deleteMany?: ArticleScalarWhereInput | Array<ArticleScalarWhereInput>;
 
     @Field(() => [ArticleUpsertWithWhereUniqueWithoutFavoritedByInput], {
         nullable: true,
-        description: undefined,
     })
     upsert?:
         | ArticleUpsertWithWhereUniqueWithoutFavoritedByInput
@@ -71,7 +62,6 @@ export class ArticleUpdateManyWithoutFavoritedByInput {
 
     @Field(() => [ArticleCreateOrConnectWithoutfavoritedByInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | ArticleCreateOrConnectWithoutfavoritedByInput

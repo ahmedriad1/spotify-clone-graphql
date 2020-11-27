@@ -6,13 +6,11 @@ import { UserCreateWithoutFavoriteArticlesInput } from './user-create-without-fa
 export class UserCreateOrConnectWithoutfavoriteArticlesInput {
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: UserWhereUniqueInput;
 
     @Field(() => UserCreateWithoutFavoriteArticlesInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutFavoriteArticlesInput;
 }

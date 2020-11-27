@@ -6,13 +6,11 @@ import { UserCreateWithoutArticleInput } from './user-create-without-article.inp
 export class UserUpsertWithoutArticleInput {
     @Field(() => UserUpdateWithoutArticleInput, {
         nullable: true,
-        description: undefined,
     })
     update?: UserUpdateWithoutArticleInput;
 
     @Field(() => UserCreateWithoutArticleInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutArticleInput;
 }

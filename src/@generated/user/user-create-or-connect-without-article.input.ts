@@ -6,13 +6,11 @@ import { UserCreateWithoutArticleInput } from './user-create-without-article.inp
 export class UserCreateOrConnectWithoutArticleInput {
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: UserWhereUniqueInput;
 
     @Field(() => UserCreateWithoutArticleInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutArticleInput;
 }

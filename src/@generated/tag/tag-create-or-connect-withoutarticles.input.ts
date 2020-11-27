@@ -6,13 +6,11 @@ import { TagCreateWithoutArticlesInput } from './tag-create-without-articles.inp
 export class TagCreateOrConnectWithoutarticlesInput {
     @Field(() => TagWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: TagWhereUniqueInput;
 
     @Field(() => TagCreateWithoutArticlesInput, {
         nullable: true,
-        description: undefined,
     })
     create?: TagCreateWithoutArticlesInput;
 }

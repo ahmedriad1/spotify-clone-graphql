@@ -7,19 +7,16 @@ import { ArticleCreateWithoutFavoritedByInput } from './article-create-without-f
 export class ArticleUpsertWithWhereUniqueWithoutFavoritedByInput {
     @Field(() => ArticleWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: ArticleWhereUniqueInput;
 
     @Field(() => ArticleUpdateWithoutFavoritedByInput, {
         nullable: true,
-        description: undefined,
     })
     update?: ArticleUpdateWithoutFavoritedByInput;
 
     @Field(() => ArticleCreateWithoutFavoritedByInput, {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutFavoritedByInput;
 }

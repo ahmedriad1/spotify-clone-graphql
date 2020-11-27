@@ -6,13 +6,11 @@ import { ArticleUpdateWithoutAuthorInput } from './article-update-without-author
 export class ArticleUpdateWithWhereUniqueWithoutAuthorInput {
     @Field(() => ArticleWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: ArticleWhereUniqueInput;
 
     @Field(() => ArticleUpdateWithoutAuthorInput, {
         nullable: true,
-        description: undefined,
     })
     data?: ArticleUpdateWithoutAuthorInput;
 }

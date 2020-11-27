@@ -7,19 +7,16 @@ import { TagCreateWithoutArticlesInput } from './tag-create-without-articles.inp
 export class TagUpsertWithWhereUniqueWithoutArticlesInput {
     @Field(() => TagWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: TagWhereUniqueInput;
 
     @Field(() => TagUpdateWithoutArticlesInput, {
         nullable: true,
-        description: undefined,
     })
     update?: TagUpdateWithoutArticlesInput;
 
     @Field(() => TagCreateWithoutArticlesInput, {
         nullable: true,
-        description: undefined,
     })
     create?: TagCreateWithoutArticlesInput;
 }

@@ -6,13 +6,11 @@ import { UserCreateWithoutCommentInput } from './user-create-without-comment.inp
 export class UserCreateOrConnectWithoutCommentInput {
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: UserWhereUniqueInput;
 
     @Field(() => UserCreateWithoutCommentInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutCommentInput;
 }

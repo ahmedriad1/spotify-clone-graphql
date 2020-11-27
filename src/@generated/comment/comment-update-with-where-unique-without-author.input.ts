@@ -6,13 +6,11 @@ import { CommentUpdateWithoutAuthorInput } from './comment-update-without-author
 export class CommentUpdateWithWhereUniqueWithoutAuthorInput {
     @Field(() => CommentWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: CommentWhereUniqueInput;
 
     @Field(() => CommentUpdateWithoutAuthorInput, {
         nullable: true,
-        description: undefined,
     })
     data?: CommentUpdateWithoutAuthorInput;
 }

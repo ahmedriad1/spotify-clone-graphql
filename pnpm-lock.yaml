@@ -2,7 +2,7 @@ dependencies:
   '@nestjs/common': 7.5.5_0c773f197e7bb0df0bedc332ad8bc35d
   '@nestjs/config': 0.6.1_8063f318c22e6a8f2358820ed27c4d37
   '@nestjs/core': 7.5.5_8063f318c22e6a8f2358820ed27c4d37
-  '@nestjs/graphql': 7.8.2_9b8879b830726c985f4e89e1c9ead175
+  '@nestjs/graphql': 7.9.0_9b8879b830726c985f4e89e1c9ead175
   '@nestjs/jwt': 7.2.0_@nestjs+common@7.5.5
   '@nestjs/passport': 7.1.5_67209b760c5d8641feb0aa716818f082
   '@nestjs/platform-express': 7.5.5_ea16fc9084e0c3bcdea337bfa7a94f1c
@@ -60,7 +60,7 @@ devDependencies:
   patch-package: 6.2.2
   precise-commits: 1.0.2_prettier@2.2.0
   prettier: 2.2.0
-  prisma-nestjs-graphql: 3.0.0_998034603c8ff137434ceed7f71bf273
+  prisma-nestjs-graphql: 4.0.1_998034603c8ff137434ceed7f71bf273
   simplytyped: 3.3.0_typescript@4.1.2
   supertest: 6.0.1
   to-mock: 1.6.2
@@ -193,7 +193,7 @@ packages:
       apollo-env: 0.6.5
       apollo-graphql: 0.4.5_graphql@15.4.0
       apollo-server-caching: 0.5.2
-      apollo-server-core: 2.16.1_graphql@15.4.0
+      apollo-server-core: 2.19.0_graphql@15.4.0
       apollo-server-env: 2.4.5
       apollo-server-errors: 2.4.2_graphql@15.4.0
       apollo-server-types: 0.5.1_graphql@15.4.0
@@ -1480,7 +1480,7 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-ktGOTgBSL8PoInLqcPWC8mPeCCHBaaEJX6LmzfbjHWCPRZqu96kiiQ1a245yTo/ifYrtaqQ7gAaHJpcszEAYwg==
-  /@nestjs/graphql/7.8.2_9b8879b830726c985f4e89e1c9ead175:
+  /@nestjs/graphql/7.9.0_9b8879b830726c985f4e89e1c9ead175:
     dependencies:
       '@graphql-tools/merge': 6.2.5_graphql@15.4.0
       '@graphql-tools/schema': 6.2.4_graphql@15.4.0
@@ -1503,7 +1503,7 @@ packages:
     optionalDependencies:
       '@apollo/gateway': 0.17.0_graphql@15.4.0
       apollo-server-testing: 2.19.0_graphql@15.4.0
-      ts-morph: 8.2.0
+      ts-morph: 9.0.0
     peerDependencies:
       '@nestjs/common': ^7.0.0
       '@nestjs/core': ^7.0.0
@@ -1512,7 +1512,7 @@ packages:
       graphql: ^14.1.1 || ^15.0.0
       reflect-metadata: ^0.1.12
     resolution:
-      integrity: sha512-QjhrV6rhkyzI9Gd0s7Q82yTu9Urfvq6RyaWsSiZmi+dVJx4dgWVFfHWBqDPdFcWVp+g0EPitBjEAqN4sLruxog==
+      integrity: sha512-z1WdBxlKwn31Eh6+c0K20zuGZcwECB+cxJewyPeN9DVhqjYXDmqg+pE3nOjzd3TABYORJyUPJFM8ybIuzBWP2g==
   /@nestjs/jwt/7.2.0_@nestjs+common@7.5.5:
     dependencies:
       '@nestjs/common': 7.5.5_0c773f197e7bb0df0bedc332ad8bc35d
@@ -1815,18 +1815,6 @@ packages:
     optional: true
     resolution:
       integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
-  /@ts-morph/common/0.6.0:
-    dependencies:
-      '@dsherret/to-absolute-glob': 2.0.2
-      fast-glob: 3.2.4
-      fs-extra: 9.0.1
-      is-negated-glob: 1.0.0
-      multimatch: 4.0.0
-      typescript: 4.0.5
-    dev: false
-    optional: true
-    resolution:
-      integrity: sha512-pI35nZz5bs3tL3btSVX2cWkAE8rc80F+Fn4TwSC6bQvn7fgn9IyLXVcAfpG6X6NBY5wN9TkSWXn/QYUkBvR/Fw==
   /@ts-morph/common/0.7.0:
     dependencies:
       '@dsherret/to-absolute-glob': 2.0.2
@@ -1835,7 +1823,6 @@ packages:
       mkdirp: 1.0.4
       multimatch: 5.0.0
       typescript: 4.1.2
-    dev: true
     resolution:
       integrity: sha512-1EJYuiAjfOxrxB0VRZR4KVvPr4S7ylQv9M0IvUiBVB1HTcXAgWfineqx8n/tNIu5OhNjPQ8w9Qd7JzHbcVa64g==
   /@types/accepts/1.3.5:
@@ -3134,6 +3121,7 @@ packages:
     resolution:
       integrity: sha1-x57Zf380y48robyXkLzDZkdLS3k=
   /at-least-node/1.0.0:
+    dev: true
     engines:
       node: '>= 4.0.0'
     resolution:
@@ -5297,6 +5285,7 @@ packages:
       graceful-fs: 4.2.4
       jsonfile: 6.1.0
       universalify: 1.0.0
+    dev: true
     engines:
       node: '>=10'
     resolution:
@@ -5471,6 +5460,7 @@ packages:
     resolution:
       integrity: sha512-tbCIuzMoH34RdrbFRw5kijAZn/p6JMQvsgtr1glg2ugbwqrMPlOL8pHNK8cyGo9B6SXpcMm4hdyDqwomR+HPRg==
   /graceful-fs/4.2.4:
+    dev: true
     resolution:
       integrity: sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
   /graphql-extensions/0.12.6_graphql@15.4.0:
@@ -6929,6 +6919,7 @@ packages:
   /jsonfile/6.1.0:
     dependencies:
       universalify: 2.0.0
+    dev: true
     optionalDependencies:
       graceful-fs: 4.2.4
     resolution:
@@ -7584,19 +7575,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-0ZIR9PasPxGXmRsEF8jsDzndzHDj7tIav+JUmvIFB/WHswliFnquxECT/De7GR4yg99ky/NlRKJT82G1y271bw==
-  /multimatch/4.0.0:
-    dependencies:
-      '@types/minimatch': 3.0.3
-      array-differ: 3.0.0
-      array-union: 2.1.0
-      arrify: 2.0.1
-      minimatch: 3.0.4
-    dev: false
-    engines:
-      node: '>=8'
-    optional: true
-    resolution:
-      integrity: sha512-lDmx79y1z6i7RNx0ZGCPq1bzJ6ZoDDKbvh7jxr9SJcWLkShMzXrHbYVpTdnhNM5MXpDUxCQ4DgqVttVXlBgiBQ==
   /multimatch/5.0.0:
     dependencies:
       '@types/minimatch': 3.0.3
@@ -7604,7 +7582,6 @@ packages:
       array-union: 2.1.0
       arrify: 2.0.1
       minimatch: 3.0.4
-    dev: true
     engines:
       node: '>=10'
     resolution:
@@ -8535,15 +8512,16 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-973driJZvxiGOQ5ONsFhOF/DtzPMOMtgC11kCpUrPGMTgqp2q/1gwzCquocrN33is0VZ5GFHXZYMM9l6h67v2Q==
-  /prisma-nestjs-graphql/3.0.0_998034603c8ff137434ceed7f71bf273:
+  /prisma-nestjs-graphql/4.0.1_998034603c8ff137434ceed7f71bf273:
     dependencies:
       '@prisma/client': 2.12.1_@prisma+cli@2.12.1
       '@prisma/generator-helper': 2.12.1
       flat: 5.0.2
       get-relative-path: 1.0.2
       lodash: 4.17.20
+      pluralize: 8.0.0
       pupa: 2.1.1
-      ts-morph: 9.0.0
+      ts-morph: 9.1.0
       typescript-equals: 1.0.0_typescript@4.1.2
     dev: true
     hasBin: true
@@ -8551,7 +8529,7 @@ packages:
       '@prisma/client': '>=2.12'
       typescript: '*'
     resolution:
-      integrity: sha512-n37eIThMzmEO5L8TnQtSVdrEKsH/7gPlEtsGig81aWSH3xHsaXpOQBpEKdjg6OIhQ0XTpd0Ka1GRUeKGe5Vesg==
+      integrity: sha512-Ld33JJT7+E+EPSks4wGH8KfcQf/yFb67OOLpj4q9u+sZcyiaH0lmOs6pwnvCWQP3Rx+O9f0nEI5EP0sLv3f/Kw==
   /process-nextick-args/2.0.1:
     resolution:
       integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
@@ -10046,23 +10024,23 @@ packages:
       webpack: '*'
     resolution:
       integrity: sha512-06X+mWA2JXoXJHYAesUUL4mHFYhnmyoCdQVMXofXF552Lzd4wNwSGg7unJpttqUP7ziaruM8d7u8LUB6I1sgzA==
-  /ts-morph/8.2.0:
+  /ts-morph/9.0.0:
     dependencies:
       '@dsherret/to-absolute-glob': 2.0.2
-      '@ts-morph/common': 0.6.0
+      '@ts-morph/common': 0.7.0
       code-block-writer: 10.1.1
     dev: false
     optional: true
     resolution:
-      integrity: sha512-NHHWu+7I2/AOZiTni5w3f+xCfIxrkzPCcQbTGa81Yk3pr23a4h9xLLEE6tIGuYIubWjkjr9QVC3ITqgmA5touQ==
-  /ts-morph/9.0.0:
+      integrity: sha512-uhu0I4EDTdHCMptsR1GuEZU3gSKS5p0n41EOEZ69y5klmOAHNzntI0ivcZL5Ip9+G+o8dgQScAKSHeHXN2vEDw==
+  /ts-morph/9.1.0:
     dependencies:
       '@dsherret/to-absolute-glob': 2.0.2
       '@ts-morph/common': 0.7.0
       code-block-writer: 10.1.1
     dev: true
     resolution:
-      integrity: sha512-uhu0I4EDTdHCMptsR1GuEZU3gSKS5p0n41EOEZ69y5klmOAHNzntI0ivcZL5Ip9+G+o8dgQScAKSHeHXN2vEDw==
+      integrity: sha512-sei4u651MBenr27sD6qLDXN3gZ4thiX71E3qV7SuVtDas0uvK2LtgZkIYUf9DKm/fLJ6AB/+yhRJ1vpEBJgy7Q==
   /ts-node/9.0.0_typescript@4.1.2:
     dependencies:
       arg: 4.1.3
@@ -10199,13 +10177,13 @@ packages:
     resolution:
       integrity: sha512-4Fg7GtiEoQvQpJclOZDmqT41F5sP25aKMJ3vJeQXkgzLD18o+5ZCbEPsmXDQv5t6kqWhBeTB3BhyzwZsFE+KUw==
   /typescript/4.0.5:
+    dev: true
     engines:
       node: '>=4.2.0'
     hasBin: true
     resolution:
       integrity: sha512-ywmr/VrTVCmNTJ6iV2LwIrfG1P+lv6luD8sUJs+2eI9NLGigaN+nUQc13iHqisq7bra9lnmUSYqbJvegraBOPQ==
   /typescript/4.1.2:
-    dev: true
     engines:
       node: '>=4.2.0'
     hasBin: true
@@ -10264,11 +10242,13 @@ packages:
     resolution:
       integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
   /universalify/1.0.0:
+    dev: true
     engines:
       node: '>= 10.0.0'
     resolution:
       integrity: sha512-rb6X1W158d7pRQBg5gkR8uPaSfiids68LTJQYOtEUhoJUWBdaQHsuT/EUduxXYxcrt4r5PJ4fuHW1MHT6p0qug==
   /universalify/2.0.0:
+    dev: true
     engines:
       node: '>= 10.0.0'
     resolution:
@@ -10783,7 +10763,7 @@ specifiers:
   '@nestjs/common': ^7.5.5
   '@nestjs/config': ^0.6.1
   '@nestjs/core': ^7.5.5
-  '@nestjs/graphql': ^7.8.2
+  '@nestjs/graphql': ^7.9.0
   '@nestjs/jwt': ^7.2.0
   '@nestjs/passport': ^7.1.5
   '@nestjs/platform-express': ^7.5.5
@@ -10836,7 +10816,7 @@ specifiers:
   patch-package: ^6.2.2
   precise-commits: ^1.0.2
   prettier: ^2.2.0
-  prisma-nestjs-graphql: ^3.0.0
+  prisma-nestjs-graphql: ^4.0.1
   reflect-metadata: ^0.1.13
   rxjs: ^6.6.3
   simplytyped: ^3.3.0

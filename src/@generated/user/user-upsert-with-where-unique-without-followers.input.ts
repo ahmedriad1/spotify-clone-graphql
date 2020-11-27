@@ -7,19 +7,16 @@ import { UserCreateWithoutFollowersInput } from './user-create-without-followers
 export class UserUpsertWithWhereUniqueWithoutFollowersInput {
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: UserWhereUniqueInput;
 
     @Field(() => UserUpdateWithoutFollowersInput, {
         nullable: true,
-        description: undefined,
     })
     update?: UserUpdateWithoutFollowersInput;
 
     @Field(() => UserCreateWithoutFollowersInput, {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutFollowersInput;
 }

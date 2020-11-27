@@ -6,13 +6,11 @@ import { ArticleCreateWithoutAuthorInput } from './article-create-without-author
 export class ArticleCreateOrConnectWithoutauthorInput {
     @Field(() => ArticleWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: ArticleWhereUniqueInput;
 
     @Field(() => ArticleCreateWithoutAuthorInput, {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutAuthorInput;
 }

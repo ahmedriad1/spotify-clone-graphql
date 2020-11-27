@@ -6,13 +6,11 @@ import { ArticleCreateWithoutCommentsInput } from './article-create-without-comm
 export class ArticleCreateOrConnectWithoutcommentsInput {
     @Field(() => ArticleWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: ArticleWhereUniqueInput;
 
     @Field(() => ArticleCreateWithoutCommentsInput, {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutCommentsInput;
 }

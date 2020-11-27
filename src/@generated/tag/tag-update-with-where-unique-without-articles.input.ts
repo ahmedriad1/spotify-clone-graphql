@@ -6,13 +6,11 @@ import { TagUpdateWithoutArticlesInput } from './tag-update-without-articles.inp
 export class TagUpdateWithWhereUniqueWithoutArticlesInput {
     @Field(() => TagWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: TagWhereUniqueInput;
 
     @Field(() => TagUpdateWithoutArticlesInput, {
         nullable: true,
-        description: undefined,
     })
     data?: TagUpdateWithoutArticlesInput;
 }

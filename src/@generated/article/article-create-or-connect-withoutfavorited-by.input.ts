@@ -6,13 +6,11 @@ import { ArticleCreateWithoutFavoritedByInput } from './article-create-without-f
 export class ArticleCreateOrConnectWithoutfavoritedByInput {
     @Field(() => ArticleWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     where?: ArticleWhereUniqueInput;
 
     @Field(() => ArticleCreateWithoutFavoritedByInput, {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutFavoritedByInput;
 }

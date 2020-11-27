@@ -18,9 +18,7 @@ export class CommentService {
     async get(args: { where: ArticleWhereUniqueInput; follower?: { id: string } }) {
         const parameters: FindManyCommentArgs = {
             where: {
-                Article: args.where,
-                // todo: WHY? big leeters
-                // article: args.where,
+                article: args.where,
             },
             orderBy: { id: 'desc' },
             include: {
@@ -33,7 +31,7 @@ export class CommentService {
                                   take: 1,
                               },
                           }
-                        : null,
+                        : undefined,
                 },
             },
         };
@@ -47,13 +45,9 @@ export class CommentService {
                 author: {
                     connect: { id: args.authorId },
                 },
-                // todo: Fix me why upper case?
-                Article: {
+                article: {
                     connect: args.where,
                 },
-                // article: {
-                //     connect: args.where,
-                // },
             },
             include: {
                 author: true,

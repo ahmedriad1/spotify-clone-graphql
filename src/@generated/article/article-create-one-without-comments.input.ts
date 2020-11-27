@@ -7,19 +7,16 @@ import { ArticleCreateOrConnectWithoutcommentsInput } from './article-create-or-
 export class ArticleCreateOneWithoutCommentsInput {
     @Field(() => ArticleCreateWithoutCommentsInput, {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutCommentsInput;
 
     @Field(() => ArticleWhereUniqueInput, {
         nullable: true,
-        description: undefined,
     })
     connect?: ArticleWhereUniqueInput;
 
     @Field(() => ArticleCreateOrConnectWithoutcommentsInput, {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?: ArticleCreateOrConnectWithoutcommentsInput;
 }

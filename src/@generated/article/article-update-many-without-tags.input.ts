@@ -11,37 +11,31 @@ import { ArticleCreateOrConnectWithouttagsInput } from './article-create-or-conn
 export class ArticleUpdateManyWithoutTagsInput {
     @Field(() => [ArticleCreateWithoutTagsInput], {
         nullable: true,
-        description: undefined,
     })
     create?: ArticleCreateWithoutTagsInput | Array<ArticleCreateWithoutTagsInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     set?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     disconnect?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     delete?: ArticleWhereUniqueInput | Array<ArticleWhereUniqueInput>;
 
     @Field(() => [ArticleUpdateWithWhereUniqueWithoutTagsInput], {
         nullable: true,
-        description: undefined,
     })
     update?:
         | ArticleUpdateWithWhereUniqueWithoutTagsInput
@@ -49,7 +43,6 @@ export class ArticleUpdateManyWithoutTagsInput {
 
     @Field(() => [ArticleUpdateManyWithWhereWithoutTagsInput], {
         nullable: true,
-        description: undefined,
     })
     updateMany?:
         | ArticleUpdateManyWithWhereWithoutTagsInput
@@ -57,13 +50,11 @@ export class ArticleUpdateManyWithoutTagsInput {
 
     @Field(() => [ArticleScalarWhereInput], {
         nullable: true,
-        description: undefined,
     })
     deleteMany?: ArticleScalarWhereInput | Array<ArticleScalarWhereInput>;
 
     @Field(() => [ArticleUpsertWithWhereUniqueWithoutTagsInput], {
         nullable: true,
-        description: undefined,
     })
     upsert?:
         | ArticleUpsertWithWhereUniqueWithoutTagsInput
@@ -71,7 +62,6 @@ export class ArticleUpdateManyWithoutTagsInput {
 
     @Field(() => [ArticleCreateOrConnectWithouttagsInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | ArticleCreateOrConnectWithouttagsInput

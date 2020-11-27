@@ -11,37 +11,31 @@ import { CommentCreateOrConnectWithoutauthorInput } from './comment-create-or-co
 export class CommentUpdateManyWithoutAuthorInput {
     @Field(() => [CommentCreateWithoutAuthorInput], {
         nullable: true,
-        description: undefined,
     })
     create?: CommentCreateWithoutAuthorInput | Array<CommentCreateWithoutAuthorInput>;
 
     @Field(() => [CommentWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: CommentWhereUniqueInput | Array<CommentWhereUniqueInput>;
 
     @Field(() => [CommentWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     set?: CommentWhereUniqueInput | Array<CommentWhereUniqueInput>;
 
     @Field(() => [CommentWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     disconnect?: CommentWhereUniqueInput | Array<CommentWhereUniqueInput>;
 
     @Field(() => [CommentWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     delete?: CommentWhereUniqueInput | Array<CommentWhereUniqueInput>;
 
     @Field(() => [CommentUpdateWithWhereUniqueWithoutAuthorInput], {
         nullable: true,
-        description: undefined,
     })
     update?:
         | CommentUpdateWithWhereUniqueWithoutAuthorInput
@@ -49,7 +43,6 @@ export class CommentUpdateManyWithoutAuthorInput {
 
     @Field(() => [CommentUpdateManyWithWhereWithoutAuthorInput], {
         nullable: true,
-        description: undefined,
     })
     updateMany?:
         | CommentUpdateManyWithWhereWithoutAuthorInput
@@ -57,13 +50,11 @@ export class CommentUpdateManyWithoutAuthorInput {
 
     @Field(() => [CommentScalarWhereInput], {
         nullable: true,
-        description: undefined,
     })
     deleteMany?: CommentScalarWhereInput | Array<CommentScalarWhereInput>;
 
     @Field(() => [CommentUpsertWithWhereUniqueWithoutAuthorInput], {
         nullable: true,
-        description: undefined,
     })
     upsert?:
         | CommentUpsertWithWhereUniqueWithoutAuthorInput
@@ -71,7 +62,6 @@ export class CommentUpdateManyWithoutAuthorInput {
 
     @Field(() => [CommentCreateOrConnectWithoutauthorInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | CommentCreateOrConnectWithoutauthorInput

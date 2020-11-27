@@ -7,19 +7,16 @@ import { UserCreateOrConnectWithoutfollowingInput } from './user-create-or-conne
 export class UserCreateManyWithoutFollowingInput {
     @Field(() => [UserCreateWithoutFollowingInput], {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutFollowingInput | Array<UserCreateWithoutFollowingInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserCreateOrConnectWithoutfollowingInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | UserCreateOrConnectWithoutfollowingInput

@@ -11,37 +11,31 @@ import { UserCreateOrConnectWithoutfollowingInput } from './user-create-or-conne
 export class UserUpdateManyWithoutFollowingInput {
     @Field(() => [UserCreateWithoutFollowingInput], {
         nullable: true,
-        description: undefined,
     })
     create?: UserCreateWithoutFollowingInput | Array<UserCreateWithoutFollowingInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     set?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     disconnect?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     delete?: UserWhereUniqueInput | Array<UserWhereUniqueInput>;
 
     @Field(() => [UserUpdateWithWhereUniqueWithoutFollowingInput], {
         nullable: true,
-        description: undefined,
     })
     update?:
         | UserUpdateWithWhereUniqueWithoutFollowingInput
@@ -49,7 +43,6 @@ export class UserUpdateManyWithoutFollowingInput {
 
     @Field(() => [UserUpdateManyWithWhereWithoutFollowingInput], {
         nullable: true,
-        description: undefined,
     })
     updateMany?:
         | UserUpdateManyWithWhereWithoutFollowingInput
@@ -57,13 +50,11 @@ export class UserUpdateManyWithoutFollowingInput {
 
     @Field(() => [UserScalarWhereInput], {
         nullable: true,
-        description: undefined,
     })
     deleteMany?: UserScalarWhereInput | Array<UserScalarWhereInput>;
 
     @Field(() => [UserUpsertWithWhereUniqueWithoutFollowingInput], {
         nullable: true,
-        description: undefined,
     })
     upsert?:
         | UserUpsertWithWhereUniqueWithoutFollowingInput
@@ -71,7 +62,6 @@ export class UserUpdateManyWithoutFollowingInput {
 
     @Field(() => [UserCreateOrConnectWithoutfollowingInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | UserCreateOrConnectWithoutfollowingInput

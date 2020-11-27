@@ -7,19 +7,16 @@ import { CommentCreateOrConnectWithoutauthorInput } from './comment-create-or-co
 export class CommentCreateManyWithoutAuthorInput {
     @Field(() => [CommentCreateWithoutAuthorInput], {
         nullable: true,
-        description: undefined,
     })
     create?: CommentCreateWithoutAuthorInput | Array<CommentCreateWithoutAuthorInput>;
 
     @Field(() => [CommentWhereUniqueInput], {
         nullable: true,
-        description: undefined,
     })
     connect?: CommentWhereUniqueInput | Array<CommentWhereUniqueInput>;
 
     @Field(() => [CommentCreateOrConnectWithoutauthorInput], {
         nullable: true,
-        description: undefined,
     })
     connectOrCreate?:
         | CommentCreateOrConnectWithoutauthorInput

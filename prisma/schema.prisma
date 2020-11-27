@@ -56,4 +56,6 @@ model Comment {
     body  String
     author    User  @relation(fields: [authorId], references: [id])
     authorId  String
+    article   Article? @relation(fields: [articleId], references: [id])
+    articleId String?
 }
