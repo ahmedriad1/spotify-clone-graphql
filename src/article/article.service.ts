@@ -1,11 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-    Article,
-    ArticleCreateInput as ArticleCreateInputData,
-    ArticleInclude,
-    ArticleWhereInput,
-    ArticleWhereUniqueInput,
-} from '@prisma/client';
+import { Article, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
@@ -31,9 +25,9 @@ export class ArticleService {
 
     async updateArticle(args: {
         input: ArticleUpdateInputModel;
-        where?: ArticleWhereUniqueInput;
+        where?: Prisma.ArticleWhereUniqueInput;
         article?: Article;
-        include?: ArticleInclude;
+        include?: Prisma.ArticleInclude;
     }) {
         const article = args.article || (args.where && (await this.findOne({ where: args.where })));
         if (!article) {
@@ -75,7 +69,7 @@ export class ArticleService {
             const entity = await this.prisma.article.findOne({ where: { slug } });
             return entity === null;
         };
-        const data: ArticleCreateInputData = {
+        const data = {
             slug: await this.slug.generate(input.title, isSlugUnique),
             title: input.title,
             body: input.body,
@@ -101,7 +95,7 @@ export class ArticleService {
     /**
      * Get count article by condition.
      */
-    async count(where: ArticleWhereInput) {
+    async count(where: Prisma.ArticleWhereInput) {
         return this.prisma.article.count({ where });
     }
 
@@ -129,10 +123,10 @@ export class ArticleService {
      */
     async favorite(args: {
         article?: Article;
-        where?: ArticleWhereUniqueInput;
+        where?: Prisma.ArticleWhereUniqueInput;
         favoritedByUserId: string;
         value: boolean;
-        include?: ArticleInclude;
+        include?: Prisma.ArticleInclude;
     }) {
         const article = args.article || (args.where && (await this.findOne({ where: args.where })));
         if (!article) {

@@ -1,11 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-    FindManyUserArgs,
-    UserCreateInput,
-    UserUpdateInput,
-    UserUpdateManyWithoutFollowingInput,
-    UserWhereUniqueInput,
-} from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { UserRepository } from './user.repository';
 
@@ -16,11 +10,11 @@ import { UserRepository } from './user.repository';
 export class UserService {
     constructor(private readonly repository: UserRepository) {}
 
-    async update(where: UserWhereUniqueInput, data: UserUpdateInput) {
+    async update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput) {
         return this.repository.update({ data, where });
     }
 
-    async findOne(where: UserWhereUniqueInput) {
+    async findOne(where: Prisma.UserWhereUniqueInput) {
         return this.repository.findOne({ where });
     }
 
@@ -36,11 +30,11 @@ export class UserService {
         return this.repository.randomUser();
     }
 
-    async findMany(args: FindManyUserArgs) {
+    async findMany(args: Prisma.FindManyUserArgs) {
         return this.repository.findMany(args);
     }
 
-    async create(data: UserCreateInput) {
+    async create(data: Prisma.UserCreateInput) {
         return this.repository.create({ data });
     }
 
@@ -54,8 +48,12 @@ export class UserService {
     /**
      * Add or remove follower for user matching to `where` conditions.
      */
-    async follow(where: UserWhereUniqueInput, follower: UserWhereUniqueInput, value: boolean) {
-        const followersOperation: UserUpdateManyWithoutFollowingInput = value
+    async follow(
+        where: Prisma.UserWhereUniqueInput,
+        follower: Prisma.UserWhereUniqueInput,
+        value: boolean,
+    ) {
+        const followersOperation: Prisma.UserUpdateManyWithoutFollowingInput = value
             ? { connect: follower }
             : { disconnect: follower };
         return this.repository.update({

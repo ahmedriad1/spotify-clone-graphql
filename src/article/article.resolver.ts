@@ -25,6 +25,7 @@ import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
 import { ArticleCreateInput } from './models/article-create.input';
 import { ArticleUpdateInput } from './models/article-update.input';
+import { Prisma } from '@prisma/client';
 
 /**
  * Resolver for article type.
@@ -58,8 +59,7 @@ export class ArticleResolver {
         if (feed && currentUser) {
             where = this.service.feedWhereConditions(currentUser.id);
         }
-        // @ts-ignore
-        return this.service.count(where);
+        return this.service.count(where as Prisma.ArticleWhereInput);
     }
 
     @Query(() => Article, { nullable: true })

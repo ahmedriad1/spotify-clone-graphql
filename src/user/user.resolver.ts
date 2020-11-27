@@ -25,6 +25,7 @@ import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
+import { Prisma } from '@prisma/client';
 
 /**
  * Resolves user object type.
@@ -58,7 +59,6 @@ export class UserResolver {
     @Mutation(() => User)
     async createUser(@Args('data') data: UserCreateInput, @Context() context: GraphQLContext) {
         const user = await this.userService.create(data);
-        // @ts-ignore
         ({ accessToken: context.token } = await this.authService.session(user));
         return user;
     }
@@ -66,8 +66,7 @@ export class UserResolver {
     @Mutation(() => User)
     @UseGuards(GraphqlAuthGuard)
     async updateUser(@Args('data') data: UserUpdateInput, @CurrentUser() user: PassportUserFields) {
-        // @ts-ignore
-        return this.userService.update({ id: user.id }, data);
+        return this.userService.update({ id: user.id }, data as Prisma.UserUpdateInput);
     }
 
     @Mutation(() => User)
@@ -76,7 +75,6 @@ export class UserResolver {
         if (!user) {
             throw new UnauthorizedException();
         }
-        // @ts-ignore
         ({ accessToken: context.token } = await this.authService.session(user));
         return user;
     }

@@ -19,7 +19,7 @@ export class AuthService {
     /**
      * Returns accessToken.
      */
-    async session(user: User) {
+    async session(user: Pick<User, 'id' | 'email'>) {
         const date = new Date();
 
         const payload: SessionTokenFields = { sub: user.id, email: user.email };

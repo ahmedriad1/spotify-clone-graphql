@@ -6,6 +6,7 @@ import { createUser } from '../user/testing';
 import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
 import { createArticle } from './testing';
+import { Article } from './models/article';
 
 setGlobalMockMethod(jest.fn);
 
@@ -59,8 +60,7 @@ describe('ArticleResolver', () => {
 
     it('favorited resolve property should return true for favoritedBy property', async () => {
         const article = createArticle({ favoritedBy: [createUser({ id: 'user1' })] });
-        // @ts-ignore
-        expect(await resolver.favorited(article, { id: 'user1' })).toBe(true);
+        expect(await resolver.favorited(article as Article, { id: 'user1' })).toBe(true);
     });
 
     it('favorited resolve property should return false', async () => {

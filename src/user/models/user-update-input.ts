@@ -9,29 +9,29 @@ export class UserUpdateInput {
         nullable: true,
         description: undefined,
     })
-    email?: string | null;
+    email?: string;
 
     @Field(() => String, {
         nullable: true,
         description: undefined,
     })
-    name?: string | null;
+    name?: string;
 
     @Field(() => String, {
         nullable: true,
         description: undefined,
     })
-    password?: string | null;
+    password?: string;
 
     @Field(() => String, {
         nullable: true,
         description: undefined,
     })
-    bio?: string | null;
+    bio?: string;
 
     @Field(() => String, {
         nullable: true,
         description: undefined,
     })
-    image?: string | null;
+    image?: string;
 }

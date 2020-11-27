@@ -56,7 +56,9 @@ to graphql api.
 
 ## Todo
 
--   Update to Nest 7
+-   fix ts-ignore
+-   fix hot reload
+-   rename pk to modelId
 -   Runnning test:e2e on CI
 -   ArticleService.updateArticle() Updating tags does not working check it later
 -   graphqlModuleFactory: formatError
