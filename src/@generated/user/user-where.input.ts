@@ -1,8 +1,9 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { StringFilter } from '../prisma/string-filter.input';
-import { UserListRelationFilter } from './user-list-relation-filter.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { ArticleListRelationFilter } from '../article/article-list-relation-filter.input';
 import { CommentListRelationFilter } from '../comment/comment-list-relation-filter.input';
+import { StringFilter } from '../prisma/string-filter.input';
+import { UserListRelationFilter } from './user-list-relation-filter.input';
 
 @InputType()
 export class UserWhereInput {

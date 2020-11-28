@@ -1,15 +1,15 @@
 import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Prisma } from '@prisma/client';
+import { createSpyObj } from 'jest-createspyobj';
 
+import { PrismaRepository } from '../prisma/prisma.repository';
+import { PrismaService } from '../prisma/prisma.service';
 import { createUser } from '../user/testing';
 import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
-import { createArticle } from './testing';
 import { Article } from './models/article';
-import { Prisma } from '@prisma/client';
-import { createSpyObj } from 'jest-createspyobj';
-import { PrismaService } from '../prisma/prisma.service';
-import { PrismaRepository } from '../prisma/prisma.repository';
+import { createArticle } from './testing';
 
 describe('ArticleResolver', () => {
     let resolver: ArticleResolver;

@@ -7,8 +7,8 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
     let service: AuthService;
-    let jwtService = mock(JwtService);
-    let configService = mock(ConfigService);
+    const jwtService = mock(JwtService);
+    const configService = mock(ConfigService);
 
     beforeEach(async () => {
         const module = await Test.createTestingModule({

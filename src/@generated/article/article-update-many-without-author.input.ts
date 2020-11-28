@@ -1,11 +1,12 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { ArticleCreateWithoutAuthorInput } from './article-create-without-author.input';
-import { ArticleWhereUniqueInput } from './article-where-unique.input';
-import { ArticleUpdateWithWhereUniqueWithoutAuthorInput } from './article-update-with-where-unique-without-author.input';
-import { ArticleUpdateManyWithWhereWithoutAuthorInput } from './article-update-many-with-where-without-author.input';
-import { ArticleScalarWhereInput } from './article-scalar-where.input';
-import { ArticleUpsertWithWhereUniqueWithoutAuthorInput } from './article-upsert-with-where-unique-without-author.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { ArticleCreateOrConnectWithoutauthorInput } from './article-create-or-connect-withoutauthor.input';
+import { ArticleCreateWithoutAuthorInput } from './article-create-without-author.input';
+import { ArticleScalarWhereInput } from './article-scalar-where.input';
+import { ArticleUpdateManyWithWhereWithoutAuthorInput } from './article-update-many-with-where-without-author.input';
+import { ArticleUpdateWithWhereUniqueWithoutAuthorInput } from './article-update-with-where-unique-without-author.input';
+import { ArticleUpsertWithWhereUniqueWithoutAuthorInput } from './article-upsert-with-where-unique-without-author.input';
+import { ArticleWhereUniqueInput } from './article-where-unique.input';
 
 @InputType()
 export class ArticleUpdateManyWithoutAuthorInput {

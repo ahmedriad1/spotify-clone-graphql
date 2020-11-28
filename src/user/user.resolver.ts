@@ -11,6 +11,7 @@ import {
     ResolveProperty,
     Resolver,
 } from '@nestjs/graphql';
+import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import {
     GraphqlAuthGuard,
@@ -25,7 +26,6 @@ import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
-import { Prisma } from '@prisma/client';
 
 /**
  * Resolves user object type.

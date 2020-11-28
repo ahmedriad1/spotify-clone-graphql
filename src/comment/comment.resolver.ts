@@ -1,7 +1,7 @@
 import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
 import { CommentWhereUniqueInput } from '@generated/comment/comment-where-unique.input';
 import { NotFoundException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
 import {
@@ -62,5 +62,15 @@ export class CommentResolver {
     @UseGuards(GraphqlAuthGuard, AuthorGuard)
     async deleteComment(@Args('where') where: CommentWhereUniqueInput) {
         return this.commentService.delete({ where });
+    }
+
+    @ResolveField(() => String)
+    async updatedAt(@Parent() comment: Comment) {
+        return new Date(comment.updatedAt).toISOString();
+    }
+
+    @ResolveField(() => String)
+    async createdAt(@Parent() comment: Comment) {
+        return new Date(comment.createdAt).toISOString();
     }
 }

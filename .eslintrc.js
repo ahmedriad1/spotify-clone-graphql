@@ -70,11 +70,14 @@ module.exports = {
         'import/newline-after-import': 0,
         'import/no-duplicates': 1,
         'import/max-dependencies': [1, { max: 15 }],
-        // sort-imports
-        'simple-import-sort/sort': 1,
+        // simple-import-sort with recomended settings
+        'simple-import-sort/imports': 1,
+        'simple-import-sort/exports': 1,
+        'sort-imports': 0,
+        'import/first': 1,
+        'import/newline-after-import': 1,
+        'import/no-duplicates': 1,
         'prettier/prettier': [1, { endOfLine: 'auto' }],
-        'sort-imports': 'off',
-        'import/order': 'off',
         // typescript-eslint
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',

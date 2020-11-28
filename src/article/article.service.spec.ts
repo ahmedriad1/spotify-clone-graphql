@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { createSpyObj } from 'jest-createspyobj';
 
 import { PrismaRepository } from '../prisma/prisma.repository';
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
 import { ArticleService } from './article.service';
 import { SlugService } from './slug/slug.service';
-import { createSpyObj } from 'jest-createspyobj';
 
 describe('ArticleService', () => {
     let service: ArticleService;

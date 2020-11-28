@@ -4,8 +4,8 @@ import { ArticleWhereInput } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 
 import { articleFields, commentFields, userFields } from './fragments';
-import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
+import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateUserDto } from './models/create-user.dto';
 import { LoginUserDto } from './models/login-user.dto';
 import { UpdateUserDto } from './models/update-user.dto';
@@ -163,7 +163,7 @@ export class ApiService {
             where.tags = { some: { name: options.tag } };
         }
         if (options.author) {
-            where.author = { name: options.author };
+            where.author = { name: { equals: options.author } };
         }
         if (options.favorited) {
             where.favoritedBy = { some: { name: options.favorited } };
@@ -186,7 +186,6 @@ export class ApiService {
             }
             ${articleFields}
         `;
-        console.log('query', query);
         return this.graphqlClient
             .setHeader('Authorization', `Bearer ${options.token}`)
             .request(query, { where, skip, take });

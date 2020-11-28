@@ -17,8 +17,8 @@ import { Request } from 'express';
 
 import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
-import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { CreateArticleDto } from './models/create-article.dto';
+import { CreateArticleCommentDto } from './models/create-article-comment.dto';
 import { GetArticlesDto } from './models/get-articles.dto';
 import { TagListInterceptor } from './tag-list.interceptor';
 

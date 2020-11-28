@@ -1,12 +1,13 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { CommentCreateWithoutArticleInput } from './comment-create-without-article.input';
-import { CommentWhereUniqueInput } from './comment-where-unique.input';
-import { CommentUpdateWithWhereUniqueWithoutArticleInput } from './comment-update-with-where-unique-without-article.input';
-import { CommentUpdateManyWithWhereWithoutArticleInput } from './comment-update-many-with-where-without-article.input';
-import { CommentScalarWhereInput } from './comment-scalar-where.input';
-import { CommentUpsertWithWhereUniqueWithoutArticleInput } from './comment-upsert-with-where-unique-without-article.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { CommentCreateOrConnectWithoutArticleInput } from './comment-create-or-connect-without-article.input';
 import { CommentCreateOrConnectWithoutarticleInput } from './comment-create-or-connect-withoutarticle.input';
+import { CommentCreateWithoutArticleInput } from './comment-create-without-article.input';
+import { CommentScalarWhereInput } from './comment-scalar-where.input';
+import { CommentUpdateManyWithWhereWithoutArticleInput } from './comment-update-many-with-where-without-article.input';
+import { CommentUpdateWithWhereUniqueWithoutArticleInput } from './comment-update-with-where-unique-without-article.input';
+import { CommentUpsertWithWhereUniqueWithoutArticleInput } from './comment-upsert-with-where-unique-without-article.input';
+import { CommentWhereUniqueInput } from './comment-where-unique.input';
 
 @InputType()
 export class CommentUpdateManyWithoutArticleInput {

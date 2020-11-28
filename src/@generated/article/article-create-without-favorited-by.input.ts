@@ -1,7 +1,8 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
+
+import { CommentCreateManyWithoutArticleInput } from '../comment/comment-create-many-without-article.input';
 import { TagCreateManyWithoutArticlesInput } from '../tag/tag-create-many-without-articles.input';
 import { UserCreateOneWithoutArticleInput } from '../user/user-create-one-without-article.input';
-import { CommentCreateManyWithoutArticleInput } from '../comment/comment-create-many-without-article.input';
 
 @InputType()
 export class ArticleCreateWithoutFavoritedByInput {

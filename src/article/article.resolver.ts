@@ -1,6 +1,6 @@
-import { FindManyArticleArgs } from '@generated/article/find-many-article.args';
 import { ArticleWhereInput } from '@generated/article/article-where.input';
 import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
+import { FindManyArticleArgs } from '@generated/article/find-many-article.args';
 import { ConflictException, NotFoundException, UseGuards } from '@nestjs/common';
 import {
     Args,
@@ -12,6 +12,7 @@ import {
     ResolveProperty,
     Resolver,
 } from '@nestjs/graphql';
+import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
 import {
@@ -25,7 +26,6 @@ import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
 import { ArticleCreateInput } from './models/article-create.input';
 import { ArticleUpdateInput } from './models/article-update.input';
-import { Prisma } from '@prisma/client';
 
 /**
  * Resolver for article type.
@@ -37,6 +37,7 @@ export class ArticleResolver {
     @Query(() => [Article])
     async articles(@Args() args: FindManyArticleArgs, @GraphqlFields() fields: PlainObject) {
         return this.service.findMany({
+            where: args.where as Prisma.ArticleWhereInput,
             orderBy: args.orderBy,
             take: args.take,
             skip: args.skip,
@@ -68,11 +69,13 @@ export class ArticleResolver {
         @Args('where') where: ArticleWhereUniqueInput,
         @GraphqlFields() fields: PlainObject,
     ) {
+        // todo: Use prisma select plugin
         return this.service.findOne({
             where,
             include: {
                 author: Boolean(fields.author),
                 tags: Boolean(fields.tags),
+                comments: Boolean(fields.comments),
             },
         });
     }
@@ -205,5 +208,15 @@ export class ArticleResolver {
             return article.favoritedBy.some((user) => user.id === currentUser.id);
         }
         return this.service.isFavorited(article.id, currentUser.id);
+    }
+
+    @ResolveField(() => String)
+    async updatedAt(@Parent() article: Article) {
+        return new Date(article.updatedAt).toISOString();
+    }
+
+    @ResolveField(() => String)
+    async createdAt(@Parent() article: Article) {
+        return new Date(article.createdAt).toISOString();
     }
 }

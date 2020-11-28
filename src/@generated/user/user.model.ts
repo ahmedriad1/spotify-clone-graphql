@@ -1,4 +1,5 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+
 import { Article } from '../article/article.model';
 import { Comment } from '../comment/comment.model';
 
@@ -33,11 +34,6 @@ export class User {
         nullable: true,
     })
     image?: string;
-
-    @Field(() => [User], {
-        nullable: true,
-    })
-    following?: Array<User>;
 
     @Field(() => [User], {
         nullable: true,

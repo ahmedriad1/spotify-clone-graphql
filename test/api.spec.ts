@@ -67,6 +67,24 @@ describe('User login', () => {
     });
 });
 
+describe('Current User', () => {
+    it('GET /user', async () => {
+        const token = await authToken();
+        const response = await request({
+            method: 'GET',
+            path: '/user',
+            token,
+            json: true,
+        });
+        expect(response).toEqual({
+            user: expect.objectContaining({
+                username: 'root',
+                email: 'root@conduit.com',
+            }),
+        });
+    });
+});
+
 describe('Registration POST /api/users', () => {
     it.skip('invalid request', async () => {
         const response = await request({ method: 'POST', path: '/users', body: { user: {} } });
