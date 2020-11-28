@@ -1,27 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { setGlobalMockMethod, toMockedInstance } from 'to-mock';
 
 import { PrismaRepository } from '../prisma/prisma.repository';
 import { PrismaService } from '../prisma/prisma.service';
 import { TagService } from '../tag/tag.service';
 import { ArticleService } from './article.service';
 import { SlugService } from './slug/slug.service';
-
-setGlobalMockMethod(jest.fn);
+import { createSpyObj } from 'jest-createspyobj';
 
 describe('ArticleService', () => {
-    let repository: jest.Mocked<PrismaService['article']>;
     let service: ArticleService;
+    let prismaService: jest.Mocked<PrismaService>;
+    let testingModule: TestingModule;
 
     beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
+        prismaService = createSpyObj(PrismaService);
+        (prismaService as any).article = createSpyObj(PrismaRepository);
+        (prismaService as any).tag = createSpyObj(PrismaRepository);
+        testingModule = await Test.createTestingModule({
             providers: [
                 {
                     provide: PrismaService,
-                    useValue: {
-                        article: toMockedInstance(PrismaRepository),
-                        tag: toMockedInstance(PrismaRepository),
-                    },
+                    useValue: prismaService,
                 },
                 ArticleService,
                 SlugService,
@@ -29,8 +28,7 @@ describe('ArticleService', () => {
             ],
         }).compile();
 
-        service = module.get(ArticleService);
-        repository = module.get(PrismaService).article as typeof repository;
+        service = testingModule.get(ArticleService);
     });
 
     it('should be defined', () => {
@@ -38,9 +36,8 @@ describe('ArticleService', () => {
     });
 
     it('findMany', async () => {
-        expect(repository.findMany).toBeDefined();
         await service.findMany({ where: { id: { equals: 'a' } } });
-        expect(repository.findMany).toHaveBeenCalledWith(
+        expect(prismaService.article.findMany).toHaveBeenCalledWith(
             expect.objectContaining({
                 where: {
                     id: {

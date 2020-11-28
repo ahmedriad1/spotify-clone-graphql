@@ -3,6 +3,12 @@
  * Created for easy mocking by testing tools.
  */
 export class PrismaRepository {
+    findFirst(...args: unknown[]): unknown {
+        throw new Error('findFirst method is not implemented');
+    }
+    findUnique(...args: unknown[]): unknown {
+        throw new Error('findUnique method is not implemented');
+    }
     findOne(...args: unknown[]): unknown {
         throw new Error('findOne method is not implemented');
     }
@@ -26,5 +32,11 @@ export class PrismaRepository {
     }
     upsert(...args: unknown[]): unknown {
         throw new Error('upsert method is not implemented');
+    }
+    count(...args: unknown[]): unknown {
+        throw new Error('count method is not implemented');
+    }
+    aggregate(...args: unknown[]): unknown {
+        throw new Error('aggregate method is not implemented');
     }
 }

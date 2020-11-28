@@ -1,34 +1,31 @@
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { setGlobalMockMethod, toMockedInstance } from 'to-mock';
+import { instance, mock } from 'ts-mockito';
 
 import { AuthService } from './auth.service';
 
-setGlobalMockMethod(jest.fn);
-
 describe('AuthService', () => {
     let service: AuthService;
-    let jwtService: jest.Mocked<JwtService>;
-    let configService: jest.Mocked<ConfigService>;
+    let jwtService = mock(JwtService);
+    let configService = mock(ConfigService);
 
     beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
+        const module = await Test.createTestingModule({
             providers: [
                 AuthService,
                 {
                     provide: JwtService,
-                    useValue: toMockedInstance(JwtService),
+                    useValue: instance(jwtService),
                 },
                 {
                     provide: ConfigService,
-                    useValue: toMockedInstance(ConfigService),
+                    useValue: instance(configService),
                 },
             ],
         }).compile();
 
         service = module.get(AuthService);
-        jwtService = module.get(JwtService);
     });
 
     it('should be defined', () => {
