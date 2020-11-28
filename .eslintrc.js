@@ -75,6 +75,7 @@ module.exports = {
         'prettier/prettier': [1, { endOfLine: 'auto' }],
         'sort-imports': 'off',
         'import/order': 'off',
+        // typescript-eslint
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
@@ -83,6 +84,7 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/ban-ts-ignore': 0,
         '@typescript-eslint/no-unused-vars': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0,
     },
     overrides: [
         {
@@ -99,10 +101,6 @@ module.exports = {
                 'import/max-dependencies': 0,
                 'sonarjs/no-duplicate-string': 0,
             },
-        },
-        {
-            files: ['*.module.ts'],
-            rules: {},
         },
     ],
 };

@@ -1,37 +1,66 @@
+const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
-const StartServerPlugin = require('start-server-webpack-plugin');
+const {
+    default: NodeHotLoaderWebpackPlugin,
+} = require('node-hot-loader/NodeHotLoaderWebpackPlugin');
+const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 
-module.exports = (config) => {
-    // Remove ForkTsCheckerWebpackPlugin
-    const index = config.plugins.findIndex(
-        (p) => p.constructor.name === 'ForkTsCheckerWebpackPlugin',
-    );
-    if (index !== -1) {
-        config.plugins.splice(index, 1);
-    }
-    // Tweak ts-loader
-    const tsRule = config.module.rules.find((r) => String(r.test) === '/.tsx?$/');
-    const tsLoader = tsRule.use.find((x) => x.loader === 'ts-loader');
-    tsLoader.options.transpileOnly = true;
+module.exports = () => {
+    const tsConfigFile = path.resolve(__dirname, 'tsconfig.json');
 
-    // Hot reload
-    const hotReloadEntry = 'webpack/hot/poll?1000';
-
-    config.entry = [config.entry];
-    config.watch = true;
-    config.externals = [
-        nodeExternals({
-            allowlist: [hotReloadEntry],
-        }),
-    ];
-    config.plugins.push(
-        // new webpack.HotModuleReplacementPlugin(),
-        new webpack.WatchIgnorePlugin({
-            paths: [/\.js$/, /\.d\.ts$/],
-        }),
-        // new StartServerPlugin({ name: config.output.filename }),
-    );
-
-    return config;
+    return {
+        entry: path.resolve(__dirname, 'src/main.ts'),
+        target: 'node',
+        devtool: false,
+        mode: 'none',
+        output: {
+            filename: 'main.js',
+        },
+        externals: [nodeExternals()],
+        optimization: { nodeEnv: false },
+        node: {
+            __filename: false,
+            __dirname: false,
+        },
+        module: {
+            rules: [
+                {
+                    test: /.tsx?$/,
+                    use: [
+                        {
+                            loader: 'ts-loader',
+                            options: {
+                                transpileOnly: true,
+                                configFile: tsConfigFile,
+                            },
+                        },
+                    ],
+                    exclude: /node_modules/,
+                },
+            ],
+        },
+        resolve: {
+            extensions: ['.tsx', '.ts', '.js'],
+            plugins: [
+                new TsconfigPathsPlugin({
+                    configFile: tsConfigFile,
+                }),
+            ],
+        },
+        plugins: [
+            new NodeHotLoaderWebpackPlugin({
+                // force: true, // boolean. true - always launch entries, false (by default) - launch entries only in watch mode.
+                fork: false, // boolean | string[]. For example ['--key', 'key value'].
+                // args, // string[]. For example ['--arg1', 'arg2'].
+                autoRestart: true, // boolean
+                // logLevel: 'minimal',
+            }),
+        ],
+        stats: {
+            version: false,
+            children: false,
+            modulesSpace: 0,
+        },
+    };
 };

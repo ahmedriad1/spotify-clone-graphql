@@ -57,7 +57,7 @@ to graphql api.
 ## Todo
 
 -   fix ts-ignore
--   fix hot reload
+-   strong mock
 -   rename pk to modelId
 -   Runnning test:e2e on CI
 -   ArticleService.updateArticle() Updating tags does not working check it later
