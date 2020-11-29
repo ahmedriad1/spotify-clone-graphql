@@ -1,4 +1,4 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 /**
@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client';
  */
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
-    constructor() {
+    constructor(private readonly logger: Logger) {
         super({
             errorFormat: 'minimal',
             log: ['query'],
@@ -14,7 +14,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
         // @ts-ignore
         this.$on('query', (event: any) => {
-            console.log('event.params', event.params);
+            this.logger.debug(event.params, 'prisma:query');
         });
     }
 

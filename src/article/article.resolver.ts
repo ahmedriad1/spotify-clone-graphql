@@ -4,6 +4,7 @@ import { FindManyArticleArgs } from '@generated/article/find-many-article.args';
 import { ConflictException, NotFoundException, UseGuards } from '@nestjs/common';
 import {
     Args,
+    Info,
     Int,
     Mutation,
     Parent,
@@ -12,6 +13,7 @@ import {
     ResolveProperty,
     Resolver,
 } from '@nestjs/graphql';
+import { PrismaSelect } from '@paljs/plugins';
 import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
@@ -35,16 +37,10 @@ export class ArticleResolver {
     constructor(private readonly service: ArticleService) {}
 
     @Query(() => [Article])
-    async articles(@Args() args: FindManyArticleArgs, @GraphqlFields() fields: PlainObject) {
+    async articles(@Args() args: FindManyArticleArgs, @Info() info) {
         return this.service.findMany({
             where: args.where as Prisma.ArticleWhereInput,
-            orderBy: args.orderBy,
-            take: args.take,
-            skip: args.skip,
-            include: {
-                author: Boolean(fields.author),
-                tags: Boolean(fields.tags),
-            },
+            ...new PrismaSelect(info).value,
         });
     }
 
@@ -65,18 +61,10 @@ export class ArticleResolver {
 
     @Query(() => Article, { nullable: true })
     @UseGuards(OptionalGraphqlAuthGuard)
-    async article(
-        @Args('where') where: ArticleWhereUniqueInput,
-        @GraphqlFields() fields: PlainObject,
-    ) {
-        // todo: Use prisma select plugin
+    async article(@Args('where') where: ArticleWhereUniqueInput, @Info() info) {
         return this.service.findOne({
             where,
-            include: {
-                author: Boolean(fields.author),
-                tags: Boolean(fields.tags),
-                comments: Boolean(fields.comments),
-            },
+            ...new PrismaSelect(info).value,
         });
     }
 
