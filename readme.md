@@ -57,7 +57,6 @@ to graphql api.
 ## Todo
 
 -   rename pk to modelId
--   make hmr by param
 -   Use prisma select plugin
 -   Runnning test:e2e on CI
 -   ArticleService.updateArticle() Updating tags does not working check it later

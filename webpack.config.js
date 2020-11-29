@@ -1,24 +1,33 @@
 const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
-const {
-    default: NodeHotLoaderWebpackPlugin,
-} = require('node-hot-loader/NodeHotLoaderWebpackPlugin');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 
-module.exports = () => {
+module.exports = (options = {}) => {
+    const hmr2 = options.hmr2 === true;
     const tsConfigFile = path.resolve(__dirname, 'tsconfig.json');
+    const hotEntry = 'webpack/hot/poll?1000';
+    const main = path.resolve(__dirname, 'src/main.ts');
 
     return {
-        entry: path.resolve(__dirname, 'src/main.ts'),
+        entry: !hmr2 ? [hotEntry, main] : main,
         target: 'node',
         devtool: false,
         mode: 'none',
         output: {
             filename: 'main.js',
+            hotUpdateChunkFilename: '.hot/[id].[fullhash:6].hot-update.js',
+            hotUpdateMainFilename: '.hot/[fullhash:6].hot-update.json',
         },
-        externals: [nodeExternals()],
-        optimization: { nodeEnv: false },
+        externals: [
+            nodeExternals({
+                allowlist: [hotEntry],
+            }),
+        ],
+        optimization: {
+            moduleIds: 'named',
+            nodeEnv: false,
+        },
         node: {
             __filename: false,
             __dirname: false,
@@ -49,13 +58,27 @@ module.exports = () => {
             ],
         },
         plugins: [
-            new NodeHotLoaderWebpackPlugin({
-                // force: true, // boolean. true - always launch entries, false (by default) - launch entries only in watch mode.
-                fork: false, // boolean | string[]. For example ['--key', 'key value'].
-                // args, // string[]. For example ['--arg1', 'arg2'].
-                autoRestart: true, // boolean
-                // logLevel: 'minimal',
-            }),
+            ...(hmr2
+                ? () => {
+                      const {
+                          default: NodeHotLoaderWebpackPlugin,
+                      } = require('node-hot-loader/NodeHotLoaderWebpackPlugin');
+                      return [
+                          new NodeHotLoaderWebpackPlugin({
+                              fork: false,
+                              args: [],
+                              autoRestart: true,
+                          }),
+                      ];
+                  }
+                : () => {
+                      const StartServerPlugin = require('start-server-nestjs-webpack-plugin');
+                      return [
+                          new webpack.HotModuleReplacementPlugin(),
+                          new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
+                          new StartServerPlugin({ name: 'main.js' }),
+                      ];
+                  })(),
         ],
         stats: {
             version: false,
