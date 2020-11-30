@@ -15,6 +15,7 @@ import { AuthorGuard } from './author.guard';
 import { CommentService } from './comment.service';
 import { Comment } from './models/comment';
 import { CreateCommentInput } from './models/create-comment.input';
+import { PassportUserFields } from '../auth';
 
 /**
  * Resolver for article comment type.
@@ -30,7 +31,7 @@ export class CommentResolver {
     @UseGuards(OptionalGraphqlAuthGuard)
     async articleComments(
         @Args('where') where: ArticleWhereUniqueInput,
-        @CurrentUser() currentUser: { id: string },
+        @CurrentUser() currentUser: PassportUserFields,
         @GraphqlFields() fields: PlainObject,
     ) {
         const articleExists = (await this.articleService.count(where)) !== 0;
@@ -45,7 +46,7 @@ export class CommentResolver {
     async createComment(
         @Args('data') data: CreateCommentInput,
         @Args('where') where: ArticleWhereUniqueInput,
-        @CurrentUser() currentUser: { id: string },
+        @CurrentUser() currentUser: PassportUserFields,
     ) {
         const articleExists = (await this.articleService.count(where)) !== 0;
         if (!articleExists) {

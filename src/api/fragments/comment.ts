@@ -2,13 +2,13 @@ import { userFields } from './user';
 
 export const commentFields = /* GraphQL */ `
     fragment commentFields on Comment {
-        id
+        id: commentId
         createdAt
         updatedAt
         body
         author {
             ...userFields
-            following
+            following: isFollowing
         }
     }
     ${userFields}

@@ -6,6 +6,8 @@ import { useContainer } from 'class-validator';
 
 import { AppModule } from './app.module';
 
+require('log-process-errors')();
+
 export async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     const config = app.get(ConfigService);

@@ -39,10 +39,11 @@ export class ArticleResolver {
 
     @Query(() => [Article])
     async articles(@Args() args: FindManyArticleArgs, @Info() info) {
-        return this.service.findMany({
+        const result = await this.service.findMany({
             where: args.where as Prisma.ArticleWhereInput,
             ...new PrismaSelect(info).value,
         });
+        return result;
     }
 
     @Query(() => Int)
@@ -52,7 +53,7 @@ export class ArticleResolver {
         where: ArticleWhereInput,
         @Args({ name: 'feed', nullable: true, type: () => Boolean })
         feed: boolean,
-        @CurrentUser() currentUser?: { id: string },
+        @CurrentUser() currentUser?: PassportUserFields,
     ) {
         if (feed && currentUser) {
             where = this.service.feedWhereConditions(currentUser.id);

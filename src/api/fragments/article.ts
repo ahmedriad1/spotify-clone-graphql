@@ -15,7 +15,7 @@ export const articleFields = /* GraphQL */ `
         favoritesCount
         author {
             ...userFields
-            isFollowing
+            following: isFollowing
         }
     }
     ${userFields}

@@ -1,5 +1,5 @@
 import { UserWhereUniqueInput } from '@generated/user/user-where-unique.input';
-import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Logger, NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import {
     Args,
     Context,
@@ -26,6 +26,7 @@ import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
+import assert from 'assert';
 
 /**
  * Resolves user object type.
@@ -35,6 +36,7 @@ export class UserResolver {
     constructor(
         private readonly userService: UserService,
         private readonly authService: AuthService,
+        private readonly logger: Logger,
     ) {}
 
     /**
@@ -115,8 +117,11 @@ export class UserResolver {
         if (!currentUser) {
             return false;
         }
+        assert(user.userId);
         if (Array.isArray(user.followers)) {
             return user.followers.some((follower) => follower.userId === currentUser.id);
+        } else {
+            this.logger.warn('Followers is not selected', 'Performance');
         }
         return this.userService.isFollowing(user.userId, currentUser.id);
     }
