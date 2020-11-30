@@ -1,9 +1,10 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { UserUpdateManyWithoutFollowersInput } from './user-update-many-without-followers.input';
-import { UserUpdateManyWithoutFollowingInput } from './user-update-many-without-following.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { ArticleUpdateManyWithoutFavoritedByInput } from '../article/article-update-many-without-favorited-by.input';
 import { ArticleUpdateManyWithoutUserInput } from '../article/article-update-many-without-user.input';
 import { CommentUpdateManyWithoutAuthorInput } from '../comment/comment-update-many-without-author.input';
+import { UserUpdateManyWithoutFollowersInput } from './user-update-many-without-followers.input';
+import { UserUpdateManyWithoutFollowingInput } from './user-update-many-without-following.input';
 import { UserUpdateManyWithoutFollowingUsersInput } from './user-update-many-without-following-users.input';
 
 @InputType()

@@ -1,8 +1,9 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
-import { ArticleWhereInput } from './article-where.input';
-import { ArticleOrderByInput } from './article-order-by.input';
-import { ArticleWhereUniqueInput } from './article-where-unique.input';
+
 import { ArticleDistinctFieldEnum } from './article-distinct-field.enum';
+import { ArticleOrderByInput } from './article-order-by.input';
+import { ArticleWhereInput } from './article-where.input';
+import { ArticleWhereUniqueInput } from './article-where-unique.input';
 
 @ArgsType()
 export class FindManyArticleArgs {

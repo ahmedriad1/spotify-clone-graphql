@@ -1,7 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+
+import { CommentCreateOrConnectWithoutauthorInput } from './comment-create-or-connect-withoutauthor.input';
 import { CommentCreateWithoutAuthorInput } from './comment-create-without-author.input';
 import { CommentWhereUniqueInput } from './comment-where-unique.input';
-import { CommentCreateOrConnectWithoutauthorInput } from './comment-create-or-connect-withoutauthor.input';
 
 @InputType()
 export class CommentCreateManyWithoutAuthorInput {

@@ -1,7 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { ArticleWhereUniqueInput } from './article-where-unique.input';
-import { ArticleUpdateWithoutTagsInput } from './article-update-without-tags.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { ArticleCreateWithoutTagsInput } from './article-create-without-tags.input';
+import { ArticleUpdateWithoutTagsInput } from './article-update-without-tags.input';
+import { ArticleWhereUniqueInput } from './article-where-unique.input';
 
 @InputType()
 export class ArticleUpsertWithWhereUniqueWithoutTagsInput {

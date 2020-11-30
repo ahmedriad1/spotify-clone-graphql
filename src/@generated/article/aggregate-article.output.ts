@@ -1,8 +1,9 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+
 import { ArticleAvgAggregate } from './article-avg-aggregate.output';
-import { ArticleSumAggregate } from './article-sum-aggregate.output';
-import { ArticleMinAggregate } from './article-min-aggregate.output';
 import { ArticleMaxAggregate } from './article-max-aggregate.output';
+import { ArticleMinAggregate } from './article-min-aggregate.output';
+import { ArticleSumAggregate } from './article-sum-aggregate.output';
 
 @ObjectType()
 export class AggregateArticle {

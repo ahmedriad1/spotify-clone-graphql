@@ -1,6 +1,7 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { UserCreateOneWithoutCommentsInput } from '../user/user-create-one-without-comments.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { UserCreateOneWithoutCommentInput } from '../user/user-create-one-without-comment.input';
+import { UserCreateOneWithoutCommentsInput } from '../user/user-create-one-without-comments.input';
 
 @InputType()
 export class CommentCreateWithoutArticleInput {

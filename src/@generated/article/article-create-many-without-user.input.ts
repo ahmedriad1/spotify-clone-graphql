@@ -1,7 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+
+import { ArticleCreateOrConnectWithoutUserInput } from './article-create-or-connect-without-user.input';
 import { ArticleCreateWithoutUserInput } from './article-create-without-user.input';
 import { ArticleWhereUniqueInput } from './article-where-unique.input';
-import { ArticleCreateOrConnectWithoutUserInput } from './article-create-or-connect-without-user.input';
 
 @InputType()
 export class ArticleCreateManyWithoutUserInput {

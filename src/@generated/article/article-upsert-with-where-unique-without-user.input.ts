@@ -1,7 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { ArticleWhereUniqueInput } from './article-where-unique.input';
-import { ArticleUpdateWithoutUserInput } from './article-update-without-user.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { ArticleCreateWithoutUserInput } from './article-create-without-user.input';
+import { ArticleUpdateWithoutUserInput } from './article-update-without-user.input';
+import { ArticleWhereUniqueInput } from './article-where-unique.input';
 
 @InputType()
 export class ArticleUpsertWithWhereUniqueWithoutUserInput {

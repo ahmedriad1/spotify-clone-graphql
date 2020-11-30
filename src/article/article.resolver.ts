@@ -23,12 +23,12 @@ import {
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
 import { PlainObject } from 'simplytyped';
 
+import { PassportUserFields } from '../auth/models/passport-user-fields';
 import { ArticleService } from './article.service';
 import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
 import { ArticleCreateInput } from './models/article-create.input';
 import { ArticleUpdateInput } from './models/article-update.input';
-import { PassportUserFields } from '../auth/models/passport-user-fields';
 
 /**
  * Resolver for article type.

@@ -11,10 +11,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
             errorFormat: 'minimal',
             log: ['query'],
         });
-
         // @ts-ignore
         this.$on('query', (event: any) => {
-            this.logger.debug(event.params, 'prisma:query');
+            if (event.params === '[]') return;
+            this.logger.debug(event.params, 'prisma:query:params');
         });
     }
 

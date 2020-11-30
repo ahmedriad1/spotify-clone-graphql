@@ -1,9 +1,10 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+
+import { UserCreateOrConnectWithoutArticleInput } from './user-create-or-connect-without-article.input';
 import { UserCreateWithoutArticleInput } from './user-create-without-article.input';
-import { UserWhereUniqueInput } from './user-where-unique.input';
 import { UserUpdateWithoutArticleInput } from './user-update-without-article.input';
 import { UserUpsertWithoutArticleInput } from './user-upsert-without-article.input';
-import { UserCreateOrConnectWithoutArticleInput } from './user-create-or-connect-without-article.input';
+import { UserWhereUniqueInput } from './user-where-unique.input';
 
 @InputType()
 export class UserUpdateOneWithoutArticleInput {

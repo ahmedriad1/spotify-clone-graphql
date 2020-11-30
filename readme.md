@@ -56,6 +56,5 @@ to graphql api.
 
 ## Todo
 
--   graphqlModuleFactory: formatError
 -   Runnning test:e2e on CI
 -   ArticleService.updateArticle() Updating tags does not working check it later

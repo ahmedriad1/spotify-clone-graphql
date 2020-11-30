@@ -1,11 +1,12 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { UserCreateWithoutFollowingUsersInput } from './user-create-without-following-users.input';
-import { UserWhereUniqueInput } from './user-where-unique.input';
-import { UserUpdateWithWhereUniqueWithoutFollowingUsersInput } from './user-update-with-where-unique-without-following-users.input';
-import { UserUpdateManyWithWhereWithoutFollowingUsersInput } from './user-update-many-with-where-without-following-users.input';
-import { UserScalarWhereInput } from './user-scalar-where.input';
-import { UserUpsertWithWhereUniqueWithoutFollowingUsersInput } from './user-upsert-with-where-unique-without-following-users.input';
+import { Field, InputType } from '@nestjs/graphql';
+
 import { UserCreateOrConnectWithoutfollowingUsersInput } from './user-create-or-connect-withoutfollowing-users.input';
+import { UserCreateWithoutFollowingUsersInput } from './user-create-without-following-users.input';
+import { UserScalarWhereInput } from './user-scalar-where.input';
+import { UserUpdateManyWithWhereWithoutFollowingUsersInput } from './user-update-many-with-where-without-following-users.input';
+import { UserUpdateWithWhereUniqueWithoutFollowingUsersInput } from './user-update-with-where-unique-without-following-users.input';
+import { UserUpsertWithWhereUniqueWithoutFollowingUsersInput } from './user-upsert-with-where-unique-without-following-users.input';
+import { UserWhereUniqueInput } from './user-where-unique.input';
 
 @InputType()
 export class UserUpdateManyWithoutFollowingUsersInput {

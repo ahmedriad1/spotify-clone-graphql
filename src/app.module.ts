@@ -1,6 +1,7 @@
 import { Global, Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloErrorConverter, extendMapItem, mapItemBases } from 'apollo-error-converter';
 import { IncomingMessage } from 'http';
 
 import { ApiModule } from './api/api.module';
@@ -12,19 +13,30 @@ import { PrismaService } from './prisma/prisma.service';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
 
-export async function graphqlModuleFactory(prismaService: PrismaService) {
+export async function graphqlModuleFactory(prismaService: PrismaService, logger: Logger) {
     return {
         tracing: false,
         autoSchemaFile: '~schema.gql',
         context: (data) => {
             return {
                 prisma: prismaService,
-                token: (null as unknown) as string,
+                token: null as string | null,
                 req: data.req as IncomingMessage,
             };
         },
-        // todo: format
-        // formatError: null as any,
+        formatError: new ApolloErrorConverter({
+            logger,
+            errorMap: [
+                {
+                    BadRequestException: extendMapItem(mapItemBases.InvalidFields, {
+                        logger: true,
+                        data: (err) => {
+                            return err?.response;
+                        },
+                    }),
+                },
+            ],
+        }),
     };
 }
 
