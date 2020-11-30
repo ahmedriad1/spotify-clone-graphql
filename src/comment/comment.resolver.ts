@@ -11,11 +11,11 @@ import {
 import { PlainObject } from 'simplytyped';
 
 import { ArticleService } from '../article/article.service';
+import { PassportUserFields } from '../auth';
 import { AuthorGuard } from './author.guard';
 import { CommentService } from './comment.service';
 import { Comment } from './models/comment';
 import { CreateCommentInput } from './models/create-comment.input';
-import { PassportUserFields } from '../auth';
 
 /**
  * Resolver for article comment type.

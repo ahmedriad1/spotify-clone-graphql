@@ -1,7 +1,7 @@
 import { ArticleWhereInput } from '@generated/article/article-where.input';
 import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
 import { FindManyArticleArgs } from '@generated/article/find-many-article.args';
-import { ConflictException, NotFoundException, UseGuards } from '@nestjs/common';
+import { ConflictException, Logger, NotFoundException, UseGuards } from '@nestjs/common';
 import {
     Args,
     Info,
@@ -21,6 +21,7 @@ import {
     GraphqlAuthGuard,
     OptionalGraphqlAuthGuard,
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
+import assert from 'assert';
 import { PlainObject } from 'simplytyped';
 
 import { PassportUserFields } from '../auth/models/passport-user-fields';
@@ -35,15 +36,14 @@ import { ArticleUpdateInput } from './models/article-update.input';
  */
 @Resolver(() => Article)
 export class ArticleResolver {
-    constructor(private readonly service: ArticleService) {}
+    constructor(private readonly service: ArticleService, private readonly logger: Logger) {}
 
     @Query(() => [Article])
     async articles(@Args() args: FindManyArticleArgs, @Info() info) {
-        const result = await this.service.findMany({
+        return await this.service.findMany({
             where: args.where as Prisma.ArticleWhereInput,
             ...new PrismaSelect(info).value,
         });
-        return result;
     }
 
     @Query(() => Int)
@@ -101,7 +101,7 @@ export class ArticleResolver {
     @UseGuards(GraphqlAuthGuard)
     async createArticle(
         @Args('input') input: ArticleCreateInput,
-        @CurrentUser() author: { id: string },
+        @CurrentUser() author: PassportUserFields,
     ) {
         return this.service.create({ input, author });
     }
@@ -196,7 +196,10 @@ export class ArticleResolver {
         }
         if (Array.isArray(article.favoritedBy)) {
             return article.favoritedBy.some((user) => user.userId === currentUser.id);
+        } else {
+            this.logger.warn('FavoritedBy is not selected', 'Performance Warning');
         }
+        assert(article.articleId);
         return this.service.isFavorited(article.articleId, currentUser.id);
     }
 

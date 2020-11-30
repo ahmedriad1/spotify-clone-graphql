@@ -1,4 +1,4 @@
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { createSpyObj } from 'jest-createspyobj';
@@ -27,6 +27,10 @@ describe('ArticleResolver', () => {
                 {
                     provide: ArticleService,
                     useValue: service,
+                },
+                {
+                    provide: Logger,
+                    useValue: createSpyObj(Logger),
                 },
             ],
         }).compile();

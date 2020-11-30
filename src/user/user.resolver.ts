@@ -17,6 +17,7 @@ import {
     GraphqlAuthGuard,
     OptionalGraphqlAuthGuard,
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
+import assert from 'assert';
 
 import { PassportUserFields } from '../auth';
 import { AuthService } from '../auth/auth.service';
@@ -26,7 +27,6 @@ import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
-import assert from 'assert';
 
 /**
  * Resolves user object type.
