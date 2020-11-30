@@ -13,6 +13,7 @@ export class UserRepository extends PrismaRepository {
     findUnique = this.prisma.user.findUnique;
     findMany = this.prisma.user.findMany;
     create = this.prisma.user.create;
+    count = this.prisma.user.count;
 
     constructor(private readonly prisma: PrismaService) {
         super();

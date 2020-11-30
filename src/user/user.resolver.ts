@@ -114,15 +114,17 @@ export class UserResolver {
         @Parent() user: User,
         @CurrentUser() currentUser?: PassportUserFields,
     ): Promise<boolean> {
+        // todo: Fix N+1 Problem
         if (!currentUser) {
             return false;
         }
         assert(user.userId);
-        if (Array.isArray(user.followers)) {
-            return user.followers.some((follower) => follower.userId === currentUser.id);
-        } else {
-            this.logger.warn('Followers is not selected', 'Performance');
-        }
+        // BUG: Cannot select userId in followers
+        // if (Array.isArray(user.followers)) {
+        //     return user.followers.some((follower) => follower.userId === currentUser.id);
+        // } else {
+        //     this.logger.warn('Followers is not selected', 'Performance Warning');
+        // }
         return this.userService.isFollowing(user.userId, currentUser.id);
     }
 }
