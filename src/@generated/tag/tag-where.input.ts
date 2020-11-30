@@ -1,7 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { ArticleListRelationFilter } from '../article/article-list-relation-filter.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
+import { ArticleListRelationFilter } from '../article/article-list-relation-filter.input';
 
 @InputType()
 export class TagWhereInput {
@@ -23,7 +22,7 @@ export class TagWhereInput {
     @Field(() => StringFilter, {
         nullable: true,
     })
-    id?: StringFilter | string;
+    tagId?: StringFilter | string;
 
     @Field(() => StringFilter, {
         nullable: true,

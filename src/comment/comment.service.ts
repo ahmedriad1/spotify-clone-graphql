@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { ArticleWhereUniqueInput, CommentCreateArgs, FindManyCommentArgs } from '@prisma/client';
+import {
+    ArticleWhereUniqueInput,
+    CommentCreateArgs,
+    FindManyCommentArgs,
+    Prisma,
+} from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -10,7 +15,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CommentService {
     update = this.prisma.comment.update;
     delete = this.prisma.comment.delete;
-    findOne = this.prisma.comment.findOne;
+    findUnique = this.prisma.comment.findUnique;
     findMany = this.prisma.comment.findMany;
 
     constructor(private readonly prisma: PrismaService) {}
@@ -20,14 +25,14 @@ export class CommentService {
             where: {
                 article: args.where,
             },
-            orderBy: { id: 'desc' },
+            orderBy: { commentId: 'desc' },
             include: {
                 author: {
                     include: args.follower
                         ? {
                               followers: {
-                                  select: { id: true },
-                                  where: { id: args.follower.id },
+                                  select: { userId: true },
+                                  where: { userId: args.follower.id },
                                   take: 1,
                               },
                           }
@@ -43,7 +48,7 @@ export class CommentService {
             data: {
                 body: args.body,
                 author: {
-                    connect: { id: args.authorId },
+                    connect: { userId: args.authorId },
                 },
                 article: {
                     connect: args.where,

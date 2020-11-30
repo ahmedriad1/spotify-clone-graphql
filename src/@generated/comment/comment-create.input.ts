@@ -1,5 +1,5 @@
-import { Field, InputType } from '@nestjs/graphql';
-
+import { InputType, Field } from '@nestjs/graphql';
+import { UserCreateOneWithoutCommentsInput } from '../user/user-create-one-without-comments.input';
 import { ArticleCreateOneWithoutCommentsInput } from '../article/article-create-one-without-comments.input';
 import { UserCreateOneWithoutCommentInput } from '../user/user-create-one-without-comment.input';
 
@@ -8,7 +8,7 @@ export class CommentCreateInput {
     @Field(() => String, {
         nullable: true,
     })
-    id?: string;
+    commentId?: string;
 
     @Field(() => String, {
         nullable: true,
@@ -25,15 +25,10 @@ export class CommentCreateInput {
     })
     body?: string;
 
-    @Field(() => UserCreateOneWithoutCommentInput, {
+    @Field(() => UserCreateOneWithoutCommentsInput, {
         nullable: true,
     })
-    author?: UserCreateOneWithoutCommentInput;
-
-    @Field(() => ArticleCreateOneWithoutCommentsInput, {
-        nullable: true,
-    })
-    Article?: ArticleCreateOneWithoutCommentsInput;
+    author?: UserCreateOneWithoutCommentsInput;
 
     @Field(() => ArticleCreateOneWithoutCommentsInput, {
         nullable: true,

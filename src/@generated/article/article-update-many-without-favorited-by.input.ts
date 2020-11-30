@@ -1,12 +1,11 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { ArticleCreateOrConnectWithoutfavoritedByInput } from './article-create-or-connect-withoutfavorited-by.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { ArticleCreateWithoutFavoritedByInput } from './article-create-without-favorited-by.input';
-import { ArticleScalarWhereInput } from './article-scalar-where.input';
-import { ArticleUpdateManyWithWhereWithoutFavoritedByInput } from './article-update-many-with-where-without-favorited-by.input';
-import { ArticleUpdateWithWhereUniqueWithoutFavoritedByInput } from './article-update-with-where-unique-without-favorited-by.input';
-import { ArticleUpsertWithWhereUniqueWithoutFavoritedByInput } from './article-upsert-with-where-unique-without-favorited-by.input';
 import { ArticleWhereUniqueInput } from './article-where-unique.input';
+import { ArticleUpdateWithWhereUniqueWithoutFavoritedByInput } from './article-update-with-where-unique-without-favorited-by.input';
+import { ArticleUpdateManyWithWhereWithoutFavoritedByInput } from './article-update-many-with-where-without-favorited-by.input';
+import { ArticleScalarWhereInput } from './article-scalar-where.input';
+import { ArticleUpsertWithWhereUniqueWithoutFavoritedByInput } from './article-upsert-with-where-unique-without-favorited-by.input';
+import { ArticleCreateOrConnectWithoutfavoritedByInput } from './article-create-or-connect-withoutfavorited-by.input';
 
 @InputType()
 export class ArticleUpdateManyWithoutFavoritedByInput {

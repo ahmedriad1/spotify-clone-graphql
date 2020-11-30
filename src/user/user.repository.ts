@@ -10,7 +10,7 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class UserRepository extends PrismaRepository {
     update = this.prisma.user.update;
-    findOne = this.prisma.user.findOne;
+    findUnique = this.prisma.user.findUnique;
     findMany = this.prisma.user.findMany;
     create = this.prisma.user.create;
 

@@ -1,9 +1,8 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { ArticleListRelationFilter } from '../article/article-list-relation-filter.input';
-import { CommentListRelationFilter } from '../comment/comment-list-relation-filter.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
 import { UserListRelationFilter } from './user-list-relation-filter.input';
+import { ArticleListRelationFilter } from '../article/article-list-relation-filter.input';
+import { CommentListRelationFilter } from '../comment/comment-list-relation-filter.input';
 
 @InputType()
 export class UserWhereInput {
@@ -25,7 +24,7 @@ export class UserWhereInput {
     @Field(() => StringFilter, {
         nullable: true,
     })
-    id?: StringFilter | string;
+    userId?: StringFilter | string;
 
     @Field(() => StringFilter, {
         nullable: true,
@@ -70,10 +69,25 @@ export class UserWhereInput {
     @Field(() => ArticleListRelationFilter, {
         nullable: true,
     })
+    articles?: ArticleListRelationFilter;
+
+    @Field(() => CommentListRelationFilter, {
+        nullable: true,
+    })
+    comments?: CommentListRelationFilter;
+
+    @Field(() => ArticleListRelationFilter, {
+        nullable: true,
+    })
     Article?: ArticleListRelationFilter;
 
     @Field(() => CommentListRelationFilter, {
         nullable: true,
     })
     Comment?: CommentListRelationFilter;
+
+    @Field(() => UserListRelationFilter, {
+        nullable: true,
+    })
+    followingUsers?: UserListRelationFilter;
 }

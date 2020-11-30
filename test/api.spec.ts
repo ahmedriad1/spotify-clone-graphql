@@ -91,7 +91,7 @@ describe('Registration POST /api/users', () => {
         expect(response.status).toBe(422);
     });
 
-    it('invalid (empty) values', async () => {
+    it('invalid values empty', async () => {
         const response = await request({
             method: 'POST',
             path: '/users',

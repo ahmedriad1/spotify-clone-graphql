@@ -1,5 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Article } from '../article/article.model';
 
 @ObjectType({})
@@ -7,7 +6,7 @@ export class Tag {
     @Field(() => ID, {
         nullable: false,
     })
-    id!: string;
+    tagId!: string;
 
     @Field(() => String, {
         nullable: false,

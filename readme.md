@@ -56,7 +56,6 @@ to graphql api.
 
 ## Todo
 
--   rename pk to modelId
+-   graphqlModuleFactory: formatError
 -   Runnning test:e2e on CI
 -   ArticleService.updateArticle() Updating tags does not working check it later
--   graphqlModuleFactory: formatError

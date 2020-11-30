@@ -16,25 +16,27 @@ generator nestgraphql {
 }
 
 model User {
-    id  String  @id  @default(cuid())
+    userId  String  @id  @default(cuid())
     email  String  @unique
     name   String  @unique
     password  String
     bio  String?
     image  String?
-    following   User[]   @relation("UserFollows", references: [id])
-    followers   User[]   @relation("UserFollows", references: [id])
-    favoriteArticles  Article[]  @relation(name: "FavoritedArticles", references: [id])
+    following   User[]   @relation("UserFollows", references: [userId])
+    followers   User[]   @relation("UserFollows", references: [userId])
+    favoriteArticles  Article[]  @relation(name: "FavoritedArticles", references: [articleId])
+    // articles Article[]
+    // comments Comment[]
 }
 
 model Tag {
-    id  String  @id  @default(cuid())
+    tagId  String  @id  @default(cuid())
     name  String  @unique
     articles  Article[]
 }
 
 model Article {
-    id  String  @id  @default(cuid())
+    articleId  String  @id  @default(cuid())
     slug  String  @unique
     title  String
     description  String
@@ -43,19 +45,19 @@ model Article {
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
     favoritesCount  Int  @default(0)
-    author    User  @relation(name: "ArticleAuthor", fields: [authorId], references: [id])
-    authorId  String
-    favoritedBy  User[]  @relation(name: "FavoritedArticles", references: [id])
+    author    User?  @relation(name: "ArticleAuthor", fields: [authorId], references: [userId])
+    authorId  String?
+    favoritedBy  User[]  @relation(name: "FavoritedArticles", references: [userId])
     comments  Comment[]
 }
 
 model Comment {
-    id  String  @id  @default(cuid())
+    commentId  String  @id  @default(cuid())
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
     body  String
-    author    User  @relation(fields: [authorId], references: [id])
+    author    User  @relation(fields: [authorId], references: [userId])
     authorId  String
-    article   Article? @relation(fields: [articleId], references: [id])
+    article   Article? @relation(fields: [articleId], references: [articleId])
     articleId String?
 }

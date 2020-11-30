@@ -1,5 +1,4 @@
 import { ArgsType, Field } from '@nestjs/graphql';
-
 import { UserWhereUniqueInput } from './user-where-unique.input';
 
 @ArgsType()

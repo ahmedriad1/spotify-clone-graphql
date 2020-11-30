@@ -1,5 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
-
+import { InputType, Field } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 
 @InputType()
@@ -7,7 +6,7 @@ export class ArticleOrderByInput {
     @Field(() => SortOrder, {
         nullable: true,
     })
-    id?: SortOrder;
+    articleId?: SortOrder;
 
     @Field(() => SortOrder, {
         nullable: true,
@@ -48,4 +47,9 @@ export class ArticleOrderByInput {
         nullable: true,
     })
     authorId?: SortOrder;
+
+    @Field(() => SortOrder, {
+        nullable: true,
+    })
+    userUserId?: SortOrder;
 }

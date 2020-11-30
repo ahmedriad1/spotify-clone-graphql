@@ -1,8 +1,7 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { UserCreateOrConnectWithoutfavoriteArticlesInput } from './user-create-or-connect-withoutfavorite-articles.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { UserCreateWithoutFavoriteArticlesInput } from './user-create-without-favorite-articles.input';
 import { UserWhereUniqueInput } from './user-where-unique.input';
+import { UserCreateOrConnectWithoutfavoriteArticlesInput } from './user-create-or-connect-withoutfavorite-articles.input';
 
 @InputType()
 export class UserCreateManyWithoutFavoriteArticlesInput {

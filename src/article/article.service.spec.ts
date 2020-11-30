@@ -36,11 +36,11 @@ describe('ArticleService', () => {
     });
 
     it('findMany', async () => {
-        await service.findMany({ where: { id: { equals: 'a' } } });
+        await service.findMany({ where: { articleId: { equals: 'a' } } });
         expect(prismaService.article.findMany).toHaveBeenCalledWith(
             expect.objectContaining({
                 where: {
-                    id: {
+                    articleId: {
                         equals: 'a',
                     },
                 },

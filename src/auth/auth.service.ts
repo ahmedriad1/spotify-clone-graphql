@@ -19,10 +19,10 @@ export class AuthService {
     /**
      * Returns accessToken.
      */
-    async session(user: Pick<User, 'id' | 'email'>) {
+    async session(user: Pick<User, 'userId' | 'email'>) {
         const date = new Date();
 
-        const payload: SessionTokenFields = { sub: user.id, email: user.email };
+        const payload: SessionTokenFields = { sub: user.userId, email: user.email };
 
         const accessTokenExpiresIn = this.configService.get<number>(
             'accessTokenExpiresIn',
@@ -47,7 +47,7 @@ export class AuthService {
      * Get user from store by refresh token and return new session.
      */
     // public async refresh(where: {}) {
-    //     const authEntity = this.userService.findOne(where);
+    //     const authEntity = this.userService.findUnique(where);
 
     //     if (!authEntity || authEntity.refreshTokenExpiresAt > new Date().getTime()) {
     //         throw new UnauthorizedException();

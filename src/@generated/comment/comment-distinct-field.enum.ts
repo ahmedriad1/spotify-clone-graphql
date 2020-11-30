@@ -1,7 +1,7 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum CommentDistinctFieldEnum {
-    id = 'id',
+    commentId = 'commentId',
     createdAt = 'createdAt',
     updatedAt = 'updatedAt',
     body = 'body',

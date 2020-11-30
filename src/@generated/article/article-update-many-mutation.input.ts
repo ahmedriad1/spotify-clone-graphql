@@ -1,11 +1,11 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class ArticleUpdateManyMutationInput {
     @Field(() => String, {
         nullable: true,
     })
-    id?: string;
+    articleId?: string;
 
     @Field(() => String, {
         nullable: true,

@@ -14,12 +14,12 @@ export class UserService {
         return this.repository.update({ data, where });
     }
 
-    async findOne(where: Prisma.UserWhereUniqueInput) {
-        return this.repository.findOne({ where });
+    async findUnique(where: Prisma.UserWhereUniqueInput) {
+        return this.repository.findUnique({ where });
     }
 
-    async findOneByCredentials(data: { email: string; password: string }) {
-        let user = await this.repository.findOne({ where: { email: data.email } });
+    async findByCredentials(data: { email: string; password: string }) {
+        let user = await this.repository.findUnique({ where: { email: data.email } });
         if (!(user && user.password === data.password)) {
             user = null;
         }
@@ -40,8 +40,14 @@ export class UserService {
 
     async isFollowing(userId: string, byUserId: string) {
         const result = await this.repository
-            .findOne({ where: { id: userId } })
-            .followers({ where: { id: byUserId }, take: 1 });
+            .findUnique({
+                where: { userId },
+            })
+            .followers({
+                select: { userId: true },
+                where: { userId: byUserId },
+                take: 1,
+            });
         return result.length > 0;
     }
 
@@ -53,9 +59,7 @@ export class UserService {
         follower: Prisma.UserWhereUniqueInput,
         value: boolean,
     ) {
-        const followersOperation: Prisma.UserUpdateManyWithoutFollowingInput = value
-            ? { connect: follower }
-            : { disconnect: follower };
+        const followersOperation = value ? { connect: follower } : { disconnect: follower };
         return this.repository.update({
             where,
             data: {

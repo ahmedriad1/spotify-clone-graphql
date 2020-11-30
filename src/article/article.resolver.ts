@@ -28,6 +28,7 @@ import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
 import { ArticleCreateInput } from './models/article-create.input';
 import { ArticleUpdateInput } from './models/article-update.input';
+import { PassportUserFields } from '../auth/models/passport-user-fields';
 
 /**
  * Resolver for article type.
@@ -62,7 +63,7 @@ export class ArticleResolver {
     @Query(() => Article, { nullable: true })
     @UseGuards(OptionalGraphqlAuthGuard)
     async article(@Args('where') where: ArticleWhereUniqueInput, @Info() info) {
-        return this.service.findOne({
+        return this.service.findUnique({
             where,
             ...new PrismaSelect(info).value,
         });
@@ -73,7 +74,7 @@ export class ArticleResolver {
     async feed(
         @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
         @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
-        @CurrentUser() user: { id: string },
+        @CurrentUser() user: PassportUserFields,
         @GraphqlFields() fields: PlainObject,
     ) {
         return this.service.findMany({
@@ -84,12 +85,12 @@ export class ArticleResolver {
                 favoritedBy: fields.favorited
                     ? {
                           take: 1,
-                          select: { id: true },
-                          where: { id: user.id },
+                          select: { userId: true },
+                          where: { userId: user.id },
                       }
                     : false,
             },
-            orderBy: { id: 'desc' },
+            orderBy: { articleId: 'desc' },
             skip: offset,
             take: limit,
         });
@@ -111,7 +112,7 @@ export class ArticleResolver {
         @Args('where') where: ArticleWhereUniqueInput,
         @GraphqlFields() fields: PlainObject,
     ) {
-        const article = await this.service.findOne({ where });
+        const article = await this.service.findUnique({ where });
         if (!article) {
             throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
         }
@@ -131,7 +132,7 @@ export class ArticleResolver {
         @Args('where') where: ArticleWhereUniqueInput,
         @GraphqlFields() fields: PlainObject,
     ) {
-        const article = await this.service.findOne({ where });
+        const article = await this.service.findUnique({ where });
         if (!article) {
             throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
         }
@@ -150,14 +151,14 @@ export class ArticleResolver {
         @Args('where') where: ArticleWhereUniqueInput,
         @Args('value') value: boolean,
         @GraphqlFields() fields: PlainObject,
-        @CurrentUser() currentUser: { id: string },
+        @CurrentUser() currentUser: PassportUserFields,
     ) {
-        const article = await this.service.findOne({
+        const article = await this.service.findUnique({
             where,
             include: {
                 favoritedBy: {
                     take: 1,
-                    where: { id: currentUser.id },
+                    where: { userId: currentUser.id },
                 },
             },
         });
@@ -187,15 +188,15 @@ export class ArticleResolver {
     @ResolveField(() => Boolean)
     async favorited(
         @Parent() article: Article,
-        @CurrentUser() currentUser?: { id: string },
+        @CurrentUser() currentUser?: PassportUserFields,
     ): Promise<boolean> {
         if (!currentUser) {
             return false;
         }
         if (Array.isArray(article.favoritedBy)) {
-            return article.favoritedBy.some((user) => user.id === currentUser.id);
+            return article.favoritedBy.some((user) => user.userId === currentUser.id);
         }
-        return this.service.isFavorited(article.id, currentUser.id);
+        return this.service.isFavorited(article.articleId, currentUser.id);
     }
 
     @ResolveField(() => String)

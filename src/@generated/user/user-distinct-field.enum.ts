@@ -1,7 +1,7 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum UserDistinctFieldEnum {
-    id = 'id',
+    userId = 'userId',
     email = 'email',
     name = 'name',
     password = 'password',

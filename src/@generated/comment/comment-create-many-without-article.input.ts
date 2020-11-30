@@ -1,9 +1,7 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { CommentCreateOrConnectWithoutArticleInput } from './comment-create-or-connect-without-article.input';
-import { CommentCreateOrConnectWithoutarticleInput } from './comment-create-or-connect-withoutarticle.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { CommentCreateWithoutArticleInput } from './comment-create-without-article.input';
 import { CommentWhereUniqueInput } from './comment-where-unique.input';
+import { CommentCreateOrConnectWithoutarticleInput } from './comment-create-or-connect-withoutarticle.input';
 
 @InputType()
 export class CommentCreateManyWithoutArticleInput {
@@ -17,10 +15,10 @@ export class CommentCreateManyWithoutArticleInput {
     })
     connect?: CommentWhereUniqueInput | Array<CommentWhereUniqueInput>;
 
-    @Field(() => [CommentCreateOrConnectWithoutArticleInput], {
+    @Field(() => [CommentCreateOrConnectWithoutarticleInput], {
         nullable: true,
     })
     connectOrCreate?:
-        | CommentCreateOrConnectWithoutArticleInput
-        | Array<CommentCreateOrConnectWithoutArticleInput>;
+        | CommentCreateOrConnectWithoutarticleInput
+        | Array<CommentCreateOrConnectWithoutarticleInput>;
 }

@@ -1,12 +1,11 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { UserCreateOrConnectWithoutfavoriteArticlesInput } from './user-create-or-connect-withoutfavorite-articles.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { UserCreateWithoutFavoriteArticlesInput } from './user-create-without-favorite-articles.input';
-import { UserScalarWhereInput } from './user-scalar-where.input';
-import { UserUpdateManyWithWhereWithoutFavoriteArticlesInput } from './user-update-many-with-where-without-favorite-articles.input';
-import { UserUpdateWithWhereUniqueWithoutFavoriteArticlesInput } from './user-update-with-where-unique-without-favorite-articles.input';
-import { UserUpsertWithWhereUniqueWithoutFavoriteArticlesInput } from './user-upsert-with-where-unique-without-favorite-articles.input';
 import { UserWhereUniqueInput } from './user-where-unique.input';
+import { UserUpdateWithWhereUniqueWithoutFavoriteArticlesInput } from './user-update-with-where-unique-without-favorite-articles.input';
+import { UserUpdateManyWithWhereWithoutFavoriteArticlesInput } from './user-update-many-with-where-without-favorite-articles.input';
+import { UserScalarWhereInput } from './user-scalar-where.input';
+import { UserUpsertWithWhereUniqueWithoutFavoriteArticlesInput } from './user-upsert-with-where-unique-without-favorite-articles.input';
+import { UserCreateOrConnectWithoutfavoriteArticlesInput } from './user-create-or-connect-withoutfavorite-articles.input';
 
 @InputType()
 export class UserUpdateManyWithoutFavoriteArticlesInput {

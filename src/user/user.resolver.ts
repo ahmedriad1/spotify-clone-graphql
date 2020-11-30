@@ -20,12 +20,12 @@ import {
 
 import { AuthService } from '../auth/auth.service';
 import { GraphQLContext } from '../types';
-import { PassportUserFields } from './models/passport-user-fields';
 import { User } from './models/user';
 import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
+import { PassportUserFields } from '../auth';
 
 /**
  * Resolves user object type.
@@ -43,13 +43,13 @@ export class UserResolver {
     @Query(() => User)
     @UseGuards(GraphqlAuthGuard)
     async me(@CurrentUser() user: PassportUserFields) {
-        return this.userService.findOne({ id: user.id });
+        return this.userService.findUnique({ userId: user.id });
     }
 
     @Query(() => User)
     @UseGuards(OptionalGraphqlAuthGuard)
     async user(@Args('where') where: UserWhereUniqueInput, @Info() info) {
-        const user = await this.userService.findOne(where);
+        const user = await this.userService.findUnique(where);
         if (!user) {
             throw new NotFoundException(`User with ${JSON.stringify(where)} do not exists.`);
         }
@@ -66,12 +66,12 @@ export class UserResolver {
     @Mutation(() => User)
     @UseGuards(GraphqlAuthGuard)
     async updateUser(@Args('data') data: UserUpdateInput, @CurrentUser() user: PassportUserFields) {
-        return this.userService.update({ id: user.id }, data as Prisma.UserUpdateInput);
+        return this.userService.update({ userId: user.id }, data as Prisma.UserUpdateInput);
     }
 
     @Mutation(() => User)
     async loginUser(@Args('data') data: UserLoginInput, @Context() context: GraphQLContext) {
-        const user = await this.userService.findOneByCredentials(data);
+        const user = await this.userService.findByCredentials(data);
         if (!user) {
             throw new UnauthorizedException();
         }
@@ -86,11 +86,11 @@ export class UserResolver {
         @Args('where') where: UserWhereUniqueInput,
         @Args('value') value: boolean,
     ) {
-        const user = await this.userService.findOne(where);
+        const user = await this.userService.findUnique(where);
         if (!user) {
             throw new NotFoundException(`User ${JSON.stringify(where)} do not exists`);
         }
-        const follower = { id: currentUser.id };
+        const follower = { userId: currentUser.id };
         return this.userService.follow(where, follower, value);
     }
 
@@ -108,7 +108,7 @@ export class UserResolver {
      * Check if current user is follow some user.
      */
     @ResolveField(() => Boolean)
-    async following(
+    async isFollowing(
         @Parent() user: User,
         @CurrentUser() currentUser?: PassportUserFields,
     ): Promise<boolean> {
@@ -116,8 +116,8 @@ export class UserResolver {
             return false;
         }
         if (Array.isArray(user.followers)) {
-            return user.followers.some((follower) => follower.id === currentUser.id);
+            return user.followers.some((follower) => follower.userId === currentUser.id);
         }
-        return this.userService.isFollowing(user.id, currentUser.id);
+        return this.userService.isFollowing(user.userId, currentUser.id);
     }
 }

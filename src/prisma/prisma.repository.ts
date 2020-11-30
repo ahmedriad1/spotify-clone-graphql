@@ -9,9 +9,6 @@ export class PrismaRepository {
     findUnique(...args: unknown[]): unknown {
         throw new Error('findUnique method is not implemented');
     }
-    findOne(...args: unknown[]): unknown {
-        throw new Error('findOne method is not implemented');
-    }
     findMany(...args: unknown[]): unknown {
         throw new Error('findMany method is not implemented');
     }

@@ -1,7 +1,7 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum TagDistinctFieldEnum {
-    id = 'id',
+    tagId = 'tagId',
     name = 'name',
 }
 

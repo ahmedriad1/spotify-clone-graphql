@@ -11,7 +11,7 @@ type ArticlePayload = Prisma.ArticleGetPayload<{
 
 export function createArticle(parts: Partial<ArticlePayload> = {}): ArticlePayload {
     return {
-        id: 'article_id',
+        articleId: 'article_id',
         slug: 'article_slug',
         title: 'article_title',
         description: 'article_description',
@@ -21,7 +21,7 @@ export function createArticle(parts: Partial<ArticlePayload> = {}): ArticlePaylo
         updatedAt: new Date(),
         favoritesCount: 0,
         author: {
-            id: 'author_id',
+            userId: 'author_id',
             name: 'author_name',
             email: 'author_name@diamond.net',
             password: '',

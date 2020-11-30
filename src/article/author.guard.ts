@@ -18,7 +18,7 @@ export class AuthorGuard implements CanActivate {
         if (!(request.user && where)) {
             return false;
         }
-        const article = await this.articleService.findOne({ where, select: { authorId: true } });
+        const article = await this.articleService.findUnique({ where, select: { authorId: true } });
         return Boolean(article && article.authorId === request.user.id);
     }
 }

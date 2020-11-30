@@ -102,7 +102,7 @@ export class ApiService {
             query user($input: UserWhereUniqueInput!) {
                 profile: user(where: $input) {
                     ...userFields
-                    following
+                    following: isFollowing
                 }
             }
             ${userFields}
@@ -179,7 +179,7 @@ export class ApiService {
 
         const query = /* GraphQL */ `
             query articles($where: ArticleWhereInput!) {
-                articles: articles(where: $where, orderBy: { id: desc }) {
+                articles: articles(where: $where, orderBy: { articleId: desc }) {
                     ...articleFields
                 }
                 articlesCount: countArticles(where: $where)
@@ -207,7 +207,7 @@ export class ApiService {
             mutation follow($where: UserWhereUniqueInput!, $value: Boolean!) {
                 profile: follow(where: $where, value: $value) {
                     ...userFields
-                    following
+                    following: isFollowing
                 }
             }
             ${userFields}

@@ -1,14 +1,13 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-
-import { Article } from '../article/article.model';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from '../user/user.model';
+import { Article } from '../article/article.model';
 
 @ObjectType({})
 export class Comment {
     @Field(() => ID, {
         nullable: false,
     })
-    id!: string;
+    commentId!: string;
 
     @Field(() => String, {
         nullable: false,
@@ -38,15 +37,10 @@ export class Comment {
     @Field(() => Article, {
         nullable: true,
     })
-    Article?: Article;
+    article?: Article;
 
     @Field(() => String, {
         nullable: true,
     })
     readonly articleId?: string;
-
-    @Field(() => Article, {
-        nullable: true,
-    })
-    article?: Article;
 }

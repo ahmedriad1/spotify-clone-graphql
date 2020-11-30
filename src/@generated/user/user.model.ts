@@ -1,5 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Article } from '../article/article.model';
 import { Comment } from '../comment/comment.model';
 
@@ -8,7 +7,7 @@ export class User {
     @Field(() => ID, {
         nullable: false,
     })
-    id!: string;
+    userId!: string;
 
     @Field(() => String, {
         nullable: false,
@@ -38,6 +37,11 @@ export class User {
     @Field(() => [User], {
         nullable: true,
     })
+    following?: Array<User>;
+
+    @Field(() => [User], {
+        nullable: true,
+    })
     followers?: Array<User>;
 
     @Field(() => [Article], {
@@ -48,10 +52,25 @@ export class User {
     @Field(() => [Article], {
         nullable: true,
     })
+    articles?: Array<Article>;
+
+    @Field(() => [Comment], {
+        nullable: true,
+    })
+    comments?: Array<Comment>;
+
+    @Field(() => [Article], {
+        nullable: true,
+    })
     Article?: Array<Article>;
 
     @Field(() => [Comment], {
         nullable: true,
     })
     Comment?: Array<Comment>;
+
+    @Field(() => [User], {
+        nullable: true,
+    })
+    followingUsers?: Array<User>;
 }

@@ -1,7 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { UserCreateWithoutArticleInput } from './user-create-without-article.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { UserUpdateWithoutArticleInput } from './user-update-without-article.input';
+import { UserCreateWithoutArticleInput } from './user-create-without-article.input';
 
 @InputType()
 export class UserUpsertWithoutArticleInput {

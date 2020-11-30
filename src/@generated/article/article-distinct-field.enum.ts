@@ -1,7 +1,7 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum ArticleDistinctFieldEnum {
-    id = 'id',
+    articleId = 'articleId',
     slug = 'slug',
     title = 'title',
     description = 'description',
@@ -10,6 +10,7 @@ export enum ArticleDistinctFieldEnum {
     updatedAt = 'updatedAt',
     favoritesCount = 'favoritesCount',
     authorId = 'authorId',
+    userUserId = 'userUserId',
 }
 
 registerEnumType(ArticleDistinctFieldEnum, { name: 'ArticleDistinctFieldEnum' });

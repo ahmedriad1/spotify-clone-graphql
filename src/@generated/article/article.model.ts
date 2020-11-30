@@ -1,15 +1,14 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
-
-import { Comment } from '../comment/comment.model';
+import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 import { Tag } from '../tag/tag.model';
 import { User } from '../user/user.model';
+import { Comment } from '../comment/comment.model';
 
 @ObjectType({})
 export class Article {
     @Field(() => ID, {
         nullable: false,
     })
-    id!: string;
+    articleId!: string;
 
     @Field(() => String, {
         nullable: false,
@@ -53,12 +52,12 @@ export class Article {
     favoritesCount!: number;
 
     @Field(() => User, {
-        nullable: false,
+        nullable: true,
     })
     author!: User;
 
     @Field(() => String, {
-        nullable: false,
+        nullable: true,
     })
     readonly authorId!: string;
 
@@ -71,4 +70,14 @@ export class Article {
         nullable: true,
     })
     comments?: Array<Comment>;
+
+    @Field(() => User, {
+        nullable: true,
+    })
+    User?: User;
+
+    @Field(() => String, {
+        nullable: true,
+    })
+    readonly userUserId?: string;
 }

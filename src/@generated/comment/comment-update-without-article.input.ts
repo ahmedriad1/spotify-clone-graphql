@@ -1,5 +1,5 @@
-import { Field, InputType } from '@nestjs/graphql';
-
+import { InputType, Field } from '@nestjs/graphql';
+import { UserUpdateOneRequiredWithoutCommentsInput } from '../user/user-update-one-required-without-comments.input';
 import { UserUpdateOneRequiredWithoutCommentInput } from '../user/user-update-one-required-without-comment.input';
 
 @InputType()
@@ -7,7 +7,7 @@ export class CommentUpdateWithoutArticleInput {
     @Field(() => String, {
         nullable: true,
     })
-    id?: string;
+    commentId?: string;
 
     @Field(() => String, {
         nullable: true,
@@ -24,8 +24,8 @@ export class CommentUpdateWithoutArticleInput {
     })
     body?: string;
 
-    @Field(() => UserUpdateOneRequiredWithoutCommentInput, {
+    @Field(() => UserUpdateOneRequiredWithoutCommentsInput, {
         nullable: true,
     })
-    author?: UserUpdateOneRequiredWithoutCommentInput;
+    author?: UserUpdateOneRequiredWithoutCommentsInput;
 }

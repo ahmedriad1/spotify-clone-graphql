@@ -24,19 +24,19 @@ describe('UserService', () => {
     });
 
     it('find one user', async () => {
-        await service.findOne({ id: 'u' });
-        expect(repository.findOne).toHaveBeenCalledWith({ where: { id: 'u' } });
+        await service.findUnique({ userId: 'u' });
+        expect(repository.findUnique).toHaveBeenCalledWith({ where: { userId: 'u' } });
     });
 
     it('follow should call connect if value is true', async () => {
-        await service.follow({ id: 'u' }, { id: '1' }, true);
+        await service.follow({ userId: 'u' }, { userId: '1' }, true);
         const args = repository.update.mock.calls.pop();
-        expect(args?.[0].data?.followers?.connect).toEqual({ id: '1' });
+        expect(args?.[0].data?.followers?.connect).toEqual({ userId: '1' });
     });
 
     it('follow should call disconnect if value is false', async () => {
-        await service.follow({ id: 'u' }, { id: '2' }, false);
+        await service.follow({ userId: 'u' }, { userId: '2' }, false);
         const args = repository.update.mock.calls.pop();
-        expect(args?.[0].data?.followers?.disconnect).toEqual({ id: '2' });
+        expect(args?.[0].data?.followers?.disconnect).toEqual({ userId: '2' });
     });
 });

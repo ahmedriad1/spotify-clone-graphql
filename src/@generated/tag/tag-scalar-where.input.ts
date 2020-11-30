@@ -1,5 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
-
+import { InputType, Field } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
 
 @InputType()
@@ -22,7 +21,7 @@ export class TagScalarWhereInput {
     @Field(() => StringFilter, {
         nullable: true,
     })
-    id?: StringFilter | string;
+    tagId?: StringFilter | string;
 
     @Field(() => StringFilter, {
         nullable: true,

@@ -14,7 +14,7 @@ import { SlugService } from './slug/slug.service';
 export class ArticleService {
     update = this.prisma.article.update;
     delete = this.prisma.article.delete;
-    findOne = this.prisma.article.findOne;
+    findUnique = this.prisma.article.findUnique;
     findMany = this.prisma.article.findMany;
 
     constructor(
@@ -29,7 +29,8 @@ export class ArticleService {
         article?: Article;
         include?: Prisma.ArticleInclude;
     }) {
-        const article = args.article || (args.where && (await this.findOne({ where: args.where })));
+        const article =
+            args.article || (args.where && (await this.findUnique({ where: args.where })));
         if (!article) {
             throw new TypeError('Expected Article or ArticleWhereUniqueInput arguments');
         }
@@ -54,7 +55,7 @@ export class ArticleService {
                 // },
             },
             where: {
-                id: article.id,
+                articleId: article.articleId,
             },
             include: args.include,
         });
@@ -66,21 +67,21 @@ export class ArticleService {
     async create({ input, author }: { input: ArticleCreateInput; author: { id: string } }) {
         const tags = await this.tag.createTags(input.tags || []);
         const isSlugUnique = async (slug: string) => {
-            const entity = await this.prisma.article.findOne({ where: { slug } });
+            const entity = await this.prisma.article.findUnique({ where: { slug } });
             return entity === null;
         };
-        const data = {
+        const data: Prisma.ArticleCreateInput = {
             slug: await this.slug.generate(input.title, isSlugUnique),
             title: input.title,
             body: input.body,
             description: input.description,
             author: {
                 connect: {
-                    id: author.id,
+                    userId: author.id,
                 },
             },
             tags: {
-                connect: tags.map((tag) => ({ id: tag.id })),
+                connect: tags.map((tag) => ({ tagId: tag.tagId })),
             },
         };
         return this.prisma.article.create({
@@ -102,10 +103,10 @@ export class ArticleService {
     /**
      * Checks if article with {id} favorited by user {userId}.
      */
-    async isFavorited(id: string, userId: string) {
+    async isFavorited(articleId: string, userId: string) {
         const count = await this.prisma.article.count({
             take: 1,
-            where: { id, favoritedBy: { some: { id: userId } } },
+            where: { articleId, favoritedBy: { some: { userId } } },
         });
         return count > 0;
     }
@@ -113,7 +114,7 @@ export class ArticleService {
     feedWhereConditions(userId: string) {
         return {
             author: {
-                followers: { some: { id: { equals: userId } } },
+                followers: { some: { userId: { equals: userId } } },
             },
         };
     }
@@ -128,12 +129,14 @@ export class ArticleService {
         value: boolean;
         include?: Prisma.ArticleInclude;
     }) {
-        const article = args.article || (args.where && (await this.findOne({ where: args.where })));
+        const article =
+            args.article || (args.where && (await this.findUnique({ where: args.where })));
         if (!article) {
             throw new TypeError('Expected Article or ArticleWhereUniqueInput arguments');
         }
 
-        const user = { id: args.favoritedByUserId };
+        const user = { userId: args.favoritedByUserId };
+        // todo: numeric operation
         const favoritesCount = article.favoritesCount + (args.value ? +1 : -1);
 
         return this.update({
@@ -141,7 +144,7 @@ export class ArticleService {
                 favoritedBy: args.value ? { connect: user } : { disconnect: user },
                 favoritesCount,
             },
-            where: { id: article.id },
+            where: { articleId: article.articleId },
             include: args.include,
         });
     }

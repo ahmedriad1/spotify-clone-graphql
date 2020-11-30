@@ -1,5 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
-
+import { InputType, Field } from '@nestjs/graphql';
 import { TagScalarWhereInput } from './tag-scalar-where.input';
 import { TagUpdateManyMutationInput } from './tag-update-many-mutation.input';
 
