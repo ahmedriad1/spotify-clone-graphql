@@ -86,11 +86,6 @@ describe('Current User', () => {
 });
 
 describe('Registration POST /api/users', () => {
-    it.skip('invalid request', async () => {
-        const response = await request({ method: 'POST', path: '/users', body: { user: {} } });
-        expect(response.status).toBe(422);
-    });
-
     it('invalid values empty', async () => {
         const response = await request({
             method: 'POST',

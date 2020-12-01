@@ -61,17 +61,18 @@ export class ArticleService {
         });
     }
 
+    async isSlugUnique(slug: string) {
+        const entity = await this.prisma.article.findUnique({ where: { slug } });
+        return entity === null;
+    }
+
     /**
      * Create article from input, user.
      */
     async create({ input, author }: { input: ArticleCreateInput; author: { id: string } }) {
         const tags = await this.tag.createTags(input.tags || []);
-        const isSlugUnique = async (slug: string) => {
-            const entity = await this.prisma.article.findUnique({ where: { slug } });
-            return entity === null;
-        };
         const data: Prisma.ArticleCreateInput = {
-            slug: await this.slug.generate(input.title, isSlugUnique),
+            slug: await this.slug.generate(input.title, this.isSlugUnique),
             title: input.title,
             body: input.body,
             description: input.description,

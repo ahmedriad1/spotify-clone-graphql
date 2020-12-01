@@ -10,7 +10,7 @@ export class TagListInterceptor implements NestInterceptor {
         return next.handle().pipe(
             map((data) => {
                 if ('articles' in data) {
-                    data.articles = data.articles.map(toArticleDto);
+                    data.articles = data.articles.map((a) => toArticleDto(a));
                 } else if ('article' in data) {
                     data.article = toArticleDto(data.article);
                 }

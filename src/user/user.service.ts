@@ -21,6 +21,7 @@ export class UserService {
     async findByCredentials(data: { email: string; password: string }) {
         let user = await this.repository.findUnique({ where: { email: data.email } });
         if (!(user && user.password === data.password)) {
+            // eslint-disable-next-line unicorn/no-null
             user = null;
         }
         return user;

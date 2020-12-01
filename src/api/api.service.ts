@@ -168,11 +168,11 @@ export class ApiService {
         if (options.favorited) {
             where.favoritedBy = { some: { name: { equals: options.favorited } } };
         }
-        let skip: number | null = null;
+        let skip: number | undefined;
         if (options.offset && options.offset > 0) {
             skip = options.offset;
         }
-        let take: number | null = null;
+        let take: number | undefined;
         if (options.limit) {
             take = options.limit;
         }

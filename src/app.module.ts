@@ -20,7 +20,7 @@ export async function graphqlModuleFactory(prismaService: PrismaService, logger:
         context: (data) => {
             return {
                 prisma: prismaService,
-                token: null as string | null,
+                token: undefined as string | undefined,
                 req: data.req as IncomingMessage,
             };
         },
