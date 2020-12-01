@@ -65,9 +65,4 @@ export class ArticleScalarWhereInput {
         nullable: true,
     })
     authorId?: StringFilter | string;
-
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
-    userUserId?: StringFilter | string | null;
 }

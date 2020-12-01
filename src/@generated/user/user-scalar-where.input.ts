@@ -42,10 +42,10 @@ export class UserScalarWhereInput {
     @Field(() => StringFilter, {
         nullable: true,
     })
-    bio?: StringFilter | string | null;
+    bio?: StringFilter | string;
 
     @Field(() => StringFilter, {
         nullable: true,
     })
-    image?: StringFilter | string | null;
+    image?: StringFilter | string;
 }

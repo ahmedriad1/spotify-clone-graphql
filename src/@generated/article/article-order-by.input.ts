@@ -48,9 +48,4 @@ export class ArticleOrderByInput {
         nullable: true,
     })
     authorId?: SortOrder;
-
-    @Field(() => SortOrder, {
-        nullable: true,
-    })
-    userUserId?: SortOrder;
 }

@@ -90,14 +90,4 @@ export class ArticleWhereInput {
         nullable: true,
     })
     comments?: CommentListRelationFilter;
-
-    @Field(() => UserWhereInput, {
-        nullable: true,
-    })
-    User?: UserRelationFilter | UserWhereInput | null;
-
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
-    userUserId?: StringFilter | string | null;
 }

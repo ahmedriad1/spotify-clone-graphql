@@ -45,12 +45,12 @@ export class UserWhereInput {
     @Field(() => StringFilter, {
         nullable: true,
     })
-    bio?: StringFilter | string | null;
+    bio?: StringFilter | string;
 
     @Field(() => StringFilter, {
         nullable: true,
     })
-    image?: StringFilter | string | null;
+    image?: StringFilter | string;
 
     @Field(() => UserListRelationFilter, {
         nullable: true,
@@ -70,25 +70,10 @@ export class UserWhereInput {
     @Field(() => ArticleListRelationFilter, {
         nullable: true,
     })
-    articles?: ArticleListRelationFilter;
-
-    @Field(() => CommentListRelationFilter, {
-        nullable: true,
-    })
-    comments?: CommentListRelationFilter;
-
-    @Field(() => ArticleListRelationFilter, {
-        nullable: true,
-    })
     Article?: ArticleListRelationFilter;
 
     @Field(() => CommentListRelationFilter, {
         nullable: true,
     })
     Comment?: CommentListRelationFilter;
-
-    @Field(() => UserListRelationFilter, {
-        nullable: true,
-    })
-    followingUsers?: UserListRelationFilter;
 }

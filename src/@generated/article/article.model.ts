@@ -55,12 +55,12 @@ export class Article {
     @Field(() => User, {
         nullable: true,
     })
-    author!: User;
+    author?: User;
 
     @Field(() => String, {
         nullable: true,
     })
-    readonly authorId!: string;
+    readonly authorId?: string;
 
     @Field(() => [User], {
         nullable: true,
@@ -71,14 +71,4 @@ export class Article {
         nullable: true,
     })
     comments?: Array<Comment>;
-
-    @Field(() => User, {
-        nullable: true,
-    })
-    User?: User;
-
-    @Field(() => String, {
-        nullable: true,
-    })
-    readonly userUserId?: string;
 }

@@ -3,7 +3,6 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { TagCreateManyWithoutArticlesInput } from '../tag/tag-create-many-without-articles.input';
 import { UserCreateManyWithoutFavoriteArticlesInput } from '../user/user-create-many-without-favorite-articles.input';
 import { UserCreateOneWithoutArticleInput } from '../user/user-create-one-without-article.input';
-import { UserCreateOneWithoutArticlesInput } from '../user/user-create-one-without-articles.input';
 
 @InputType()
 export class ArticleCreateWithoutCommentsInput {
@@ -61,9 +60,4 @@ export class ArticleCreateWithoutCommentsInput {
         nullable: true,
     })
     favoritedBy?: UserCreateManyWithoutFavoriteArticlesInput;
-
-    @Field(() => UserCreateOneWithoutArticlesInput, {
-        nullable: true,
-    })
-    User?: UserCreateOneWithoutArticlesInput;
 }

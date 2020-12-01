@@ -53,25 +53,10 @@ export class User {
     @Field(() => [Article], {
         nullable: true,
     })
-    articles?: Array<Article>;
-
-    @Field(() => [Comment], {
-        nullable: true,
-    })
-    comments?: Array<Comment>;
-
-    @Field(() => [Article], {
-        nullable: true,
-    })
     Article?: Array<Article>;
 
     @Field(() => [Comment], {
         nullable: true,
     })
     Comment?: Array<Comment>;
-
-    @Field(() => [User], {
-        nullable: true,
-    })
-    followingUsers?: Array<User>;
 }

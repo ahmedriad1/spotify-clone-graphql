@@ -25,10 +25,10 @@ export class UserUpdateManyMutationInput {
     @Field(() => String, {
         nullable: true,
     })
-    bio?: string | null;
+    bio?: string;
 
     @Field(() => String, {
         nullable: true,
     })
-    image?: string | null;
+    image?: string;
 }

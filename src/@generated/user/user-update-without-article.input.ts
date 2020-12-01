@@ -1,11 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 import { ArticleUpdateManyWithoutFavoritedByInput } from '../article/article-update-many-without-favorited-by.input';
-import { ArticleUpdateManyWithoutUserInput } from '../article/article-update-many-without-user.input';
 import { CommentUpdateManyWithoutAuthorInput } from '../comment/comment-update-many-without-author.input';
 import { UserUpdateManyWithoutFollowersInput } from './user-update-many-without-followers.input';
 import { UserUpdateManyWithoutFollowingInput } from './user-update-many-without-following.input';
-import { UserUpdateManyWithoutFollowingUsersInput } from './user-update-many-without-following-users.input';
 
 @InputType()
 export class UserUpdateWithoutArticleInput {
@@ -32,12 +30,12 @@ export class UserUpdateWithoutArticleInput {
     @Field(() => String, {
         nullable: true,
     })
-    bio?: string | null;
+    bio?: string;
 
     @Field(() => String, {
         nullable: true,
     })
-    image?: string | null;
+    image?: string;
 
     @Field(() => UserUpdateManyWithoutFollowersInput, {
         nullable: true,
@@ -54,23 +52,8 @@ export class UserUpdateWithoutArticleInput {
     })
     favoriteArticles?: ArticleUpdateManyWithoutFavoritedByInput;
 
-    @Field(() => ArticleUpdateManyWithoutUserInput, {
-        nullable: true,
-    })
-    articles?: ArticleUpdateManyWithoutUserInput;
-
-    @Field(() => CommentUpdateManyWithoutAuthorInput, {
-        nullable: true,
-    })
-    comments?: CommentUpdateManyWithoutAuthorInput;
-
     @Field(() => CommentUpdateManyWithoutAuthorInput, {
         nullable: true,
     })
     Comment?: CommentUpdateManyWithoutAuthorInput;
-
-    @Field(() => UserUpdateManyWithoutFollowersInput, {
-        nullable: true,
-    })
-    followingUsers?: UserUpdateManyWithoutFollowersInput;
 }

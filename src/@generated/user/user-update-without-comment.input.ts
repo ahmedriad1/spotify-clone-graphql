@@ -4,7 +4,6 @@ import { ArticleUpdateManyWithoutAuthorInput } from '../article/article-update-m
 import { ArticleUpdateManyWithoutFavoritedByInput } from '../article/article-update-many-without-favorited-by.input';
 import { UserUpdateManyWithoutFollowersInput } from './user-update-many-without-followers.input';
 import { UserUpdateManyWithoutFollowingInput } from './user-update-many-without-following.input';
-import { UserUpdateManyWithoutFollowingUsersInput } from './user-update-many-without-following-users.input';
 
 @InputType()
 export class UserUpdateWithoutCommentInput {
@@ -31,12 +30,12 @@ export class UserUpdateWithoutCommentInput {
     @Field(() => String, {
         nullable: true,
     })
-    bio?: string | null;
+    bio?: string;
 
     @Field(() => String, {
         nullable: true,
     })
-    image?: string | null;
+    image?: string;
 
     @Field(() => UserUpdateManyWithoutFollowersInput, {
         nullable: true,
@@ -57,9 +56,4 @@ export class UserUpdateWithoutCommentInput {
         nullable: true,
     })
     Article?: ArticleUpdateManyWithoutAuthorInput;
-
-    @Field(() => UserUpdateManyWithoutFollowersInput, {
-        nullable: true,
-    })
-    followingUsers?: UserUpdateManyWithoutFollowersInput;
 }
