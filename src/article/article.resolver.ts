@@ -42,7 +42,7 @@ export class ArticleResolver {
     @Query(() => [Article])
     async articles(@Args() args: FindManyArticleArgs, @Info() info) {
         return await this.service.findMany({
-            where: args.where as Prisma.ArticleWhereInput,
+            where: args.where,
             ...new PrismaSelect(info).value,
         });
     }
@@ -59,7 +59,7 @@ export class ArticleResolver {
         if (feed && currentUser) {
             where = this.service.feedWhereConditions(currentUser.id);
         }
-        return this.service.count(where as Prisma.ArticleWhereInput);
+        return this.service.count(where);
     }
 
     @Query(() => Article, { nullable: true })
