@@ -40,10 +40,37 @@ export class ArticleResolver {
     constructor(private readonly service: ArticleService, private readonly logger: Logger) {}
 
     @Query(() => [Article])
-    async articles(@Args() args: FindManyArticleArgs, @Info() info) {
-        return await this.service.findMany({
-            where: args.where,
-            ...new PrismaSelect(info).value,
+    @UseGuards(OptionalGraphqlAuthGuard)
+    async articles(
+        @Args() args: FindManyArticleArgs,
+        @Info() info: GraphQLResolveInfo,
+        @GraphqlFields() graphqlFields: GraphqlFieldsParameter,
+        @CurrentUser() currentUser?: PassportUserFields,
+    ) {
+        const select = new PrismaSelect(info).value;
+        if (graphqlFields?.author?.isFollowing && currentUser) {
+            const articleSelect: Prisma.ArticleSelect = {
+                author: {
+                    select: {
+                        userId: true,
+                        followers: {
+                            select: {
+                                userId: true,
+                            },
+                            where: {
+                                userId: { in: [currentUser.id] },
+                            },
+                        },
+                    },
+                },
+            };
+            PrismaSelect.mergeDeep(select, {
+                select: articleSelect,
+            });
+        }
+        return this.service.findMany({
+            ...args,
+            ...select,
         });
     }
 
@@ -66,12 +93,30 @@ export class ArticleResolver {
     @UseGuards(OptionalGraphqlAuthGuard)
     async article(
         @Args('where') where: ArticleWhereUniqueInput,
-        @GraphqlFields() graphqlFields: GraphqlFieldsParameter,
         @Info() info: GraphQLResolveInfo,
+        @GraphqlFields() graphqlFields: GraphqlFieldsParameter,
+        @CurrentUser() currentUser?: PassportUserFields,
     ) {
         const select = new PrismaSelect(info).value;
-        if (graphqlFields?.author?.isFollowing) {
-            PrismaSelect.mergeDeep(select, { select: { author: { select: { userId: true } } } });
+        if (graphqlFields?.author?.isFollowing && currentUser) {
+            const articleSelect: Prisma.ArticleSelect = {
+                author: {
+                    select: {
+                        userId: true,
+                        followers: {
+                            select: {
+                                userId: true,
+                            },
+                            where: {
+                                userId: { in: [currentUser.id] },
+                            },
+                        },
+                    },
+                },
+            };
+            PrismaSelect.mergeDeep(select, {
+                select: articleSelect,
+            });
         }
         return this.service.findUnique({
             where,

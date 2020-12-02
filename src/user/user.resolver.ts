@@ -114,17 +114,18 @@ export class UserResolver {
         @Parent() user: User,
         @CurrentUser() currentUser?: PassportUserFields,
     ): Promise<boolean> {
-        // todo: Fix N+1 Problem
         if (!currentUser) {
             return false;
         }
+        // todo: Another problem if client request all followers
+        // But we constrained to one current to src/article/article.resolver.ts@article()
+        if (!Array.isArray(user.followers)) {
+            this.logger.warn('Followers is not selected', 'Performance Warning');
+        }
         assert(user.userId);
-        // BUG: Cannot select userId in followers
-        // if (Array.isArray(user.followers)) {
-        //     return user.followers.some((follower) => follower.userId === currentUser.id);
-        // } else {
-        //     this.logger.warn('Followers is not selected', 'Performance Warning');
-        // }
-        return this.userService.isFollowing(user.userId, currentUser.id);
+        return (
+            user.followers?.some((follower) => follower.userId === currentUser.id) ??
+            this.userService.isFollowing(user.userId, currentUser.id)
+        );
     }
 }

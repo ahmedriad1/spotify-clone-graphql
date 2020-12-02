@@ -22,7 +22,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node dist/src/main.js",
     "nest:start": "nest start --path tsconfig.json",
-    "start:dev": "node -r dotenv-flow/config node_modules/@nestjs/cli/bin/nest.js start --path tsconfig.json --watch",
+    "start:dev": "node -r dotenv-flow/config node_modules/@nestjs/cli/bin/nest.js start --path tsconfig.json --watch --exec \"node -r source-map-support/register\"",
     "start:dev:1": "node node_modules/webpack/bin/webpack.js --watch",
     "start:dev:2": "node node_modules/webpack/bin/webpack.js --watch --env hmr2",
     "start:dev:d": "nest start --watch --path tsconfig.json --exec \"node --inspect -r dotenv-flow/config\"",
