@@ -16,12 +16,13 @@ import {
 import { PrismaSelect } from '@paljs/plugins';
 import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
-import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
+import { GraphqlFields, GraphqlFieldsParameter } from 'app_modules/nestjs-graphql-fields';
 import {
     GraphqlAuthGuard,
     OptionalGraphqlAuthGuard,
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
 import assert from 'assert';
+import { GraphQLResolveInfo } from 'graphql';
 import { PlainObject } from 'simplytyped';
 
 import { PassportUserFields } from '../auth/models/passport-user-fields';
@@ -63,10 +64,18 @@ export class ArticleResolver {
 
     @Query(() => Article, { nullable: true })
     @UseGuards(OptionalGraphqlAuthGuard)
-    async article(@Args('where') where: ArticleWhereUniqueInput, @Info() info) {
+    async article(
+        @Args('where') where: ArticleWhereUniqueInput,
+        @GraphqlFields() graphqlFields: GraphqlFieldsParameter,
+        @Info() info: GraphQLResolveInfo,
+    ) {
+        const select = new PrismaSelect(info).value;
+        if (graphqlFields?.author?.isFollowing) {
+            PrismaSelect.mergeDeep(select, { select: { author: { select: { userId: true } } } });
+        }
         return this.service.findUnique({
             where,
-            ...new PrismaSelect(info).value,
+            ...select,
         });
     }
 
