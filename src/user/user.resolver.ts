@@ -118,7 +118,7 @@ export class UserResolver {
             return false;
         }
         // todo: Another problem if client request all followers
-        // But we constrained to one current to src/article/article.resolver.ts@article()
+        // But we constrained to one current to src/article/article.resolver.ts@article
         if (!Array.isArray(user.followers)) {
             this.logger.warn('Followers is not selected', 'Performance Warning');
         }
