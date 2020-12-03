@@ -5,7 +5,7 @@ import { ArticleMaxAggregate } from './article-max-aggregate.output';
 import { ArticleMinAggregate } from './article-min-aggregate.output';
 import { ArticleSumAggregate } from './article-sum-aggregate.output';
 
-@ObjectType()
+@ObjectType({})
 export class AggregateArticle {
     @Field(() => Int, {
         nullable: true,

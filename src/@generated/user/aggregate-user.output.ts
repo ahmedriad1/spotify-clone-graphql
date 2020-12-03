@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-@ObjectType()
+@ObjectType({})
 export class AggregateUser {
     @Field(() => Int, {
         nullable: true,

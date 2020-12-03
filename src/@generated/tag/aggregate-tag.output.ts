@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-@ObjectType()
+@ObjectType({})
 export class AggregateTag {
     @Field(() => Int, {
         nullable: true,
