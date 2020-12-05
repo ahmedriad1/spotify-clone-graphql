@@ -8,7 +8,6 @@ import {
     Parent,
     Query,
     ResolveField,
-    ResolveProperty,
     Resolver,
 } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';

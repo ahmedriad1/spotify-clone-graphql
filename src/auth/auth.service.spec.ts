@@ -1,14 +1,14 @@
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { instance, mock } from 'ts-mockito';
 
+import { AppEnvironment } from '../app.environment';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
     let service: AuthService;
     const jwtService = mock(JwtService);
-    const configService = mock(ConfigService);
+    const appEnvironment = mock(AppEnvironment);
 
     beforeEach(async () => {
         const module = await Test.createTestingModule({
@@ -19,8 +19,8 @@ describe('AuthService', () => {
                     useValue: instance(jwtService),
                 },
                 {
-                    provide: ConfigService,
-                    useValue: instance(configService),
+                    provide: AppEnvironment,
+                    useValue: instance(appEnvironment),
                 },
             ],
         }).compile();

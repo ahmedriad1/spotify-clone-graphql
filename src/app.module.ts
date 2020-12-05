@@ -1,11 +1,11 @@
 import { Global, Logger, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { EnvironmentModule } from '@nestjs-steroids/environment';
 import { ApolloErrorConverter, extendMapItem, mapItemBases } from 'apollo-error-converter';
 import { IncomingMessage } from 'http';
 
 import { ApiModule } from './api/api.module';
-import { config } from './app.config';
+import { AppEnvironment } from './app.environment';
 import { ArticleModule } from './article/article.module';
 import { CommentModule } from './comment/comment.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -47,10 +47,10 @@ export async function graphqlModuleFactory(prismaService: PrismaService, logger:
         ApiModule,
         PrismaModule.forRoot(),
         TagModule,
-        ConfigModule.forRoot({
+        EnvironmentModule.forRoot({
             isGlobal: true,
-            envFilePath: ['.env'],
-            load: [config],
+            loadEnvFile: true,
+            useClass: AppEnvironment,
         }),
         GraphQLModule.forRootAsync({
             imports: [PrismaModule],

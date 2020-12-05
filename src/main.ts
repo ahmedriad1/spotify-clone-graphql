@@ -1,9 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AllExceptionsFilter } from 'app_modules/all-exceptions-filter';
 import { useContainer } from 'class-validator';
 
+import { AppEnvironment } from './app.environment';
 import { AppModule } from './app.module';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 export async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    const config = app.get(ConfigService);
+    const appEnvironment = app.get(AppEnvironment);
     app.enableCors();
     app.useGlobalPipes(
         new ValidationPipe({
@@ -25,8 +25,7 @@ export async function bootstrap() {
     );
     app.useGlobalFilters(new AllExceptionsFilter());
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
-    const port = config.get('port');
-    await app.listen(port);
+    await app.listen(appEnvironment.port);
 
     if (module.hot) {
         module.hot.accept();

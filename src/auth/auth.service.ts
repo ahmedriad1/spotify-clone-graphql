@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes } from 'crypto';
 
+import { AppEnvironment } from '../app.environment';
 import { User } from '../user/models/user';
 import { SessionTokenFields } from './models/session-user-fields';
 
@@ -13,7 +13,7 @@ import { SessionTokenFields } from './models/session-user-fields';
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly configService: ConfigService,
+        private readonly appEnvironment: AppEnvironment,
     ) {}
 
     /**
@@ -24,14 +24,8 @@ export class AuthService {
 
         const payload: SessionTokenFields = { sub: user.userId, email: user.email };
 
-        const accessTokenExpiresIn = this.configService.get<number>(
-            'accessTokenExpiresIn',
-            18 * 3600 * 1000,
-        );
-        const refreshTokenExpiresIn = this.configService.get<number>(
-            'refreshTokenExpiresIn',
-            30 * 24 * 3600 * 1000,
-        );
+        const accessTokenExpiresIn = this.appEnvironment.accessTokenExpiresIn;
+        const refreshTokenExpiresIn = this.appEnvironment.refreshTokenExpiresIn;
 
         return {
             accessToken: await this.jwtService.signAsync(payload, {
