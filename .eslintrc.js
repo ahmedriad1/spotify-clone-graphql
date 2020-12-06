@@ -32,7 +32,7 @@ module.exports = {
         'jest',
         'only-warn',
     ],
-    ignorePatterns: ['@generated/**'],
+    ignorePatterns: ['@generated/**', '*.config.js', '.*rc.js'],
     rules: {
         // core
         'no-unused-vars': 0,
