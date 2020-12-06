@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { createSpyObj } from 'jest-createspyobj';
 
 import { createUser } from '../user/testing';
+import { UserService } from '../user/user.service';
 import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
 import { Article } from './models/article';
@@ -28,6 +29,10 @@ describe('ArticleResolver', () => {
                 {
                     provide: Logger,
                     useValue: createSpyObj(Logger),
+                },
+                {
+                    provide: UserService,
+                    useValue: createSpyObj(UserService),
                 },
             ],
         }).compile();

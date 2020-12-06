@@ -1,18 +1,9 @@
 import { ArticleWhereInput } from '@generated/article/article-where.input';
 import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
 import { FindManyArticleArgs } from '@generated/article/find-many-article.args';
+import { FindManyUserArgs } from '@generated/user/find-many-user.args';
 import { ConflictException, Logger, NotFoundException, UseGuards } from '@nestjs/common';
-import {
-    Args,
-    Info,
-    Int,
-    Mutation,
-    Parent,
-    Query,
-    ResolveField,
-    ResolveProperty,
-    Resolver,
-} from '@nestjs/graphql';
+import { Args, Info, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaSelect } from '@paljs/plugins';
 import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
@@ -26,6 +17,8 @@ import { GraphQLResolveInfo } from 'graphql';
 import { PlainObject } from 'simplytyped';
 
 import { PassportUserFields } from '../auth/models/passport-user-fields';
+import { User } from '../user/models/user';
+import { UserService } from '../user/user.service';
 import { ArticleService } from './article.service';
 import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
@@ -37,7 +30,11 @@ import { ArticleUpdateInput } from './models/article-update.input';
  */
 @Resolver(() => Article)
 export class ArticleResolver {
-    constructor(private readonly service: ArticleService, private readonly logger: Logger) {}
+    constructor(
+        private readonly service: ArticleService,
+        private readonly userService: UserService,
+        private readonly logger: Logger,
+    ) {}
 
     @Query(() => [Article])
     @UseGuards(OptionalGraphqlAuthGuard)
@@ -71,6 +68,26 @@ export class ArticleResolver {
         return this.service.findMany({
             ...args,
             ...select,
+        });
+    }
+
+    @ResolveField(() => [User])
+    async favoritedBy(@Parent() article: Partial<Article>, @Args() args: FindManyUserArgs) {
+        if (Array.isArray(article.favoritedBy)) {
+            // Already resolved by PrismaSelect plugin
+            return article.favoritedBy;
+        }
+        this.logger.warn('Article.favoritedBy is not defined', 'Performance Warning');
+        return this.userService.findMany({
+            ...args,
+            where: {
+                ...args.where,
+                favoriteArticles: {
+                    some: {
+                        articleId: article.articleId,
+                    },
+                },
+            },
         });
     }
 
@@ -251,7 +268,7 @@ export class ArticleResolver {
         if (Array.isArray(article.favoritedBy)) {
             return article.favoritedBy.some((user) => user.userId === currentUser.id);
         } else {
-            this.logger.warn('FavoritedBy is not selected', 'Performance Warning');
+            this.logger.warn('Article.favoritedBy is not defined', 'Performance Warning');
         }
         assert(article.articleId);
         return this.service.isFavorited(article.articleId, currentUser.id);

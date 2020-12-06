@@ -10,5 +10,6 @@ import { UserExistsValidator } from './validators/user-exists.validator';
 @Module({
     imports: [PrismaModule, AuthModule],
     providers: [UserService, UserResolver, UserRepository, UserExistsValidator],
+    exports: [UserService],
 })
 export class UserModule {}
