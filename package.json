@@ -16,7 +16,7 @@
     "api:spec": "sh Taskfile api_spec",
     "dev": "run-p start:dev prisma:w",
     "preinstall": "sh Taskfile preinstall",
-    "postinstall": "husky install && patch-package",
+    "postinstall": "patch-package",
     "build": "sh Taskfile build",
     "postbuild": "sh Taskfile postbuild",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
