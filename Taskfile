@@ -140,12 +140,14 @@ preinstall() {
     # https://github.com/prisma/prisma-client-js/issues/184
     if [ "$STACK" = 'heroku-18' ]; then
         sed -i 's/provider = "sqlite"/provider = "postgresql"/' prisma/schema.prisma
-        for file in prisma/migrations/*/schema.prisma; do
-            sed -i 's/provider = "sqlite"/provider = "postgresql"/' $file
-        done
-        for file in prisma/migrations/*/steps.json; do
-            sed -i 's/sqlite/postgresql/' $file
-        done
+        if [ -d prisma/migrations ]; then
+            for file in prisma/migrations/*/schema.prisma; do
+                sed -i 's/provider = "sqlite"/provider = "postgresql"/' $file
+            done
+            for file in prisma/migrations/*/steps.json; do
+                sed -i 's/sqlite/postgresql/' $file
+            done
+        fi
     fi
     set +x
 }
