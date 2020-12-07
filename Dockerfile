@@ -1,9 +1,13 @@
-FROM node:12 AS base
+FROM node:14-alpine AS base
 WORKDIR /app
 ENV DATABASE_URL file:data.db
 ENV JWT_SECRET_KEY secret_key
 
 FROM base AS build
+# install tools
+RUN apk update \
+    && apk add jq \
+    && rm -rf /var/cache/apk/*
 # install dependencies
 COPY . .
 RUN npm ci
