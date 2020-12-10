@@ -16,12 +16,13 @@ import { UserModule } from './user/user.module';
 export async function graphqlModuleFactory(prismaService: PrismaService, logger: Logger) {
     return {
         tracing: false,
+        sortSchema: true,
         autoSchemaFile: '~schema.gql',
-        context: (data) => {
+        context: (data: { req: IncomingMessage }) => {
             return {
                 prisma: prismaService,
                 token: undefined as string | undefined,
-                req: data.req as IncomingMessage,
+                req: data.req,
             };
         },
         formatError: new ApolloErrorConverter({
