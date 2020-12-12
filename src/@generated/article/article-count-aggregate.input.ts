@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class ArticleMaxAggregateInput {
+export class ArticleCountAggregateInput {
     @Field(() => Boolean, {
         nullable: true,
     })
@@ -46,4 +46,9 @@ export class ArticleMaxAggregateInput {
         nullable: true,
     })
     authorId?: true;
+
+    @Field(() => Boolean, {
+        nullable: true,
+    })
+    _all?: true;
 }

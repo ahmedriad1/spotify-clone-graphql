@@ -36,11 +36,6 @@ export class AggregateArticleArgs {
     })
     skip?: number;
 
-    @Field(() => [ArticleDistinctFieldEnum], {
-        nullable: true,
-    })
-    distinct?: Array<ArticleDistinctFieldEnum>;
-
     @Field(() => Boolean, {
         nullable: true,
     })

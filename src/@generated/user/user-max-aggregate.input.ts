@@ -1,49 +1,34 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class ArticleMaxAggregateInput {
+export class UserMaxAggregateInput {
     @Field(() => Boolean, {
         nullable: true,
     })
-    articleId?: true;
+    userId?: true;
 
     @Field(() => Boolean, {
         nullable: true,
     })
-    slug?: true;
+    email?: true;
 
     @Field(() => Boolean, {
         nullable: true,
     })
-    title?: true;
+    name?: true;
 
     @Field(() => Boolean, {
         nullable: true,
     })
-    description?: true;
+    password?: true;
 
     @Field(() => Boolean, {
         nullable: true,
     })
-    body?: true;
+    bio?: true;
 
     @Field(() => Boolean, {
         nullable: true,
     })
-    createdAt?: true;
-
-    @Field(() => Boolean, {
-        nullable: true,
-    })
-    updatedAt?: true;
-
-    @Field(() => Boolean, {
-        nullable: true,
-    })
-    favoritesCount?: true;
-
-    @Field(() => Boolean, {
-        nullable: true,
-    })
-    authorId?: true;
+    image?: true;
 }

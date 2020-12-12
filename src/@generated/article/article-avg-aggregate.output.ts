@@ -1,6 +1,6 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
 
-@ObjectType({})
+@ObjectType()
 export class ArticleAvgAggregate {
     @Field(() => Float, {
         nullable: true,
