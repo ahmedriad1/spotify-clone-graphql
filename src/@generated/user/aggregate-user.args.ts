@@ -1,6 +1,5 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
 
-import { UserDistinctFieldEnum } from './user-distinct-field.enum';
 import { UserMaxAggregateInput } from './user-max-aggregate.input';
 import { UserMinAggregateInput } from './user-min-aggregate.input';
 import { UserOrderByInput } from './user-order-by.input';

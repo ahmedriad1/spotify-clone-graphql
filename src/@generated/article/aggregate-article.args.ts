@@ -1,7 +1,6 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
 
 import { ArticleAvgAggregateInput } from './article-avg-aggregate.input';
-import { ArticleDistinctFieldEnum } from './article-distinct-field.enum';
 import { ArticleMaxAggregateInput } from './article-max-aggregate.input';
 import { ArticleMinAggregateInput } from './article-min-aggregate.input';
 import { ArticleOrderByInput } from './article-order-by.input';

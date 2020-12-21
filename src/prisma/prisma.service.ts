@@ -27,11 +27,11 @@ export class PrismaService
         this.$on('query', (event: any) => {
             const params: any[] = JSON.parse(event.params);
             const query = (event.query as string).replace(/\?/g, (s) => {
-                return `\x1b[90m${JSON.stringify(
+                return `\u001B[90m${JSON.stringify(
                     params.shift(),
-                )}\x1b[0m\x1b[96m`;
+                )}\u001B[0m\u001B[96m`;
             });
-            this.logger.verbose(`\x1b[96m${query}\x1b[0m`, 'Query');
+            this.logger.verbose(`\u001B[96m${query}\u001B[0m`, 'Query');
         });
     }
 

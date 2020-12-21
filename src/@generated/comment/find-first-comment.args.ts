@@ -1,6 +1,5 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
 
-import { CommentDistinctFieldEnum } from './comment-distinct-field.enum';
 import { CommentOrderByInput } from './comment-order-by.input';
 import { CommentScalarFieldEnum } from './comment-scalar-field.enum';
 import { CommentWhereInput } from './comment-where.input';
