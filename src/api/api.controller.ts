@@ -68,7 +68,10 @@ export class ApiController {
      * Authentication required.
      */
     @Put('user')
-    async updateUser(@AuthorizationToken() token: string, @Req() request: Request) {
+    async updateUser(
+        @AuthorizationToken() token: string,
+        @Req() request: Request,
+    ) {
         return this.service.updateUser({
             token,
             user: request.body.user,
@@ -80,7 +83,10 @@ export class ApiController {
      * Authorization optional, if yes `following` property should be checked.
      */
     @Get('profiles/:username')
-    async profilesUsername(@Param('username') name: string, @AuthorizationToken() token: string) {
+    async profilesUsername(
+        @Param('username') name: string,
+        @AuthorizationToken() token: string,
+    ) {
         return this.service.getProfile({
             token,
             name,
@@ -92,7 +98,10 @@ export class ApiController {
      */
     @Post('articles')
     @UseInterceptors(TagListInterceptor)
-    async createArticle(@Req() request: Request, @AuthorizationToken() token: string) {
+    async createArticle(
+        @Req() request: Request,
+        @AuthorizationToken() token: string,
+    ) {
         const createArticleDto: CreateArticleDto = request.body.article;
         return this.service.createArticle({ token, createArticleDto });
     }
@@ -102,7 +111,10 @@ export class ApiController {
      */
     @Get('articles')
     @UseInterceptors(TagListInterceptor)
-    async getArticles(@AuthorizationToken() token?: string, @Query() query?: GetArticlesDto) {
+    async getArticles(
+        @AuthorizationToken() token?: string,
+        @Query() query?: GetArticlesDto,
+    ) {
         return this.service.getArticles({
             token,
             ...query,
@@ -114,7 +126,10 @@ export class ApiController {
      */
     @Post('profiles/:username/follow')
     @HttpCode(200)
-    async followUser(@AuthorizationToken() token: string, @Param('username') username: string) {
+    async followUser(
+        @AuthorizationToken() token: string,
+        @Param('username') username: string,
+    ) {
         return this.service.followUser({
             token,
             username,
@@ -126,7 +141,10 @@ export class ApiController {
      * Follow user, authentication required.
      */
     @Delete('profiles/:username/follow')
-    async unfollowUser(@AuthorizationToken() token: string, @Param('username') username: string) {
+    async unfollowUser(
+        @AuthorizationToken() token: string,
+        @Param('username') username: string,
+    ) {
         return this.service.followUser({
             token,
             username,
@@ -141,7 +159,10 @@ export class ApiController {
      */
     @Get('articles/feed')
     @UseInterceptors(TagListInterceptor)
-    async articlesFeed(@AuthorizationToken() token: string, @Query() query?: GetArticlesDto) {
+    async articlesFeed(
+        @AuthorizationToken() token: string,
+        @Query() query?: GetArticlesDto,
+    ) {
         return this.service.feedArticles({
             token,
             limit: query?.limit,
@@ -154,7 +175,10 @@ export class ApiController {
      */
     @Get('articles/:slug') // eslint-disable-line sonarjs/no-duplicate-string
     @UseInterceptors(TagListInterceptor)
-    async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+    async getArticle(
+        @AuthorizationToken() token: string,
+        @Param('slug') slug: string,
+    ) {
         return this.service.getArticle({ token, slug });
     }
 
@@ -169,7 +193,11 @@ export class ApiController {
         @Param('slug') slug: string,
         @Req() request: Request,
     ) {
-        return this.service.updateArticle({ token, slug, data: request.body.article });
+        return this.service.updateArticle({
+            token,
+            slug,
+            data: request.body.article,
+        });
     }
 
     /**
@@ -178,7 +206,10 @@ export class ApiController {
      */
     @Delete('articles/:slug')
     @UseInterceptors(TagListInterceptor)
-    async deleteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+    async deleteArticle(
+        @AuthorizationToken() token: string,
+        @Param('slug') slug: string,
+    ) {
         return this.service.deleteArticle({ token, slug });
     }
 
@@ -198,7 +229,10 @@ export class ApiController {
      * Get comments from an article.
      */
     @Get('articles/:slug/comments')
-    async articleComments(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+    async articleComments(
+        @AuthorizationToken() token: string,
+        @Param('slug') slug: string,
+    ) {
         return this.service.articleComments({ token, slug });
     }
 
@@ -206,7 +240,10 @@ export class ApiController {
      * Delete comment by id.
      */
     @Delete('articles/:slug/comments/:id')
-    async deleteComment(@AuthorizationToken() token: string, @Param('id') id: string) {
+    async deleteComment(
+        @AuthorizationToken() token: string,
+        @Param('id') id: string,
+    ) {
         return this.service.deleteComment({ token, id });
     }
 
@@ -216,7 +253,10 @@ export class ApiController {
      */
     @Post('articles/:slug/favorite')
     @UseInterceptors(TagListInterceptor)
-    async favoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+    async favoriteArticle(
+        @AuthorizationToken() token: string,
+        @Param('slug') slug: string,
+    ) {
         return this.service.favoriteArticle({ token, slug, value: true });
     }
 
@@ -226,7 +266,10 @@ export class ApiController {
      */
     @Delete('articles/:slug/favorite')
     @UseInterceptors(TagListInterceptor)
-    async unfavoriteArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
+    async unfavoriteArticle(
+        @AuthorizationToken() token: string,
+        @Param('slug') slug: string,
+    ) {
         return this.service.favoriteArticle({ token, slug, value: false });
     }
 

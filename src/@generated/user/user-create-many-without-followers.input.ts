@@ -9,7 +9,9 @@ export class UserCreateManyWithoutFollowersInput {
     @Field(() => [UserCreateWithoutFollowersInput], {
         nullable: true,
     })
-    create?: UserCreateWithoutFollowersInput | Array<UserCreateWithoutFollowersInput>;
+    create?:
+        | UserCreateWithoutFollowersInput
+        | Array<UserCreateWithoutFollowersInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,

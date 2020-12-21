@@ -13,7 +13,8 @@ describe('classValidatorFlatFormatter', () => {
                 isEmail: 'email must be an email',
             },
         };
-        expect(classValidatorFlatFormatter([error] as ValidationError[])).toEqual(stripIndents`
+        expect(classValidatorFlatFormatter([error] as ValidationError[]))
+            .toEqual(stripIndents`
         email: email must be an email (isEmail).
         `);
     });
@@ -25,7 +26,8 @@ describe('classValidatorFlatFormatter', () => {
                 property: 'name',
                 children: [],
                 constraints: {
-                    minLength: 'name must be longer than or equal to 3 characters',
+                    minLength:
+                        'name must be longer than or equal to 3 characters',
                 },
             },
             {
@@ -37,7 +39,8 @@ describe('classValidatorFlatFormatter', () => {
                 },
             },
         ];
-        expect(classValidatorFlatFormatter(errors as ValidationError[])).toEqual(stripIndents`
+        expect(classValidatorFlatFormatter(errors as ValidationError[]))
+            .toEqual(stripIndents`
         name: name must be longer than or equal to 3 characters (minLength),
         password: password should not be empty (isNotEmpty).
         `);
@@ -55,7 +58,8 @@ describe('classValidatorFlatFormatter', () => {
                 },
             },
         ];
-        expect(classValidatorFlatFormatter(errors as ValidationError[])).toEqual(stripIndents`
+        expect(classValidatorFlatFormatter(errors as ValidationError[]))
+            .toEqual(stripIndents`
             name: minLength error message (minLength),
             name: name should not be empty (isNotEmpty).
         `);
@@ -76,7 +80,8 @@ describe('classValidatorFlatFormatter', () => {
                 },
             },
         ];
-        expect(classValidatorFlatFormatter(errors as ValidationError[])).toEqual(stripIndents`
+        expect(classValidatorFlatFormatter(errors as ValidationError[]))
+            .toEqual(stripIndents`
             user: should not be empty (isNotEmpty),
             user.name: alnum error (alnum).
         `);
@@ -84,7 +89,9 @@ describe('classValidatorFlatFormatter', () => {
 
     it('fault tollerance', () => {
         const errors: Partial<ValidationError>[] = [{}];
-        expect(classValidatorFlatFormatter(errors as ValidationError[])).toEqual('');
+        expect(
+            classValidatorFlatFormatter(errors as ValidationError[]),
+        ).toEqual('');
         expect(classValidatorFlatFormatter(undefined as any)).toEqual('');
         expect(classValidatorFlatFormatter(null as any)).toEqual('');
     });

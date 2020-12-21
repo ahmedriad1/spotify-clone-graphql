@@ -38,7 +38,10 @@ if (process.env.NODE_ENV !== 'test') {
     bootstrap()
         // eslint-disable-next-line promise/always-return
         .then(async (app) => {
-            console.log(`GraphQL application is running on: ${await app.getUrl()}`, 'bootstrap');
+            console.log(
+                `GraphQL application is running on: ${await app.getUrl()}`,
+                'bootstrap',
+            );
         })
         .catch((err) => {
             console.error(err);

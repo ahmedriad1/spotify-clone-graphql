@@ -10,7 +10,10 @@ import { UserRepository } from './user.repository';
 export class UserService {
     constructor(private readonly repository: UserRepository) {}
 
-    async update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput) {
+    async update(
+        where: Prisma.UserWhereUniqueInput,
+        data: Prisma.UserUpdateInput,
+    ) {
         return this.repository.update({ data, where });
     }
 
@@ -19,7 +22,9 @@ export class UserService {
     }
 
     async findByCredentials(data: { email: string; password: string }) {
-        let user = await this.repository.findUnique({ where: { email: data.email } });
+        let user = await this.repository.findUnique({
+            where: { email: data.email },
+        });
         if (!(user && user.password === data.password)) {
             // eslint-disable-next-line unicorn/no-null
             user = null;
@@ -60,7 +65,9 @@ export class UserService {
         follower: Prisma.UserWhereUniqueInput,
         value: boolean,
     ) {
-        const followersOperation = value ? { connect: follower } : { disconnect: follower };
+        const followersOperation = value
+            ? { connect: follower }
+            : { disconnect: follower };
         return this.repository.update({
             where,
             data: {

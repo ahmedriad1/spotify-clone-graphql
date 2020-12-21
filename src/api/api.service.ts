@@ -16,7 +16,9 @@ import { UpdateUserDto } from './models/update-user.dto';
  */
 @Injectable()
 export class ApiService {
-    constructor(@Inject('GraphQLClient') private readonly graphqlClient: GraphQLClient) {}
+    constructor(
+        @Inject('GraphQLClient') private readonly graphqlClient: GraphQLClient,
+    ) {}
 
     /**
      * Send mutation query to create user.
@@ -72,7 +74,9 @@ export class ApiService {
             }
             ${userFields}
         `;
-        return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query);
+        return this.graphqlClient
+            .setHeader('Authorization', `Bearer ${token}`)
+            .request(query);
     }
 
     /**
@@ -107,9 +111,11 @@ export class ApiService {
             }
             ${userFields}
         `;
-        return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {
-            input: { name },
-        });
+        return this.graphqlClient
+            .setHeader('Authorization', `Bearer ${token}`)
+            .request(query, {
+                input: { name },
+            });
     }
 
     /**
@@ -166,7 +172,9 @@ export class ApiService {
             where.author = { name: { equals: options.author } };
         }
         if (options.favorited) {
-            where.favoritedBy = { some: { name: { equals: options.favorited } } };
+            where.favoritedBy = {
+                some: { name: { equals: options.favorited } },
+            };
         }
         let skip: number | undefined;
         if (options.offset && options.offset > 0) {
@@ -179,7 +187,10 @@ export class ApiService {
 
         const query = /* GraphQL */ `
             query articles($where: ArticleWhereInput!) {
-                articles: articles(where: $where, orderBy: { articleId: desc }) {
+                articles: articles(
+                    where: $where
+                    orderBy: { articleId: desc }
+                ) {
                     ...articleFields
                 }
                 articlesCount: countArticles(where: $where)
@@ -212,10 +223,12 @@ export class ApiService {
             }
             ${userFields}
         `;
-        return this.graphqlClient.setHeader('Authorization', `Bearer ${token}`).request(query, {
-            where: { name: username },
-            value: value,
-        });
+        return this.graphqlClient
+            .setHeader('Authorization', `Bearer ${token}`)
+            .request(query, {
+                where: { name: username },
+                value: value,
+            });
     }
 
     /**
@@ -358,11 +371,18 @@ export class ApiService {
     /**
      * Favorite (value: true) or unfavorite (value: false) article.
      */
-    async favoriteArticle(args: { token: string; slug: string; value: boolean }) {
+    async favoriteArticle(args: {
+        token: string;
+        slug: string;
+        value: boolean;
+    }) {
         this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
         return this.graphqlClient.request(
             /* GraphQL */ `
-                mutation favoriteArticle($where: ArticleWhereUniqueInput!, $value: Boolean!) {
+                mutation favoriteArticle(
+                    $where: ArticleWhereUniqueInput!
+                    $value: Boolean!
+                ) {
                     article: favoriteArticle(where: $where, value: $value) {
                         ...articleFields
                     }

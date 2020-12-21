@@ -2,12 +2,29 @@ import { ArticleWhereInput } from '@generated/article/article-where.input';
 import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
 import { FindManyArticleArgs } from '@generated/article/find-many-article.args';
 import { FindManyUserArgs } from '@generated/user/find-many-user.args';
-import { ConflictException, Logger, NotFoundException, UseGuards } from '@nestjs/common';
-import { Args, Info, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+    ConflictException,
+    Logger,
+    NotFoundException,
+    UseGuards,
+} from '@nestjs/common';
+import {
+    Args,
+    Info,
+    Int,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver,
+} from '@nestjs/graphql';
 import { PrismaSelect } from '@paljs/plugins';
 import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
-import { GraphqlFields, GraphqlFieldsParameter } from 'app_modules/nestjs-graphql-fields';
+import {
+    GraphqlFields,
+    GraphqlFieldsParameter,
+} from 'app_modules/nestjs-graphql-fields';
 import {
     GraphqlAuthGuard,
     OptionalGraphqlAuthGuard,
@@ -72,12 +89,18 @@ export class ArticleResolver {
     }
 
     @ResolveField(() => [User])
-    async favoritedBy(@Parent() article: Partial<Article>, @Args() args: FindManyUserArgs) {
+    async favoritedBy(
+        @Parent() article: Partial<Article>,
+        @Args() args: FindManyUserArgs,
+    ) {
         if (Array.isArray(article.favoritedBy)) {
             // Already resolved by PrismaSelect plugin
             return article.favoritedBy;
         }
-        this.logger.warn('Article.favoritedBy is not defined', 'Performance Warning');
+        this.logger.warn(
+            'Article.favoritedBy is not defined',
+            'Performance Warning',
+        );
         return this.userService.findMany({
             ...args,
             where: {
@@ -186,7 +209,9 @@ export class ArticleResolver {
     ) {
         const article = await this.service.findUnique({ where });
         if (!article) {
-            throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
+            throw new NotFoundException(
+                `Article ${JSON.stringify(where)} do not exists`,
+            );
         }
         return this.service.updateArticle({
             input: data,
@@ -206,7 +231,9 @@ export class ArticleResolver {
     ) {
         const article = await this.service.findUnique({ where });
         if (!article) {
-            throw new NotFoundException(`Article ${JSON.stringify(where)} do not exists`);
+            throw new NotFoundException(
+                `Article ${JSON.stringify(where)} do not exists`,
+            );
         }
         return this.service.delete({
             where,
@@ -266,9 +293,14 @@ export class ArticleResolver {
             return false;
         }
         if (Array.isArray(article.favoritedBy)) {
-            return article.favoritedBy.some((user) => user.userId === currentUser.id);
+            return article.favoritedBy.some(
+                (user) => user.userId === currentUser.id,
+            );
         } else {
-            this.logger.warn('Article.favoritedBy is not defined', 'Performance Warning');
+            this.logger.warn(
+                'Article.favoritedBy is not defined',
+                'Performance Warning',
+            );
         }
         assert(article.articleId);
         return this.service.isFavorited(article.articleId, currentUser.id);

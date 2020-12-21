@@ -9,7 +9,9 @@ export class ArticleCreateManyWithoutTagsInput {
     @Field(() => [ArticleCreateWithoutTagsInput], {
         nullable: true,
     })
-    create?: ArticleCreateWithoutTagsInput | Array<ArticleCreateWithoutTagsInput>;
+    create?:
+        | ArticleCreateWithoutTagsInput
+        | Array<ArticleCreateWithoutTagsInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,

@@ -9,7 +9,9 @@ export class CommentCreateManyWithoutArticleInput {
     @Field(() => [CommentCreateWithoutArticleInput], {
         nullable: true,
     })
-    create?: CommentCreateWithoutArticleInput | Array<CommentCreateWithoutArticleInput>;
+    create?:
+        | CommentCreateWithoutArticleInput
+        | Array<CommentCreateWithoutArticleInput>;
 
     @Field(() => [CommentWhereUniqueInput], {
         nullable: true,

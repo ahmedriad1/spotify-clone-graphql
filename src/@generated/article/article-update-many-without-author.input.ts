@@ -13,7 +13,9 @@ export class ArticleUpdateManyWithoutAuthorInput {
     @Field(() => [ArticleCreateWithoutAuthorInput], {
         nullable: true,
     })
-    create?: ArticleCreateWithoutAuthorInput | Array<ArticleCreateWithoutAuthorInput>;
+    create?:
+        | ArticleCreateWithoutAuthorInput
+        | Array<ArticleCreateWithoutAuthorInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,

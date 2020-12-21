@@ -1,7 +1,14 @@
 import { ArticleWhereUniqueInput } from '@generated/article/article-where-unique.input';
 import { CommentWhereUniqueInput } from '@generated/comment/comment-where-unique.input';
 import { NotFoundException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+    Args,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver,
+} from '@nestjs/graphql';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import { GraphqlFields } from 'app_modules/nestjs-graphql-fields';
 import {
@@ -36,7 +43,9 @@ export class CommentResolver {
     ) {
         const articleExists = (await this.articleService.count(where)) !== 0;
         if (!articleExists) {
-            throw new NotFoundException(`Article ${JSON.stringify(where)} does not exist`);
+            throw new NotFoundException(
+                `Article ${JSON.stringify(where)} does not exist`,
+            );
         }
         return this.commentService.get({ where, follower: currentUser });
     }
@@ -50,7 +59,9 @@ export class CommentResolver {
     ) {
         const articleExists = (await this.articleService.count(where)) !== 0;
         if (!articleExists) {
-            throw new NotFoundException(`Article ${JSON.stringify(where)} does not exist`);
+            throw new NotFoundException(
+                `Article ${JSON.stringify(where)} does not exist`,
+            );
         }
         return this.commentService.createComment({
             where,

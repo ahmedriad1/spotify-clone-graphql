@@ -13,7 +13,9 @@ export class ArticleUpdateManyWithoutFavoritedByInput {
     @Field(() => [ArticleCreateWithoutFavoritedByInput], {
         nullable: true,
     })
-    create?: ArticleCreateWithoutFavoritedByInput | Array<ArticleCreateWithoutFavoritedByInput>;
+    create?:
+        | ArticleCreateWithoutFavoritedByInput
+        | Array<ArticleCreateWithoutFavoritedByInput>;
 
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,

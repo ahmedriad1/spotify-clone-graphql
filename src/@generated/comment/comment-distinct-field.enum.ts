@@ -9,4 +9,6 @@ export enum CommentDistinctFieldEnum {
     articleId = 'articleId',
 }
 
-registerEnumType(CommentDistinctFieldEnum, { name: 'CommentDistinctFieldEnum' });
+registerEnumType(CommentDistinctFieldEnum, {
+    name: 'CommentDistinctFieldEnum',
+});

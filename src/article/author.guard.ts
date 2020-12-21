@@ -14,11 +14,16 @@ export class AuthorGuard implements CanActivate {
     async canActivate(context: ExecutionContext) {
         const graphqlContext = GqlExecutionContext.create(context);
         const request = graphqlContext.getContext().req;
-        const where: ArticleWhereUniqueInput | undefined = context.getArgByIndex(1)?.where;
+        const where:
+            | ArticleWhereUniqueInput
+            | undefined = context.getArgByIndex(1)?.where;
         if (!(request.user && where)) {
             return false;
         }
-        const article = await this.articleService.findUnique({ where, select: { authorId: true } });
+        const article = await this.articleService.findUnique({
+            where,
+            select: { authorId: true },
+        });
         return Boolean(article && article.authorId === request.user.id);
     }
 }

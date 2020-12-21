@@ -75,7 +75,9 @@ module.exports = (options = {}) => {
                       const StartServerPlugin = require('start-server-nestjs-webpack-plugin');
                       return [
                           new webpack.HotModuleReplacementPlugin(),
-                          new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
+                          new webpack.WatchIgnorePlugin({
+                              paths: [/\.js$/, /\.d\.ts$/],
+                          }),
                           new StartServerPlugin({ name: 'main.js' }),
                       ];
                   })(),

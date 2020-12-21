@@ -59,7 +59,12 @@ describe('ArticleResolver', () => {
         );
 
         await expect(async () => {
-            await resolver.favoriteArticle({ articleId: '1' }, true, {}, { id: '2', email: '@2' });
+            await resolver.favoriteArticle(
+                { articleId: '1' },
+                true,
+                {},
+                { id: '2', email: '@2' },
+            );
         }).rejects.toThrow(ConflictException);
 
         const result = await resolver.favoriteArticle(
@@ -75,23 +80,37 @@ describe('ArticleResolver', () => {
         const article = createArticle({
             favoritedBy: [createUser({ userId: 'user1', email: '@1' })],
         });
-        expect(await resolver.favorited(article as Article, { id: 'user1', email: '@1' })).toBe(
-            true,
-        );
+        expect(
+            await resolver.favorited(article as Article, {
+                id: 'user1',
+                email: '@1',
+            }),
+        ).toBe(true);
     });
 
     it('favorited resolve property should return false', async () => {
-        let article = createArticle({ favoritedBy: [createUser({ userId: 'foo1' })] });
-        expect(await resolver.favorited(article as Article, { id: 'user1', email: '@1' })).toBe(
-            false,
-        );
+        let article = createArticle({
+            favoritedBy: [createUser({ userId: 'foo1' })],
+        });
+        expect(
+            await resolver.favorited(article as Article, {
+                id: 'user1',
+                email: '@1',
+            }),
+        ).toBe(false);
 
         article = createArticle({ favoritedBy: [] });
-        expect(await resolver.favorited(article as Article, { id: 'user1', email: '@1' })).toBe(
-            false,
-        );
-        expect(await resolver.favorited(article as Article, { id: 'user2', email: '@2' })).toBe(
-            false,
-        );
+        expect(
+            await resolver.favorited(article as Article, {
+                id: 'user1',
+                email: '@1',
+            }),
+        ).toBe(false);
+        expect(
+            await resolver.favorited(article as Article, {
+                id: 'user2',
+                email: '@2',
+            }),
+        ).toBe(false);
     });
 });

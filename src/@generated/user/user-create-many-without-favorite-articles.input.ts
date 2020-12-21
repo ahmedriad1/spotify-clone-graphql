@@ -9,7 +9,9 @@ export class UserCreateManyWithoutFavoriteArticlesInput {
     @Field(() => [UserCreateWithoutFavoriteArticlesInput], {
         nullable: true,
     })
-    create?: UserCreateWithoutFavoriteArticlesInput | Array<UserCreateWithoutFavoriteArticlesInput>;
+    create?:
+        | UserCreateWithoutFavoriteArticlesInput
+        | Array<UserCreateWithoutFavoriteArticlesInput>;
 
     @Field(() => [UserWhereUniqueInput], {
         nullable: true,

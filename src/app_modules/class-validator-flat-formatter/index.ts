@@ -51,6 +51,8 @@ function propertyPath(parent: string, name: string) {
     return result;
 }
 
-export function isValidationError(error?: Partial<ValidationError>): error is ValidationError {
+export function isValidationError(
+    error?: Partial<ValidationError>,
+): error is ValidationError {
     return Boolean(error && error.constraints && error.property);
 }

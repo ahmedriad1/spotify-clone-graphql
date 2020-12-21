@@ -125,14 +125,22 @@ describe('Registration POST /api/users', () => {
 
 describe('Get user profile by name', () => {
     it('root', async () => {
-        const response = await request({ method: 'GET', path: '/profiles/root', json: true });
+        const response = await request({
+            method: 'GET',
+            path: '/profiles/root',
+            json: true,
+        });
         expect(response.profile.username).toEqual('root');
     });
 });
 
 describe('List Articles', () => {
     it('GET /api/articles', async () => {
-        const response = await request({ method: 'GET', path: '/articles', json: true });
+        const response = await request({
+            method: 'GET',
+            path: '/articles',
+            json: true,
+        });
         expect(response.articles).toBeTruthy();
     });
 
@@ -188,7 +196,9 @@ describe('Articles favoriting', () => {
             token: await authToken(),
             json: true,
         });
-        expect(response.article.favoritesCount).toBe(article.favoritesCount + 1);
+        expect(response.article.favoritesCount).toBe(
+            article.favoritesCount + 1,
+        );
         expect(response.article.favorited).toBe(true);
 
         response = await request({

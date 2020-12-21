@@ -20,7 +20,10 @@ export class CommentService {
 
     constructor(private readonly prisma: PrismaService) {}
 
-    async get(args: { where: ArticleWhereUniqueInput; follower?: { id: string } }) {
+    async get(args: {
+        where: ArticleWhereUniqueInput;
+        follower?: { id: string };
+    }) {
         const parameters: FindManyCommentArgs = {
             where: {
                 article: args.where,
@@ -43,7 +46,11 @@ export class CommentService {
         return this.findMany(parameters);
     }
 
-    async createComment(args: { where: ArticleWhereUniqueInput; body: string; authorId: string }) {
+    async createComment(args: {
+        where: ArticleWhereUniqueInput;
+        body: string;
+        authorId: string;
+    }) {
         const commentCreateArgs: CommentCreateArgs = {
             data: {
                 body: args.body,

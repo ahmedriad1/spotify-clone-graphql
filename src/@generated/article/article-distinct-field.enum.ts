@@ -12,4 +12,6 @@ export enum ArticleDistinctFieldEnum {
     authorId = 'authorId',
 }
 
-registerEnumType(ArticleDistinctFieldEnum, { name: 'ArticleDistinctFieldEnum' });
+registerEnumType(ArticleDistinctFieldEnum, {
+    name: 'ArticleDistinctFieldEnum',
+});

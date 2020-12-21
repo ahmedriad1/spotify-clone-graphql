@@ -22,7 +22,10 @@ export class AuthService {
     async session(user: Pick<User, 'userId' | 'email'>) {
         const date = new Date();
 
-        const payload: SessionTokenFields = { sub: user.userId, email: user.email };
+        const payload: SessionTokenFields = {
+            sub: user.userId,
+            email: user.email,
+        };
 
         const accessTokenExpiresIn = this.appEnvironment.accessTokenExpiresIn;
         const refreshTokenExpiresIn = this.appEnvironment.refreshTokenExpiresIn;

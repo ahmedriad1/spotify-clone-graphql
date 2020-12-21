@@ -9,7 +9,9 @@ type ArticlePayload = Prisma.ArticleGetPayload<{
     };
 }>;
 
-export function createArticle(parts: Partial<ArticlePayload> = {}): ArticlePayload {
+export function createArticle(
+    parts: Partial<ArticlePayload> = {},
+): ArticlePayload {
     return {
         articleId: 'article_id',
         slug: 'article_slug',

@@ -30,9 +30,12 @@ export class ArticleService {
         include?: Prisma.ArticleInclude;
     }) {
         const article =
-            args.article || (args.where && (await this.findUnique({ where: args.where })));
+            args.article ||
+            (args.where && (await this.findUnique({ where: args.where })));
         if (!article) {
-            throw new TypeError('Expected Article or ArticleWhereUniqueInput arguments');
+            throw new TypeError(
+                'Expected Article or ArticleWhereUniqueInput arguments',
+            );
         }
 
         // const [existingTags, newTags] = await Promise.all([
@@ -62,14 +65,22 @@ export class ArticleService {
     }
 
     async isSlugUnique(slug: string) {
-        const entity = await this.prisma.article.findUnique({ where: { slug } });
+        const entity = await this.prisma.article.findUnique({
+            where: { slug },
+        });
         return entity === null;
     }
 
     /**
      * Create article from input, user.
      */
-    async create({ input, author }: { input: ArticleCreateInput; author: { id: string } }) {
+    async create({
+        input,
+        author,
+    }: {
+        input: ArticleCreateInput;
+        author: { id: string };
+    }) {
         const tags = await this.tag.createTags(input.tags || []);
         const data: Prisma.ArticleCreateInput = {
             slug: await this.slug.generate(input.title, this.isSlugUnique),
@@ -131,9 +142,12 @@ export class ArticleService {
         include?: Prisma.ArticleInclude;
     }) {
         const article =
-            args.article || (args.where && (await this.findUnique({ where: args.where })));
+            args.article ||
+            (args.where && (await this.findUnique({ where: args.where })));
         if (!article) {
-            throw new TypeError('Expected Article or ArticleWhereUniqueInput arguments');
+            throw new TypeError(
+                'Expected Article or ArticleWhereUniqueInput arguments',
+            );
         }
 
         const user = { userId: args.favoritedByUserId };
@@ -142,7 +156,9 @@ export class ArticleService {
 
         return this.update({
             data: {
-                favoritedBy: args.value ? { connect: user } : { disconnect: user },
+                favoritedBy: args.value
+                    ? { connect: user }
+                    : { disconnect: user },
                 favoritesCount,
             },
             where: { articleId: article.articleId },

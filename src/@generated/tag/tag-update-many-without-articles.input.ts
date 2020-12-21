@@ -13,7 +13,9 @@ export class TagUpdateManyWithoutArticlesInput {
     @Field(() => [TagCreateWithoutArticlesInput], {
         nullable: true,
     })
-    create?: TagCreateWithoutArticlesInput | Array<TagCreateWithoutArticlesInput>;
+    create?:
+        | TagCreateWithoutArticlesInput
+        | Array<TagCreateWithoutArticlesInput>;
 
     @Field(() => [TagWhereUniqueInput], {
         nullable: true,
