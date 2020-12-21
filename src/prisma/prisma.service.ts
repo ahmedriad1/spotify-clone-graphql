@@ -16,12 +16,22 @@ export class PrismaService
     constructor(private readonly logger: Logger) {
         super({
             errorFormat: 'minimal',
-            log: ['query'],
+            log: [
+                {
+                    level: 'query',
+                    emit: 'event',
+                },
+            ],
         });
         // @ts-ignore
         this.$on('query', (event: any) => {
-            if (event.params === '[]') return;
-            this.logger.debug(event.params, 'prisma:query:params');
+            const params: any[] = JSON.parse(event.params);
+            const query = (event.query as string).replace(/\?/g, (s) => {
+                return `\x1b[90m${JSON.stringify(
+                    params.shift(),
+                )}\x1b[0m\x1b[96m`;
+            });
+            this.logger.verbose(`\x1b[96m${query}\x1b[0m`, 'Query');
         });
     }
 
