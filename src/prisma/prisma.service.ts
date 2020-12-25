@@ -5,6 +5,7 @@ import {
     OnModuleInit,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { createPrismaQueryEventHandler } from 'prisma-query-log';
 
 /**
  * Prisma client as nest service.
@@ -23,16 +24,13 @@ export class PrismaService
                 },
             ],
         });
-        // @ts-ignore
-        this.$on('query', (event: any) => {
-            const params: any[] = JSON.parse(event.params);
-            const query = (event.query as string).replace(/\?/g, (s) => {
-                return `\u001B[90m${JSON.stringify(
-                    params.shift(),
-                )}\u001B[0m\u001B[96m`;
-            });
-            this.logger.verbose(`\u001B[96m${query}\u001B[0m`, 'Query');
+        const log = createPrismaQueryEventHandler({
+            logger: (query) => this.logger.verbose(query, 'Query'),
+            colorQuery: '\u001B[96m',
+            colorParameter: '\u001B[90m',
         });
+        // @ts-ignore
+        this.$on('query', log);
     }
 
     async onModuleInit() {

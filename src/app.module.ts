@@ -1,5 +1,5 @@
 import { Global, Logger, Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GqlModuleOptions, GraphQLModule } from '@nestjs/graphql';
 import { EnvironmentModule } from '@nestjs-steroids/environment';
 import {
     ApolloErrorConverter,
@@ -33,7 +33,7 @@ export async function graphqlModuleFactory(
             };
         },
         formatError: new ApolloErrorConverter({
-            logger,
+            logger: (err) => logger.error(err),
             errorMap: [
                 {
                     BadRequestException: extendMapItem(
@@ -65,7 +65,7 @@ export async function graphqlModuleFactory(
         }),
         GraphQLModule.forRootAsync({
             imports: [PrismaModule],
-            inject: [PrismaService],
+            inject: [PrismaService, Logger],
             useFactory: graphqlModuleFactory,
         }),
         ArticleModule,

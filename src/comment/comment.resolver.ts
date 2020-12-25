@@ -75,14 +75,4 @@ export class CommentResolver {
     async deleteComment(@Args('where') where: CommentWhereUniqueInput) {
         return this.commentService.delete({ where });
     }
-
-    @ResolveField(() => String)
-    async updatedAt(@Parent() comment: Comment) {
-        return new Date(comment.updatedAt).toISOString();
-    }
-
-    @ResolveField(() => String)
-    async createdAt(@Parent() comment: Comment) {
-        return new Date(comment.createdAt).toISOString();
-    }
 }

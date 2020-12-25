@@ -305,14 +305,4 @@ export class ArticleResolver {
         assert(article.articleId);
         return this.service.isFavorited(article.articleId, currentUser.id);
     }
-
-    @ResolveField(() => String)
-    async updatedAt(@Parent() article: Article) {
-        return new Date(article.updatedAt).toISOString();
-    }
-
-    @ResolveField(() => String)
-    async createdAt(@Parent() article: Article) {
-        return new Date(article.createdAt).toISOString();
-    }
 }
