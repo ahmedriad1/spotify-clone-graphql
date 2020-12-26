@@ -7,6 +7,8 @@ import {
 import { PrismaClient } from '@prisma/client';
 import { createPrismaQueryEventHandler } from 'prisma-query-log';
 
+import { AppEnvironment } from '../app.environment';
+
 /**
  * Prisma client as nest service.
  */
@@ -14,23 +16,34 @@ import { createPrismaQueryEventHandler } from 'prisma-query-log';
 export class PrismaService
     extends PrismaClient
     implements OnModuleInit, OnModuleDestroy {
-    constructor(private readonly logger: Logger) {
+    constructor(
+        private readonly logger: Logger,
+        private readonly environment: AppEnvironment,
+    ) {
         super({
             errorFormat: 'minimal',
-            log: [
-                {
-                    level: 'query',
-                    emit: 'event',
-                },
-            ],
+            log:
+                environment.nodeEnvironment === 'development'
+                    ? [
+                          {
+                              level: 'query',
+                              emit: 'event',
+                          },
+                      ]
+                    : undefined,
         });
-        const log = createPrismaQueryEventHandler({
-            logger: (query) => this.logger.verbose(query, 'Query'),
-            colorQuery: '\u001B[96m',
-            colorParameter: '\u001B[90m',
-        });
-        // @ts-ignore
-        this.$on('query', log);
+
+        if (environment.nodeEnvironment === 'development') {
+            this.$on(
+                // @ts-ignore
+                'query',
+                createPrismaQueryEventHandler({
+                    logger: (query) => this.logger.verbose(query, 'Query'),
+                    colorQuery: '\u001B[96m',
+                    colorParameter: '\u001B[90m',
+                }),
+            );
+        }
     }
 
     async onModuleInit() {

@@ -12,7 +12,7 @@ module.exports = (options = {}) => {
     return {
         entry: !hmr2 ? [hotEntry, main] : main,
         target: 'node',
-        devtool: false,
+        devtool: 'source-map',
         mode: 'none',
         output: {
             filename: 'main.js',
@@ -78,7 +78,10 @@ module.exports = (options = {}) => {
                           new webpack.WatchIgnorePlugin({
                               paths: [/\.js$/, /\.d\.ts$/],
                           }),
-                          new StartServerPlugin({ name: 'main.js' }),
+                          new StartServerPlugin({
+                              name: 'main.js',
+                              nodeArgs: ['-r', 'source-map-support/register'],
+                          }),
                       ];
                   })(),
         ],

@@ -33,7 +33,9 @@ export async function graphqlModuleFactory(
             };
         },
         formatError: new ApolloErrorConverter({
-            logger: (err) => logger.error(err),
+            logger: (err) => {
+                logger.error(err?.stack ?? err);
+            },
             errorMap: [
                 {
                     BadRequestException: extendMapItem(
