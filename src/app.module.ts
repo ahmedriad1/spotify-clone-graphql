@@ -6,6 +6,10 @@ import {
     extendMapItem,
     mapItemBases,
 } from 'apollo-error-converter';
+import {
+    RequestIdToken,
+    requestIdProvider,
+} from 'app_modules/express-request-id';
 import { IncomingMessage } from 'http';
 
 import { ApiModule } from './api/api.module';
@@ -73,7 +77,7 @@ export async function graphqlModuleFactory(
         ArticleModule,
         CommentModule,
     ],
-    providers: [Logger],
-    exports: [Logger],
+    providers: [Logger, requestIdProvider()],
+    exports: [Logger, RequestIdToken],
 })
 export class AppModule {}

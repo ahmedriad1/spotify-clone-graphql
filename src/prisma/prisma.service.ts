@@ -5,6 +5,7 @@ import {
     OnModuleInit,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { RequestId } from 'app_modules/express-request-id';
 import { createPrismaQueryEventHandler } from 'prisma-query-log';
 
 import { AppEnvironment } from '../app.environment';
@@ -19,6 +20,7 @@ export class PrismaService
     constructor(
         private readonly logger: Logger,
         private readonly environment: AppEnvironment,
+        @RequestId() private readonly requestId: string,
     ) {
         super({
             errorFormat: 'minimal',
@@ -38,7 +40,8 @@ export class PrismaService
                 // @ts-ignore
                 'query',
                 createPrismaQueryEventHandler({
-                    logger: (query) => this.logger.verbose(query, 'Query'),
+                    logger: (query) =>
+                        this.logger.verbose(query, this.requestId),
                     colorQuery: '\u001B[96m',
                     colorParameter: '\u001B[90m',
                 }),

@@ -58,3 +58,9 @@ to graphql api.
 
 -   Runnning test:e2e on CI
 -   ArticleService.updateArticle() Updating tags does not working check it later
+
+## Scripts
+
+```
+autocannon -m POST -i body.json -H "Content-Type: application/json" http://localhost:3000/graphql
+```
