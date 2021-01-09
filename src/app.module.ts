@@ -7,8 +7,8 @@ import {
     mapItemBases,
 } from 'apollo-error-converter';
 import {
-    RequestIdToken,
     requestIdProvider,
+    RequestIdToken,
 } from 'app_modules/express-request-id';
 import { IncomingMessage } from 'http';
 

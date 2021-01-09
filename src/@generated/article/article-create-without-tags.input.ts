@@ -12,24 +12,24 @@ export class ArticleCreateWithoutTagsInput {
     articleId?: string;
 
     @Field(() => String, {
-        nullable: true,
+        nullable: false,
     })
-    slug?: string;
+    slug!: string;
 
     @Field(() => String, {
-        nullable: true,
+        nullable: false,
     })
-    title?: string;
+    title!: string;
 
     @Field(() => String, {
-        nullable: true,
+        nullable: false,
     })
-    description?: string;
+    description!: string;
 
     @Field(() => String, {
-        nullable: true,
+        nullable: false,
     })
-    body?: string;
+    body!: string;
 
     @Field(() => Date, {
         nullable: true,
