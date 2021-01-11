@@ -15,6 +15,7 @@ import {
     ResolveField,
     Resolver,
 } from '@nestjs/graphql';
+import { PrismaSelect } from '@paljs/plugins';
 import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import {
@@ -22,11 +23,12 @@ import {
     OptionalGraphqlAuthGuard,
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
 import assert from 'assert';
+import { GraphQLResolveInfo } from 'graphql';
 
 import { PassportUserFields } from '../auth';
 import { AuthService } from '../auth/auth.service';
 import { GraphQLContext } from '../types';
-import { User } from './models/user';
+import { User } from './models/user.model';
 import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
@@ -44,18 +46,28 @@ export class UserResolver {
     ) {}
 
     /**
-     * Query for single user.
+     * Query for self profile.
      */
     @Query(() => User)
     @UseGuards(GraphqlAuthGuard)
     async me(@CurrentUser() user: PassportUserFields) {
-        return this.userService.findUnique({ userId: user.id });
+        return this.userService.findOne({ userId: user.id });
     }
 
+    /**
+     * Query for single user.
+     */
     @Query(() => User)
     @UseGuards(OptionalGraphqlAuthGuard)
-    async user(@Args('where') where: UserWhereUniqueInput, @Info() info) {
-        const user = await this.userService.findUnique(where);
+    async user(
+        @Args('where') where: UserWhereUniqueInput,
+        @Info() info: GraphQLResolveInfo,
+    ) {
+        const select = new PrismaSelect(info).value;
+        const user = await this.userService.findUnique({
+            ...select,
+            where,
+        });
         if (!user) {
             throw new NotFoundException(
                 `User with ${JSON.stringify(where)} do not exists.`,
@@ -106,7 +118,7 @@ export class UserResolver {
         @Args('where') where: UserWhereUniqueInput,
         @Args('value') value: boolean,
     ) {
-        const user = await this.userService.findUnique(where);
+        const user = await this.userService.findOne(where);
         if (!user) {
             throw new NotFoundException(
                 `User ${JSON.stringify(where)} do not exists`,
@@ -116,10 +128,10 @@ export class UserResolver {
         return this.userService.follow(where, follower, value);
     }
 
-    @ResolveField(() => String, { nullable: true })
-    password(@Parent() user: User) {
-        return;
-    }
+    // @ResolveField(() => String, { nullable: true })
+    // password(@Parent() user: User) {
+    //     return;
+    // }
 
     @ResolveField(() => String, { nullable: true })
     async token(@Parent() user: User, @Context() context: GraphQLContext) {

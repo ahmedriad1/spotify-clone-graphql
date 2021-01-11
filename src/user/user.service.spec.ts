@@ -24,7 +24,7 @@ describe('UserService', () => {
     });
 
     it('find one user', async () => {
-        await service.findUnique({ userId: 'u' });
+        await service.findOne({ userId: 'u' });
         expect(repository.findUnique).toHaveBeenCalledWith({
             where: { userId: 'u' },
         });

@@ -19,9 +19,7 @@ export class User {
     })
     name!: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @HideField()
     password!: string;
 
     @Field(() => String, {

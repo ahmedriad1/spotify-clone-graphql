@@ -34,7 +34,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import { PlainObject } from 'simplytyped';
 
 import { PassportUserFields } from '../auth/models/passport-user-fields';
-import { User } from '../user/models/user';
+import { User } from '../user/models/user.model';
 import { UserService } from '../user/user.service';
 import { ArticleService } from './article.service';
 import { AuthorGuard } from './author.guard';

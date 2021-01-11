@@ -17,7 +17,7 @@ export class UserService {
         return this.repository.update({ data, where });
     }
 
-    async findUnique(where: Prisma.UserWhereUniqueInput) {
+    async findOne(where: Prisma.UserWhereUniqueInput) {
         return this.repository.findUnique({ where });
     }
 
@@ -38,6 +38,10 @@ export class UserService {
 
     async findMany(args: Prisma.FindManyUserArgs) {
         return this.repository.findMany(args);
+    }
+
+    async findUnique(args: Prisma.FindUniqueUserArgs) {
+        return this.repository.findUnique(args);
     }
 
     async create(data: Prisma.UserCreateInput) {
