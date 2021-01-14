@@ -9,6 +9,7 @@ import { UserService } from '../user.service';
 
 /**
  * Custom validator, checks for name/email unique.
+ * Make sure that all your dependencies are SCOPE.Default'ed.
  */
 @ValidatorConstraint({ name: 'user', async: true })
 @Injectable()

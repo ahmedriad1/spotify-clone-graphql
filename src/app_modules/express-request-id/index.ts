@@ -1,6 +1,6 @@
 import { Inject, Provider, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { NextFunction, Request, Response } from 'express';
+import { Request } from 'express';
 import { IncomingMessage } from 'http';
 
 export const RequestIdToken = Symbol('RequestId');
@@ -13,16 +13,14 @@ const defaultProviderOptions = {
 
 type CreateProviderOptions = Partial<typeof defaultProviderOptions>;
 
-export function requestIdProvider(
-    options: CreateProviderOptions = {},
-): Provider {
+export function requestIdProvider(options: CreateProviderOptions = {}): Provider {
     const { createId, getRequest, headerName } = {
         ...defaultProviderOptions,
         ...options,
     };
     return {
         provide: RequestIdToken,
-        useFactory: (context) => {
+        useFactory: context => {
             const request = getRequest!(context);
             let result = request.headers[headerName];
             if (!result) {
