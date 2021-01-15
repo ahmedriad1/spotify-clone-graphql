@@ -10,10 +10,7 @@ import { UserRepository } from './user.repository';
 export class UserService {
     constructor(private readonly repository: UserRepository) {}
 
-    async update(
-        where: Prisma.UserWhereUniqueInput,
-        data: Prisma.UserUpdateInput,
-    ) {
+    async update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput) {
         return this.repository.update({ data, where });
     }
 

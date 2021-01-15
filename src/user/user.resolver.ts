@@ -120,9 +120,7 @@ export class UserResolver {
     ) {
         const user = await this.userService.findOne(where);
         if (!user) {
-            throw new NotFoundException(
-                `User ${JSON.stringify(where)} do not exists`,
-            );
+            throw new NotFoundException(`User ${JSON.stringify(where)} do not exists`);
         }
         const follower = { userId: currentUser.id };
         return this.userService.follow(where, follower, value);
@@ -152,16 +150,12 @@ export class UserResolver {
         // todo: Another problem if client request all followers
         // But we constrained to one current to src/article/article.resolver.ts@article
         if (!Array.isArray(user.followers)) {
-            this.logger.warn(
-                'Followers is not selected',
-                'Performance Warning',
-            );
+            this.logger.warn('Followers is not selected', 'Performance Warning');
         }
         assert(user.userId);
         return (
-            user.followers?.some(
-                (follower) => follower.userId === currentUser.id,
-            ) ?? this.userService.isFollowing(user.userId, currentUser.id)
+            user.followers?.some(follower => follower.userId === currentUser.id) ??
+            this.userService.isFollowing(user.userId, currentUser.id)
         );
     }
 }

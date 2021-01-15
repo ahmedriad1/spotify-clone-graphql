@@ -19,7 +19,6 @@ import {
     Resolver,
 } from '@nestjs/graphql';
 import { PrismaSelect } from '@paljs/plugins';
-import { Prisma } from '@prisma/client';
 import { CurrentUser } from 'app_modules/current-user-decorator';
 import {
     GraphqlFields,
@@ -37,6 +36,7 @@ import { PassportUserFields } from '../auth/models/passport-user-fields';
 import { User } from '../user/models/user.model';
 import { UserService } from '../user/user.service';
 import { ArticleService } from './article.service';
+import { ArticleSelectService } from './article-select.service';
 import { AuthorGuard } from './author.guard';
 import { Article } from './models/article';
 import { ArticleCreateInput } from './models/article-create.input';
@@ -51,8 +51,12 @@ export class ArticleResolver {
         private readonly service: ArticleService,
         private readonly userService: UserService,
         private readonly logger: Logger,
+        private readonly selectService: ArticleSelectService,
     ) {}
 
+    /**
+     * Query articles.
+     */
     @Query(() => [Article])
     @UseGuards(OptionalGraphqlAuthGuard)
     async articles(
@@ -62,30 +66,42 @@ export class ArticleResolver {
         @CurrentUser() currentUser?: PassportUserFields,
     ) {
         const select = new PrismaSelect(info).value;
-        if (graphqlFields?.author?.isFollowing && currentUser) {
-            const articleSelect: Prisma.ArticleSelect = {
-                author: {
-                    select: {
-                        userId: true,
-                        followers: {
-                            select: {
-                                userId: true,
-                            },
-                            where: {
-                                userId: { in: [currentUser.id] },
-                            },
-                        },
-                    },
-                },
-            };
-            PrismaSelect.mergeDeep(select, {
-                select: articleSelect,
-            });
-        }
+        const articleSelect = this.selectService.article(
+            graphqlFields,
+            currentUser?.id,
+        );
+
+        PrismaSelect.mergeDeep(select, {
+            select: articleSelect,
+        });
+
         return this.service.findMany({
             ...args,
             ...select,
         });
+    }
+
+    /**
+     * Checks if article is favorited by current user.
+     */
+    @ResolveField(() => Boolean)
+    async favorited(
+        @Parent() article: Article,
+        @CurrentUser() currentUser?: PassportUserFields,
+    ): Promise<boolean> {
+        if (!currentUser) {
+            return false;
+        }
+        if (Array.isArray(article.favoritedBy)) {
+            return article.favoritedBy.some(user => user.userId === currentUser.id);
+        } else {
+            this.logger.warn(
+                'Article.favoritedBy is not defined',
+                'Performance Warning',
+            );
+        }
+        assert(article.articleId);
+        return this.service.isFavorited(article.articleId, currentUser.id);
     }
 
     @ResolveField(() => [User])
@@ -97,10 +113,7 @@ export class ArticleResolver {
             // Already resolved by PrismaSelect plugin
             return article.favoritedBy;
         }
-        this.logger.warn(
-            'Article.favoritedBy is not defined',
-            'Performance Warning',
-        );
+        this.logger.warn('Article.favoritedBy is not defined', 'Performance Warning');
         return this.userService.findMany({
             ...args,
             where: {
@@ -138,26 +151,18 @@ export class ArticleResolver {
         @CurrentUser() currentUser?: PassportUserFields,
     ) {
         const select = new PrismaSelect(info).value;
-        if (graphqlFields?.author?.isFollowing && currentUser) {
-            const articleSelect: Prisma.ArticleSelect = {
-                author: {
-                    select: {
-                        userId: true,
-                        followers: {
-                            select: {
-                                userId: true,
-                            },
-                            where: {
-                                userId: { in: [currentUser.id] },
-                            },
-                        },
-                    },
-                },
-            };
-            PrismaSelect.mergeDeep(select, {
-                select: articleSelect,
-            });
-        }
+        const articleSelect = this.selectService.article(
+            graphqlFields,
+            currentUser?.id,
+        );
+
+        PrismaSelect.mergeDeep(select, {
+            select: articleSelect,
+        });
+
+        PrismaSelect.mergeDeep(select, {
+            select: articleSelect,
+        });
         return this.service.findUnique({
             where,
             ...select,
@@ -279,30 +284,5 @@ export class ArticleResolver {
                 tags: Boolean(fields.tags),
             },
         });
-    }
-
-    /**
-     * Checks if article is favorited by current user.
-     */
-    @ResolveField(() => Boolean)
-    async favorited(
-        @Parent() article: Article,
-        @CurrentUser() currentUser?: PassportUserFields,
-    ): Promise<boolean> {
-        if (!currentUser) {
-            return false;
-        }
-        if (Array.isArray(article.favoritedBy)) {
-            return article.favoritedBy.some(
-                (user) => user.userId === currentUser.id,
-            );
-        } else {
-            this.logger.warn(
-                'Article.favoritedBy is not defined',
-                'Performance Warning',
-            );
-        }
-        assert(article.articleId);
-        return this.service.isFavorited(article.articleId, currentUser.id);
     }
 }

@@ -65,7 +65,7 @@ export class ArticleService {
     }
 
     async isSlugUnique(slug: string) {
-        const entity = await this.prisma.article.findUnique({
+        const entity = await this.findUnique({
             where: { slug },
         });
         return entity === null;
@@ -83,7 +83,9 @@ export class ArticleService {
     }) {
         const tags = await this.tag.createTags(input.tags || []);
         const data: Prisma.ArticleCreateInput = {
-            slug: await this.slug.generate(input.title, this.isSlugUnique),
+            slug: await this.slug.generate(input.title, slug =>
+                this.isSlugUnique(slug),
+            ),
             title: input.title,
             body: input.body,
             description: input.description,
@@ -93,7 +95,7 @@ export class ArticleService {
                 },
             },
             tags: {
-                connect: tags.map((tag) => ({ tagId: tag.tagId })),
+                connect: tags.map(tag => ({ tagId: tag.tagId })),
             },
         };
         return this.prisma.article.create({
@@ -156,9 +158,7 @@ export class ArticleService {
 
         return this.update({
             data: {
-                favoritedBy: args.value
-                    ? { connect: user }
-                    : { disconnect: user },
+                favoritedBy: args.value ? { connect: user } : { disconnect: user },
                 favoritesCount,
             },
             where: { articleId: article.articleId },

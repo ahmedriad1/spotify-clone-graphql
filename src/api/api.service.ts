@@ -187,10 +187,7 @@ export class ApiService {
 
         const query = /* GraphQL */ `
             query articles($where: ArticleWhereInput!) {
-                articles: articles(
-                    where: $where
-                    orderBy: { articleId: desc }
-                ) {
+                articles: articles(where: $where, orderBy: { articleId: desc }) {
                     ...articleFields
                 }
                 articlesCount: countArticles(where: $where)
@@ -371,11 +368,7 @@ export class ApiService {
     /**
      * Favorite (value: true) or unfavorite (value: false) article.
      */
-    async favoriteArticle(args: {
-        token: string;
-        slug: string;
-        value: boolean;
-    }) {
+    async favoriteArticle(args: { token: string; slug: string; value: boolean }) {
         this.graphqlClient.setHeader('Authorization', `Bearer ${args.token}`);
         return this.graphqlClient.request(
             /* GraphQL */ `
@@ -404,7 +397,7 @@ export class ApiService {
                 }
             }
         `);
-        response.tags = response.tags.map((tag) => tag.name);
+        response.tags = response.tags.map(tag => tag.name);
         return response;
     }
 }

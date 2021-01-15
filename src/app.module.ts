@@ -6,10 +6,7 @@ import {
     extendMapItem,
     mapItemBases,
 } from 'apollo-error-converter';
-import {
-    requestIdProvider,
-    RequestIdToken,
-} from 'app_modules/express-request-id';
+import { requestIdProvider, RequestIdToken } from 'app_modules/express-request-id';
 import { IncomingMessage } from 'http';
 
 import { ApiModule } from './api/api.module';
@@ -37,20 +34,17 @@ export async function graphqlModuleFactory(
             };
         },
         formatError: new ApolloErrorConverter({
-            logger: (err) => {
+            logger: err => {
                 logger.error(err?.stack ?? err);
             },
             errorMap: [
                 {
-                    BadRequestException: extendMapItem(
-                        mapItemBases.InvalidFields,
-                        {
-                            logger: true,
-                            data: (err) => {
-                                return err?.response;
-                            },
+                    BadRequestException: extendMapItem(mapItemBases.InvalidFields, {
+                        logger: true,
+                        data: err => {
+                            return err?.response;
                         },
-                    ),
+                    }),
                 },
             ],
         }),

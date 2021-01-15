@@ -37,13 +37,13 @@ export async function bootstrap() {
 if (process.env.NODE_ENV !== 'test') {
     bootstrap()
         // eslint-disable-next-line promise/always-return
-        .then(async (app) => {
+        .then(async app => {
             console.log(
                 `GraphQL application is running on: ${await app.getUrl()}`,
                 'bootstrap',
             );
         })
-        .catch((err) => {
+        .catch(err => {
             console.error(err);
         });
 }

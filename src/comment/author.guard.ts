@@ -14,9 +14,8 @@ export class AuthorGuard implements CanActivate {
     async canActivate(context: ExecutionContext) {
         const graphqlContext = GqlExecutionContext.create(context);
         const request = graphqlContext.getContext().req;
-        const where:
-            | CommentWhereUniqueInput
-            | undefined = context.getArgByIndex(1)?.where;
+        const where: CommentWhereUniqueInput | undefined = context.getArgByIndex(1)
+            ?.where;
         if (!(request.user && where)) {
             return false;
         }

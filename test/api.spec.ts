@@ -21,8 +21,8 @@ const request = (args: {
     });
     if (args.json) {
         response = response
-            .then((r) => r.json())
-            .then((json) => {
+            .then(r => r.json())
+            .then(json => {
                 if (json.statusCode && json.statusCode > 299) {
                     throw json;
                 }
@@ -39,7 +39,7 @@ beforeAll(async () => {
 }, 15_000);
 
 test('server ready', async () => {
-    const result = await fetch(`${apiBaseUrl}`).then((r) => r.statusText);
+    const result = await fetch(`${apiBaseUrl}`).then(r => r.statusText);
     expect(result).toBe('OK');
 });
 
@@ -112,13 +112,13 @@ describe('Registration POST /api/users', () => {
         });
         expect(response.statusText).toBe('Created');
         expect(await response.json()).toEqual({
-            user: {
+            user: expect.objectContaining({
                 email: expect.stringContaining('@toastable.net'),
                 username: randomName,
                 bio: null,
                 image: null,
                 token: expect.any(String),
-            },
+            }),
         });
     });
 });
@@ -196,9 +196,7 @@ describe('Articles favoriting', () => {
             token: await authToken(),
             json: true,
         });
-        expect(response.article.favoritesCount).toBe(
-            article.favoritesCount + 1,
-        );
+        expect(response.article.favoritesCount).toBe(article.favoritesCount + 1);
         expect(response.article.favorited).toBe(true);
 
         response = await request({

@@ -13,9 +13,9 @@ import { map } from 'rxjs/operators';
 export class TagListInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler) {
         return next.handle().pipe(
-            map((data) => {
+            map(data => {
                 if ('articles' in data) {
-                    data.articles = data.articles.map((a) => toArticleDto(a));
+                    data.articles = data.articles.map(a => toArticleDto(a));
                 } else if ('article' in data) {
                     data.article = toArticleDto(data.article);
                 }
@@ -29,6 +29,6 @@ function toArticleDto(article: { tags: { name: string }[] }) {
     const { tags, ...temporaryArticle } = article;
     return {
         ...temporaryArticle,
-        tagList: tags.map((tag) => tag.name),
+        tagList: tags.map(tag => tag.name),
     };
 }

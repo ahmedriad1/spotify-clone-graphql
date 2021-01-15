@@ -8,6 +8,8 @@ import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
 import { Article } from './models/article';
 import { createArticle } from './testing';
+import { ArticleModule } from './article.module';
+import { ArticleSelectService } from './article-select.service';
 
 describe('ArticleResolver', () => {
     let resolver: ArticleResolver;
@@ -33,6 +35,10 @@ describe('ArticleResolver', () => {
                 {
                     provide: UserService,
                     useValue: createSpyObj(UserService),
+                },
+                {
+                    provide: ArticleSelectService,
+                    useValue: createSpyObj(ArticleSelectService),
                 },
             ],
         }).compile();

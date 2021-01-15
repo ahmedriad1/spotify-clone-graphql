@@ -19,8 +19,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         // Fill name, code, type fields for Apollo Error Converter
         if (typeof exception === 'object') {
             if (!exception.type) {
-                exception.type =
-                    exception.constructor?.name || exception.message;
+                exception.type = exception.constructor?.name || exception.message;
             }
             if (!exception.code) {
                 exception.code = exception.status;

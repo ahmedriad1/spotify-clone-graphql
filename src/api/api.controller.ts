@@ -68,10 +68,7 @@ export class ApiController {
      * Authentication required.
      */
     @Put('user')
-    async updateUser(
-        @AuthorizationToken() token: string,
-        @Req() request: Request,
-    ) {
+    async updateUser(@AuthorizationToken() token: string, @Req() request: Request) {
         return this.service.updateUser({
             token,
             user: request.body.user,
@@ -98,10 +95,7 @@ export class ApiController {
      */
     @Post('articles')
     @UseInterceptors(TagListInterceptor)
-    async createArticle(
-        @Req() request: Request,
-        @AuthorizationToken() token: string,
-    ) {
+    async createArticle(@Req() request: Request, @AuthorizationToken() token: string) {
         const createArticleDto: CreateArticleDto = request.body.article;
         return this.service.createArticle({ token, createArticleDto });
     }
@@ -175,10 +169,7 @@ export class ApiController {
      */
     @Get('articles/:slug') // eslint-disable-line sonarjs/no-duplicate-string
     @UseInterceptors(TagListInterceptor)
-    async getArticle(
-        @AuthorizationToken() token: string,
-        @Param('slug') slug: string,
-    ) {
+    async getArticle(@AuthorizationToken() token: string, @Param('slug') slug: string) {
         return this.service.getArticle({ token, slug });
     }
 
@@ -240,10 +231,7 @@ export class ApiController {
      * Delete comment by id.
      */
     @Delete('articles/:slug/comments/:id')
-    async deleteComment(
-        @AuthorizationToken() token: string,
-        @Param('id') id: string,
-    ) {
+    async deleteComment(@AuthorizationToken() token: string, @Param('id') id: string) {
         return this.service.deleteComment({ token, id });
     }
 

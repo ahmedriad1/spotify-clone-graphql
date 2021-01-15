@@ -26,8 +26,7 @@ describe('classValidatorFlatFormatter', () => {
                 property: 'name',
                 children: [],
                 constraints: {
-                    minLength:
-                        'name must be longer than or equal to 3 characters',
+                    minLength: 'name must be longer than or equal to 3 characters',
                 },
             },
             {
@@ -89,9 +88,7 @@ describe('classValidatorFlatFormatter', () => {
 
     it('fault tollerance', () => {
         const errors: Partial<ValidationError>[] = [{}];
-        expect(
-            classValidatorFlatFormatter(errors as ValidationError[]),
-        ).toEqual('');
+        expect(classValidatorFlatFormatter(errors as ValidationError[])).toEqual('');
         expect(classValidatorFlatFormatter(undefined as any)).toEqual('');
         expect(classValidatorFlatFormatter(null as any)).toEqual('');
     });

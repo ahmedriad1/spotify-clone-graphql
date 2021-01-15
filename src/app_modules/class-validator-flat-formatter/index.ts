@@ -13,7 +13,7 @@ export function classValidatorFlatFormatter(
     }
     let result = '';
     if (errors.length > 0) {
-        result = errors.map((err) => formatError(err, parentPath)).join(',\n');
+        result = errors.map(err => formatError(err, parentPath)).join(',\n');
         if (result) {
             result += '.';
         }
@@ -26,13 +26,13 @@ function formatError(error: ValidationError, parentPath: string) {
         return '';
     }
     return Object.keys(error.constraints)
-        .map((constraintName) => {
+        .map(constraintName => {
             const property = propertyPath(parentPath, error.property);
             const constraintMessage = error.constraints[constraintName];
             let result = `${property}: ${constraintMessage} (${constraintName})`;
             if (error.children && error.children.length > 0) {
                 result += `,\n${error.children
-                    .map((err) => formatError(err, property))
+                    .map(err => formatError(err, property))
                     .join(',\n')}`;
             }
             return result;

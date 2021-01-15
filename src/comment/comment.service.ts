@@ -20,10 +20,7 @@ export class CommentService {
 
     constructor(private readonly prisma: PrismaService) {}
 
-    async get(args: {
-        where: ArticleWhereUniqueInput;
-        follower?: { id: string };
-    }) {
+    async get(args: { where: ArticleWhereUniqueInput; follower?: { id: string } }) {
         const parameters: FindManyCommentArgs = {
             where: {
                 article: args.where,

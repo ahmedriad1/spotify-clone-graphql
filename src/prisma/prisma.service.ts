@@ -1,6 +1,5 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { RequestId } from 'app_modules/express-request-id';
 import { createPrismaQueryEventHandler } from 'prisma-query-log';
 
 import { AppEnvironment } from '../app.environment';
@@ -12,13 +11,9 @@ import { AppEnvironment } from '../app.environment';
 export class PrismaService
     extends PrismaClient
     implements OnModuleInit, OnModuleDestroy {
-    private lastRequestId: string = '';
-
     constructor(
         private readonly logger: Logger,
         private readonly environment: AppEnvironment,
-        // todo: get rid of scope.request inject it will broke validation
-        @RequestId() private readonly requestId: string,
     ) {
         super({
             errorFormat: 'minimal',
@@ -38,17 +33,10 @@ export class PrismaService
                 // @ts-ignore
                 'query',
                 createPrismaQueryEventHandler({
-                    logger: (() => {
-                        this.logger.setContext(this.requestId);
-                        let count = 1;
-                        return query => {
-                            count =
-                                this.lastRequestId !== this.requestId ? 1 : count + 1;
-                            this.lastRequestId = this.requestId;
-                            this.logger.verbose(`${count}. ${query}`);
-                        };
-                    })(),
-                    format: true,
+                    logger: query => {
+                        this.logger.verbose(query, 'SQL');
+                    },
+                    format: false,
                     colorQuery: '\u001B[96m',
                     colorParameter: '\u001B[90m',
                 }),
