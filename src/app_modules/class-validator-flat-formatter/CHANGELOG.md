@@ -1,3 +1,10 @@
+# [class-validator-flat-formatter-v1.0.1](https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app/compare/class-validator-flat-formatter-v1.0.0...class-validator-flat-formatter-v1.0.1) (2021-01-16)
+
+
+### Bug Fixes
+
+* New service to work with prisma select plugin ([4f4a2fd](https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app/commit/4f4a2fd899606154225ddbe491639819a07a0882))
+
 # class-validator-flat-formatter-v1.0.0 (2020-04-11)
 
 ### Bug Fixes
