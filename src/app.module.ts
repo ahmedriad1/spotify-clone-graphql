@@ -7,6 +7,7 @@ import {
     mapItemBases,
 } from 'apollo-error-converter';
 import { requestIdProvider, RequestIdToken } from 'app_modules/express-request-id';
+import { Request } from 'express';
 
 import { ApiModule } from './api/api.module';
 import { AppEnvironment } from './app.environment';
@@ -16,7 +17,6 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
-import { Request } from 'express';
 
 export async function graphqlModuleFactory(
     prismaService: PrismaService,

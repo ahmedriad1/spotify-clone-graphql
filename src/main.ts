@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { NestApplicationOptions, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AllExceptionsFilter } from 'app_modules/all-exceptions-filter';
 import { useContainer } from 'class-validator';
@@ -11,9 +11,8 @@ if (process.env.NODE_ENV !== 'production') {
     require('log-process-errors')();
 }
 
-export async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-    const appEnvironment = app.get(AppEnvironment);
+export async function createApp(options?: NestApplicationOptions) {
+    const app = await NestFactory.create(AppModule, options);
     app.enableCors();
     app.useGlobalPipes(
         new ValidationPipe({
@@ -25,25 +24,27 @@ export async function bootstrap() {
     );
     app.useGlobalFilters(new AllExceptionsFilter());
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
+
+    return app;
+}
+
+async function main() {
+    const app = await createApp();
+    const appEnvironment = app.get(AppEnvironment);
+
     await app.listen(appEnvironment.port);
+
+    console.log(
+        `GraphQL application is running on: ${await app.getUrl()}`,
+        'bootstrap',
+    );
 
     if (module.hot) {
         module.hot.accept();
         module.hot.dispose(() => app.close());
     }
-    return app;
 }
 
 if (process.env.NODE_ENV !== 'test') {
-    bootstrap()
-        // eslint-disable-next-line promise/always-return
-        .then(async app => {
-            console.log(
-                `GraphQL application is running on: ${await app.getUrl()}`,
-                'bootstrap',
-            );
-        })
-        .catch(err => {
-            console.error(err);
-        });
+    void main();
 }

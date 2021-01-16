@@ -2,6 +2,10 @@ import { Article } from '@prisma/client';
 import fetch from 'node-fetch';
 import waitOn from 'wait-on';
 
+/**
+ * Full end to end black box tests, with real server runnning
+ */
+
 // https://github.com/gothinkster/realworld/tree/master/api
 const apiBaseUrl = 'http://localhost:3000/api';
 const request = (args: {

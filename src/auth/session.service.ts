@@ -1,5 +1,6 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
+
 import { GraphQLContext } from '../types';
 import { PassportUserFields } from './models/passport-user-fields';
 

@@ -5,6 +5,7 @@ import { IsEnum, IsNumber, Max, Min } from 'class-validator';
 enum NodeEnvironment {
     Development = 'development',
     Production = 'production',
+    Test = 'test',
 }
 
 export class AppEnvironment {

@@ -23,18 +23,18 @@ import {
     OptionalGraphqlAuthGuard,
 } from 'app_modules/nestjs-passport-graphql-auth-guard';
 import assert from 'assert';
+import DataLoader from 'dataloader';
 import { GraphQLResolveInfo } from 'graphql';
 
 import { PassportUserFields } from '../auth';
 import { AuthService } from '../auth/auth.service';
+import { SessionService } from '../auth/session.service';
 import { GraphQLContext } from '../types';
 import { User } from './models/user.model';
 import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
-import DataLoader from 'dataloader';
-import { SessionService } from '../auth/session.service';
 
 /**
  * Resolves user object type.
