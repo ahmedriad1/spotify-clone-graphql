@@ -56,9 +56,7 @@ to graphql api.
 
 ## Todo
 
--   Runnning test:e2e on CI
 -   ArticleService.updateArticle() Updating tags does not working check it later
--   Need session service to get current user id for dataloader
 -   window logger separator (wait 5 sec if no log render line)
 
 ## Scripts
