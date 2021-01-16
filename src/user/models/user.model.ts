@@ -1,5 +1,4 @@
 import { Article } from '@generated/article/article.model';
-import { Comment } from '@generated/comment/comment.model';
 import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({})
@@ -37,7 +36,9 @@ export class User {
     })
     following?: Array<User>;
 
-    @HideField()
+    @Field(() => [User], {
+        nullable: true,
+    })
     followers?: Array<User>;
 
     @Field(() => [Article], {

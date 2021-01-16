@@ -1,5 +1,5 @@
 import { Global, Logger, Module } from '@nestjs/common';
-import { GqlModuleOptions, GraphQLModule } from '@nestjs/graphql';
+import { GraphQLModule } from '@nestjs/graphql';
 import { EnvironmentModule } from '@nestjs-steroids/environment';
 import {
     ApolloErrorConverter,
@@ -7,7 +7,6 @@ import {
     mapItemBases,
 } from 'apollo-error-converter';
 import { requestIdProvider, RequestIdToken } from 'app_modules/express-request-id';
-import { IncomingMessage } from 'http';
 
 import { ApiModule } from './api/api.module';
 import { AppEnvironment } from './app.environment';
@@ -17,6 +16,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
+import { Request } from 'express';
 
 export async function graphqlModuleFactory(
     prismaService: PrismaService,
@@ -26,11 +26,11 @@ export async function graphqlModuleFactory(
         tracing: false,
         sortSchema: true,
         autoSchemaFile: '~schema.gql',
-        context: (data: { req: IncomingMessage }) => {
+        context: (data: any) => {
             return {
                 prisma: prismaService,
                 token: undefined as string | undefined,
-                req: data.req,
+                req: data.req as Request,
             };
         },
         formatError: new ApolloErrorConverter({

@@ -33,6 +33,8 @@ import { UserCreateInput } from './models/user-create-input';
 import { UserLoginInput } from './models/user-login-input';
 import { UserUpdateInput } from './models/user-update-input';
 import { UserService } from './user.service';
+import DataLoader from 'dataloader';
+import { SessionService } from '../auth/session.service';
 
 /**
  * Resolves user object type.
@@ -42,6 +44,7 @@ export class UserResolver {
     constructor(
         private readonly userService: UserService,
         private readonly authService: AuthService,
+        private readonly sessionService: SessionService,
         private readonly logger: Logger,
     ) {}
 
@@ -63,7 +66,12 @@ export class UserResolver {
         @Args('where') where: UserWhereUniqueInput,
         @Info() info: GraphQLResolveInfo,
     ) {
-        const select = new PrismaSelect(info).value;
+        const select = new PrismaSelect(info, {
+            defaultFields: {
+                // This fix issue with missing user.userId
+                User: { userId: true },
+            },
+        }).value;
         const user = await this.userService.findUnique({
             ...select,
             where,
@@ -126,15 +134,30 @@ export class UserResolver {
         return this.userService.follow(where, follower, value);
     }
 
-    // @ResolveField(() => String, { nullable: true })
-    // password(@Parent() user: User) {
-    //     return;
-    // }
-
     @ResolveField(() => String, { nullable: true })
     async token(@Parent() user: User, @Context() context: GraphQLContext) {
         return context.token;
     }
+
+    private readonly followDataLoader = new DataLoader(
+        async (userIds: string[]) => {
+            const followSessionUser = await this.userService.findMany({
+                select: {
+                    userId: true,
+                },
+                where: {
+                    userId: { in: userIds },
+                    followers: {
+                        some: { userId: this.sessionService.currentUserId() },
+                    },
+                },
+            });
+            return userIds.map(userId =>
+                followSessionUser.some(x => x.userId === userId),
+            );
+        },
+        { cache: false },
+    );
 
     /**
      * Check if current user is follow some user.
@@ -147,15 +170,7 @@ export class UserResolver {
         if (!currentUser) {
             return false;
         }
-        // todo: Another problem if client request all followers
-        // But we constrained to one current to src/article/article.resolver.ts@article
-        if (!Array.isArray(user.followers)) {
-            this.logger.warn('Followers is not selected', 'Performance Warning');
-        }
         assert(user.userId);
-        return (
-            user.followers?.some(follower => follower.userId === currentUser.id) ??
-            this.userService.isFollowing(user.userId, currentUser.id)
-        );
+        return this.followDataLoader.load(user.userId);
     }
 }
