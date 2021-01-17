@@ -5,7 +5,7 @@ import { GqlContextType } from '@nestjs/graphql';
  * Extract request.user property (which is written by passport).
  */
 export const CurrentUser = createParamDecorator(
-    (data: unknown, context: ExecutionContext) => {
+    (_: unknown, context: ExecutionContext) => {
         let request;
         if (context.getType() === 'http') {
             request = context.switchToHttp().getRequest();

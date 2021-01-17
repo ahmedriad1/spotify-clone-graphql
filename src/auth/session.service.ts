@@ -4,6 +4,10 @@ import { REQUEST } from '@nestjs/core';
 import { GraphQLContext } from '../types';
 import { PassportUserFields } from './models/passport-user-fields';
 
+/**
+ * TODO: Problem with this Scope.REQUEST every dependant service
+ * will be created on every request.
+ */
 @Injectable({ scope: Scope.REQUEST })
 export class SessionService {
     constructor(@Inject(REQUEST) private readonly context: GraphQLContext) {}
