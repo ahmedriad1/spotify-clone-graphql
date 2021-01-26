@@ -11,10 +11,9 @@ import { AppEnvironment } from '../app.environment';
 export class PrismaService
     extends PrismaClient
     implements OnModuleInit, OnModuleDestroy {
-    constructor(
-        private readonly logger: Logger,
-        private readonly environment: AppEnvironment,
-    ) {
+    private readonly logger = new Logger();
+
+    constructor(private readonly environment: AppEnvironment) {
         super({
             errorFormat: 'minimal',
             log:

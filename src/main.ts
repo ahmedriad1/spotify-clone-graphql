@@ -1,4 +1,4 @@
-import { NestApplicationOptions, ValidationPipe } from '@nestjs/common';
+import { Logger, NestApplicationOptions, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AllExceptionsFilter } from 'app_modules/all-exceptions-filter';
 import { useContainer } from 'class-validator';
@@ -34,9 +34,9 @@ async function main() {
 
     await app.listen(appEnvironment.port);
 
-    console.log(
+    app.get(Logger).log(
         `GraphQL application is running on: ${await app.getUrl()}`,
-        'bootstrap',
+        'main',
     );
 
     if (module.hot) {

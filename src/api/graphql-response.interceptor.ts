@@ -18,7 +18,7 @@ import { catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class GraphQLResponseInterceptor implements NestInterceptor {
-    constructor(private readonly logger: Logger) {}
+    private readonly logger: Logger = new Logger('GraphQLResponseInterceptor');
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
         return next.handle().pipe(

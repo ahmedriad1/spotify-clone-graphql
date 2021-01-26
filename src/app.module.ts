@@ -71,7 +71,7 @@ export async function graphqlModuleFactory(
         ArticleModule,
         CommentModule,
     ],
-    providers: [Logger, requestIdProvider()],
-    exports: [Logger, RequestIdToken],
+    providers: [Logger],
+    exports: [Logger],
 })
 export class AppModule {}

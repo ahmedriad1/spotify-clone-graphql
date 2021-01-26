@@ -47,10 +47,11 @@ import { ArticleUpdateInput } from './models/article-update.input';
  */
 @Resolver(() => Article)
 export class ArticleResolver {
+    private readonly logger = new Logger(ArticleResolver.name);
+
     constructor(
         private readonly service: ArticleService,
         private readonly userService: UserService,
-        private readonly logger: Logger,
         private readonly selectService: ArticleSelectService,
     ) {}
 

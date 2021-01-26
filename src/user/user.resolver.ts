@@ -41,11 +41,11 @@ import { UserService } from './user.service';
  */
 @Resolver(() => User)
 export class UserResolver {
+    private readonly logger = new Logger(UserResolver.name);
     constructor(
         private readonly userService: UserService,
         private readonly authService: AuthService,
         private readonly sessionService: SessionService,
-        private readonly logger: Logger,
     ) {}
 
     /**
