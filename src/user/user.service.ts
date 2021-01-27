@@ -35,11 +35,11 @@ export class UserService {
         return this.repository.randomUser();
     }
 
-    async findMany(args: Prisma.FindManyUserArgs) {
+    async findMany(args: Prisma.UserFindManyArgs) {
         return this.repository.findMany(args);
     }
 
-    async findUnique(args: Prisma.FindUniqueUserArgs) {
+    async findUnique(args: Prisma.UserFindUniqueArgs) {
         return this.repository.findUnique(args);
     }
 

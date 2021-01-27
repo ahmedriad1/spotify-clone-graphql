@@ -23,7 +23,7 @@
     "start": "node dist/src/main.js",
     "nest:start": "nest start --path tsconfig.json",
     "start:dev": "node -r dotenv-flow/config node_modules/@nestjs/cli/bin/nest.js start --path tsconfig.json --watch --exec \"node -r source-map-support/register\"",
-    "start:dev:o": "ts-node-dev --rs --transpile-only -r dotenv-flow/config -r tsconfig-paths/register src/main.ts",
+    "start:dev:f": "ts-node-dev --rs --transpile-only -r dotenv-flow/config -r tsconfig-paths/register src/main.ts",
     "start:dev:h": "node node_modules/webpack/bin/webpack.js --watch --env hmr",
     "start:dev:d": "nest start --watch --path tsconfig.json --exec \"node --inspect -r dotenv-flow/config\"",
     "start:debug": "nest start --debug --watch --path tsconfig.json",

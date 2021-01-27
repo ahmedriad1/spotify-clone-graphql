@@ -5,16 +5,15 @@ import { classValidatorFlatFormatter } from '.';
 
 describe('classValidatorFlatFormatter', () => {
     it('single error object', () => {
-        const error: Partial<ValidationError> = {
+        const error: ValidationError = {
             value: 'aa@mai1l1',
             property: 'email',
             children: [],
             constraints: {
                 isEmail: 'email must be an email',
-            },
+            } as Record<string, string>,
         };
-        expect(classValidatorFlatFormatter([error] as ValidationError[]))
-            .toEqual(stripIndents`
+        expect(classValidatorFlatFormatter([error])).toEqual(stripIndents`
         email: email must be an email (isEmail).
         `);
     });

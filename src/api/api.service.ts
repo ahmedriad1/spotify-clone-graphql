@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { Inject, Injectable } from '@nestjs/common';
-import { ArticleWhereInput } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 
 import { articleFields, commentFields, userFields } from './fragments';
@@ -164,7 +164,7 @@ export class ApiService {
             limit: number;
         }>,
     ) {
-        const where: ArticleWhereInput = {};
+        const where: Prisma.ArticleWhereInput = {};
         if (options.tag) {
             where.tags = { some: { name: { equals: options.tag } } };
         }
