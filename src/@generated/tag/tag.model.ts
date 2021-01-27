@@ -1,4 +1,4 @@
-import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 import { Article } from '../article/article.model';
 
@@ -14,6 +14,8 @@ export class Tag {
     })
     name!: string;
 
-    @HideField()
+    @Field(() => [Article], {
+        nullable: true,
+    })
     articles?: Array<Article>;
 }
