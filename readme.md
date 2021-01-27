@@ -56,6 +56,7 @@ to graphql api.
 
 ## Todo
 
+-   Why do we need copy migrations to docker?
 -   ArticleService.updateArticle() Updating tags does not working check it later
 -   window logger separator (wait 5 sec if no log render line)
 -   Pass session user id to DataLoader (to prevent create multiple times service)

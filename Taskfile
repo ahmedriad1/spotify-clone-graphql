@@ -34,7 +34,7 @@ build() {
     # Copy prisma schema and migrations
     mkdir -p dist/prisma/migrations
     if [ -d prisma/migrations ]; then
-        cp -r prisma/migrations/* dist/prisma/migrations
+        cp -r prisma/migrations dist/prisma
         cp prisma/schema.prisma dist/prisma
     fi
     # Copy @prisma/client

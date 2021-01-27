@@ -34,14 +34,14 @@ export async function graphqlModuleFactory(
             };
         },
         formatError: new ApolloErrorConverter({
-            logger: err => {
-                logger.error(err?.stack ?? err);
+            logger: (err: any) => {
+                logger.error(err);
             },
             errorMap: [
                 {
                     BadRequestException: extendMapItem(mapItemBases.InvalidFields, {
                         logger: true,
-                        data: err => {
+                        data: (err: any) => {
                             return err?.response;
                         },
                     }),
