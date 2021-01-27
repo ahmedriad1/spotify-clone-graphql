@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import { UserRepository } from './user.repository';
@@ -8,6 +8,8 @@ import { UserRepository } from './user.repository';
  */
 @Injectable()
 export class UserService {
+    private readonly logger = new Logger(UserService.name);
+
     constructor(private readonly repository: UserRepository) {}
 
     async update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput) {

@@ -8,7 +8,7 @@ import { AppModule } from './app.module';
 
 if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('log-process-errors')();
+    // todo: errors
 }
 
 export async function createApp(options?: NestApplicationOptions) {
