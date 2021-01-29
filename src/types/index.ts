@@ -1,3 +1,5 @@
+import { DeepPartial, PlainObject } from 'simplytyped';
+
 import { graphqlModuleFactory } from '../app.module';
 
 export type Await<T> = T extends {
@@ -11,6 +13,7 @@ export type GraphQLContext = ReturnType<
 >;
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Express {
         /**
          * Same as PassportUserFields.
@@ -21,3 +24,5 @@ declare global {
         }
     }
 }
+
+export type GraphqlFieldsParameter = DeepPartial<Record<string, PlainObject>>;
