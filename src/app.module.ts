@@ -6,7 +6,6 @@ import {
     extendMapItem,
     mapItemBases,
 } from 'apollo-error-converter';
-import { requestIdProvider, RequestIdToken } from 'app_modules/express-request-id';
 import { Request } from 'express';
 
 import { ApiModule } from './api/api.module';
@@ -14,21 +13,16 @@ import { AppEnvironment } from './app.environment';
 import { ArticleModule } from './article/article.module';
 import { CommentModule } from './comment/comment.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { PrismaService } from './prisma/prisma.service';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
 
-export async function graphqlModuleFactory(
-    prismaService: PrismaService,
-    logger: Logger,
-) {
+export async function graphqlModuleFactory(logger: Logger) {
     return {
         tracing: false,
         sortSchema: true,
         autoSchemaFile: '~schema.gql',
         context: (data: any) => {
             return {
-                prisma: prismaService,
                 token: undefined as string | undefined,
                 req: data.req as Request,
             };
@@ -39,6 +33,11 @@ export async function graphqlModuleFactory(
             },
             errorMap: [
                 {
+                    NotFoundError: {
+                        name: 'ENTITY_NOT_FOUND',
+                        message: 'Entity Not Found',
+                        logger: true,
+                    },
                     BadRequestException: extendMapItem(mapItemBases.InvalidFields, {
                         logger: true,
                         data: (err: any) => {
@@ -64,8 +63,7 @@ export async function graphqlModuleFactory(
             useClass: AppEnvironment,
         }),
         GraphQLModule.forRootAsync({
-            imports: [PrismaModule],
-            inject: [PrismaService, Logger],
+            inject: [Logger],
             useFactory: graphqlModuleFactory,
         }),
         ArticleModule,

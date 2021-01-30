@@ -30,19 +30,116 @@ module.exports = {
         'promise',
         'sonarjs',
         'jest',
+        'boundaries',
         'only-warn',
     ],
     ignorePatterns: ['@generated/**', '*.config.js', '.*rc.js'],
+
+    settings: {
+        'import/resolver': {
+            typescript: {},
+            node: {},
+        },
+        'boundaries/ignore': [
+            '**/*.spec.ts',
+            '**/testing/**',
+            '**/@generated/**',
+            'src/main.ts',
+        ],
+        'boundaries/elements': [
+            {
+                type: 'common',
+                pattern: 'src/app.environment.ts',
+                mode: 'full',
+            },
+            {
+                type: 'common',
+                pattern: 'app_modules/*',
+                mode: 'folder',
+            },
+            {
+                type: 'common',
+                pattern: 'src/prisma/*',
+                mode: 'file',
+                capture: ['elementName'],
+            },
+            {
+                type: 'module',
+                pattern: '**/*/*.module.ts',
+                mode: 'file',
+                capture: ['base', 'feature', 'elementName'],
+            },
+            {
+                type: 'resolver',
+                pattern: 'src/*/**/*.resolver.ts',
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+            {
+                type: 'controller',
+                pattern: 'src/*/**/*.controller.ts',
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+            {
+                type: 'service',
+                pattern: 'src/*/**/*.service.ts',
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+            {
+                type: 'repository',
+                pattern: 'src/*/**/*.repository.ts',
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+            {
+                type: 'guard',
+                pattern: 'src/*/**/*.guard.ts',
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+            {
+                type: 'interceptor',
+                pattern: 'src/*/**/*.interceptor.ts',
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+            {
+                type: 'validator',
+                pattern: 'src/*/**/*.validator.ts',
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+            {
+                type: 'model',
+                pattern: [
+                    '**/*/models/*.{input,output,args,model,dto}.ts',
+                    '*/*/*.{input,output,args,model,dto}.ts',
+                ],
+                mode: 'file',
+                capture: ['base', 'feature', 'elementName'],
+            },
+            {
+                type: 'type',
+                pattern: '**/*/types',
+                mode: 'folder',
+                capture: ['base', 'feature'],
+            },
+            {
+                type: 'file',
+                pattern: ['src/*/**/*.ts', 'src/*/**/fragments/*'],
+                mode: 'file',
+                capture: ['feature', 'path', 'elementName'],
+            },
+        ],
+    },
     rules: {
         // core
         'no-unused-vars': 0,
         'no-undef': 0,
         'consistent-return': [1, { treatUndefinedAsUnspecified: true }],
-        quotes: [
-            1,
-            'single',
-            { allowTemplateLiterals: true, avoidEscape: true },
-        ],
+        quotes: [1, 'single', { allowTemplateLiterals: true, avoidEscape: true }],
         semi: [1, 'always'],
         'max-lines': [1, { max: 300 }],
         'max-params': [1, { max: 5 }],
@@ -92,6 +189,102 @@ module.exports = {
         '@typescript-eslint/ban-ts-ignore': 0,
         '@typescript-eslint/no-unused-vars': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
+        // boundaries
+        'boundaries/no-unknown-files': 1,
+        'boundaries/no-private': [1, { allowUncles: true }],
+        'boundaries/element-types': [
+            1,
+            {
+                default: 'disallow',
+                rules: [
+                    {
+                        from: ['type'],
+                        allow: '*',
+                    },
+                    {
+                        from: ['common'],
+                        allow: ['common', 'type'],
+                    },
+                    {
+                        from: ['file'],
+                        allow: ['type', ['file', { feature: '${feature}' }]],
+                    },
+                    {
+                        from: 'module',
+                        allow: [
+                            'module',
+                            'type',
+                            'common',
+                            ['controller', { feature: '${feature}' }],
+                            ['resolver', { feature: '${feature}' }],
+                            ['service', { feature: '${feature}' }],
+                            ['interceptor', { feature: '${feature}' }],
+                            ['repository', { feature: '${feature}' }],
+                            ['validator', { feature: '${feature}' }],
+                            ['model', { feature: '${feature}' }],
+                            ['file', { feature: '${feature}' }],
+                        ],
+                    },
+                    {
+                        from: [
+                            'controller',
+                            'resolver',
+                            'guard',
+                            'interceptor',
+                            'service',
+                            'repository',
+                            'validator',
+                        ],
+                        allow: [
+                            'common',
+                            'type',
+                            ['service', { feature: '${feature}' }],
+                            ['model'],
+                        ],
+                    },
+                    {
+                        from: 'service',
+                        allow: [
+                            'service',
+                            'type',
+                            ['repository', { feature: '${feature}' }],
+                            ['file', { feature: '${feature}' }],
+                        ],
+                    },
+                    {
+                        from: ['controller', 'resolver'],
+                        allow: [
+                            'common',
+                            'type',
+                            'service',
+                            ['guard', { feature: '${feature}' }],
+                            ['interceptor', { feature: '${feature}' }],
+                        ],
+                    },
+                    {
+                        from: ['model'],
+                        allow: [
+                            'common',
+                            'type',
+                            ['validator', { feature: '${feature}' }],
+                        ],
+                    },
+                ],
+            },
+        ],
+        'boundaries/entry-point': [
+            0,
+            {
+                default: 'allow',
+                rules: [
+                    {
+                        target: ['type'],
+                        disallow: ['*'],
+                        allow: 'index.ts',
+                    },
+                ],
+            },
+        ],
     },
     overrides: [
         {

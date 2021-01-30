@@ -58,10 +58,7 @@ to graphql api.
 
 -   Why do we need copy migrations to docker?
 -   ArticleService.updateArticle() Updating tags does not working check it later
--   window logger separator (wait 5 sec if no log render line)
--   Pass session user id to DataLoader (to prevent create multiple times service)
-    -   create param decorator @DataLoader() which injects sessionservice
-    -   parameter must return dataloader with scoped current user id
+-   Use case from clean architecture mybe use userservice.follow
 
 ## Scripts
 
