@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createSpyObj } from 'jest-createspyobj';
 
-import { PrismaRepository } from '../prisma/prisma.repository';
+import { DummyRepository } from '../prisma/testing';
 import { CommentService } from './comment.service';
 
 describe('CommentService', () => {
@@ -13,10 +13,8 @@ describe('CommentService', () => {
             providers: [
                 CommentService,
                 {
-                    provide: PrismaRepository,
-                    useValue: {
-                        comment: createSpyObj(PrismaRepository),
-                    },
+                    provide: 'commentPrismaRepository',
+                    useValue: createSpyObj(DummyRepository),
                 },
                 {
                     provide: Logger,
@@ -25,7 +23,7 @@ describe('CommentService', () => {
             ],
         }).compile();
 
-        service = module.get<CommentService>(CommentService);
+        service = module.get(CommentService);
     });
 
     it('should be defined', () => {

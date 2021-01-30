@@ -32,7 +32,7 @@ describe('UserService', () => {
     });
 
     it('find one user', async () => {
-        await service.findOne({ userId: 'u' });
+        await service.findUnique({ where: { userId: 'u' } });
         expect(repository.findUnique).toHaveBeenCalledWith({
             where: { userId: 'u' },
         });

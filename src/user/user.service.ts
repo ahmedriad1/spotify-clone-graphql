@@ -9,15 +9,13 @@ import { UserRepository } from './user.repository';
 @Injectable()
 export class UserService {
     private readonly logger = new Logger(UserService.name);
+    findUnique = this.repository.findUnique;
+    findMany = this.repository.findMany;
 
     constructor(private readonly repository: UserRepository) {}
 
     async update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput) {
         return this.repository.update({ data, where });
-    }
-
-    async findOne(where: Prisma.UserWhereUniqueInput) {
-        return this.repository.findUnique({ where });
     }
 
     async findByCredentials(data: { email: string; password: string }) {
@@ -33,14 +31,6 @@ export class UserService {
 
     async findOneRandom() {
         return this.repository.randomUser();
-    }
-
-    async findMany(args: Prisma.UserFindManyArgs) {
-        return this.repository.findMany(args);
-    }
-
-    async findUnique(args: Prisma.UserFindUniqueArgs) {
-        return this.repository.findUnique(args);
     }
 
     async create(data: Prisma.UserCreateInput) {

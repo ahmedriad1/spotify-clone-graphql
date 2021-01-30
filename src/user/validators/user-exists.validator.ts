@@ -20,11 +20,14 @@ export class UserExistsValidator implements ValidatorConstraintInterface {
      * Method should return true, if name is not taken.
      */
     async validate(name: string, args: ValidationArguments) {
-        const result = await this.userService.findOne({ name });
-        return result === null;
+        const result = await this.userService.findUnique({
+            where: { name },
+            select: { userId: true },
+        });
+        return !result;
     }
 
-    defaultMessage(args: ValidationArguments) {
+    defaultMessage(_args: ValidationArguments) {
         return 'User with $property $value already exists';
     }
 }

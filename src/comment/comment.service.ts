@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
-import { PrismaRepository } from '../prisma/prisma.repository';
+import { InjectRepository, PrismaRepository } from '../prisma';
 
 /**
  * Service for managing article comments.
  */
 @Injectable()
 export class CommentService {
-    update = this.prisma.comment.update;
-    delete = this.prisma.comment.delete;
-    findUnique = this.prisma.comment.findUnique;
-    findMany = this.prisma.comment.findMany;
+    update = this.repository.update;
+    delete = this.repository.delete;
+    findUnique = this.repository.findUnique;
+    findMany = this.repository.findMany;
 
-    constructor(private readonly prisma: PrismaRepository) {}
+    constructor(
+        @InjectRepository('comment')
+        private readonly repository: PrismaRepository['comment'],
+    ) {}
 
     async get(args: {
         where: Prisma.ArticleWhereUniqueInput;
@@ -60,6 +63,6 @@ export class CommentService {
                 author: true,
             },
         };
-        return this.prisma.comment.create(commentCreateArgs);
+        return this.repository.create(commentCreateArgs);
     }
 }

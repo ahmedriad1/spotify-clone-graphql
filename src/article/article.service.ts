@@ -12,13 +12,13 @@ import { SlugService } from './slug/slug.service';
  */
 @Injectable()
 export class ArticleService {
-    update = this.prisma.update;
-    delete = this.prisma.delete;
-    findUnique = this.prisma.findUnique;
-    findMany = this.prisma.findMany;
+    update = this.repository.update;
+    delete = this.repository.delete;
+    findUnique = this.repository.findUnique;
+    findMany = this.repository.findMany;
 
     constructor(
-        private readonly prisma: ArticleRepository,
+        private readonly repository: ArticleRepository,
         private readonly slug: SlugService,
         private readonly tag: TagService,
     ) {}
@@ -46,7 +46,7 @@ export class ArticleService {
         //     this.tag.createTags(args.input.tags || []),
         // ]);
 
-        return this.prisma.update({
+        return this.repository.update({
             data: {
                 title: args.input.title,
                 description: args.input.description,
@@ -98,7 +98,7 @@ export class ArticleService {
                 connect: tags.map(tag => ({ tagId: tag.tagId })),
             },
         };
-        return this.prisma.create({
+        return this.repository.create({
             data,
             include: {
                 author: true,
@@ -111,14 +111,14 @@ export class ArticleService {
      * Get count article by condition.
      */
     async count(where: Prisma.ArticleWhereInput) {
-        return this.prisma.count({ where });
+        return this.repository.count({ where });
     }
 
     /**
      * Checks if article with {id} favorited by user {userId}.
      */
     async isFavorited(articleId: string, userId: string) {
-        const count = await this.prisma.count({
+        const count = await this.repository.count({
             take: 1,
             where: { articleId, favoritedBy: { some: { userId } } },
         });

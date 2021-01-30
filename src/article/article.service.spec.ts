@@ -1,26 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { createSpyObj } from 'jest-createspyobj';
 
-import { PrismaRepository } from '../prisma/prisma.repository';
 import { DummyRepository } from '../prisma/testing';
 import { TagService } from '../tag/tag.service';
+import { ArticleRepository } from './article.repository';
 import { ArticleService } from './article.service';
 import { SlugService } from './slug/slug.service';
 
 describe('ArticleService', () => {
     let service: ArticleService;
-    let prismaRepository: jest.Mocked<PrismaRepository>;
     let testingModule: TestingModule;
+    let articleRepository: ArticleRepository;
 
     beforeEach(async () => {
-        prismaRepository = createSpyObj(PrismaRepository);
-        (prismaRepository as any).article = createSpyObj(DummyRepository);
-        (prismaRepository as any).tag = createSpyObj(DummyRepository);
         testingModule = await Test.createTestingModule({
             providers: [
                 {
-                    provide: PrismaRepository,
-                    useValue: prismaRepository,
+                    provide: ArticleRepository,
+                    useValue: createSpyObj(DummyRepository),
+                },
+                {
+                    provide: 'tagPrismaRepository',
+                    useValue: createSpyObj(DummyRepository),
                 },
                 ArticleService,
                 SlugService,
@@ -29,6 +30,7 @@ describe('ArticleService', () => {
         }).compile();
 
         service = testingModule.get(ArticleService);
+        articleRepository = testingModule.get(ArticleRepository);
     });
 
     it('should be defined', () => {
@@ -37,7 +39,7 @@ describe('ArticleService', () => {
 
     it('findMany', async () => {
         await service.findMany({ where: { articleId: { equals: 'a' } } });
-        expect(prismaRepository.article.findMany).toHaveBeenCalledWith(
+        expect(articleRepository.findMany).toHaveBeenCalledWith(
             expect.objectContaining({
                 where: {
                     articleId: {

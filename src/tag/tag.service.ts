@@ -1,22 +1,24 @@
 import { Injectable } from '@nestjs/common';
 
-import { PrismaRepository } from '../prisma/prisma.repository';
+import { InjectRepository, PrismaRepository } from '../prisma';
 
 /**
  * Service for manage tags.
  */
 @Injectable()
 export class TagService {
-    findMany = this.prisma.tag.findMany;
+    findMany = this.repository.findMany;
 
-    constructor(private readonly prisma: PrismaRepository) {}
+    constructor(
+        @InjectRepository('tag') private readonly repository: PrismaRepository['tag'],
+    ) {}
 
     /**
      * Create tags (if not exists) from array of strings.
      */
     async createTags(tags: string[]) {
         const upsertOperations = tags.map(name => {
-            return this.prisma.tag.upsert({
+            return this.repository.upsert({
                 where: { name },
                 create: { name },
                 update: {},

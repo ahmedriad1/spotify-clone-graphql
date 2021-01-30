@@ -46,8 +46,16 @@ export class UserResolver {
      */
     @Query(() => User)
     @UseGuards(GraphqlAuthGuard)
-    async me(@CurrentUser() user: PassportUserFields) {
-        return this.userService.findOne({ userId: user.id });
+    async me(
+        @CurrentUser() user: PassportUserFields,
+        @Info() info: GraphQLResolveInfo,
+    ) {
+        const select = new PrismaSelect(info, {
+            defaultFields: {
+                User: { userId: true },
+            },
+        }).value.select;
+        return this.userService.findUnique({ select, where: { userId: user.id } });
     }
 
     /**
@@ -61,12 +69,11 @@ export class UserResolver {
     ) {
         const select = new PrismaSelect(info, {
             defaultFields: {
-                // This fix issue with missing user.userId
                 User: { userId: true },
             },
-        }).value;
+        }).value.select;
         return this.userService.findUnique({
-            ...select,
+            select,
             where,
             rejectOnNotFound: true,
         });
