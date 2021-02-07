@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { DummyRepository } from 'app_modules/prisma/testing';
 import { createSpyObj } from 'jest-createspyobj';
 
-import { DummyRepository } from '../prisma/testing';
 import { CommentService } from './comment.service';
 
 describe('CommentService', () => {

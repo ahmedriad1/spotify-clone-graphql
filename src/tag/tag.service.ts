@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
-import { InjectRepository, PrismaRepository } from '../prisma';
+import { InjectRepository, PrismaRepository } from 'app_modules/prisma';
 
 /**
  * Service for manage tags.

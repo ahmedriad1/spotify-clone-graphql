@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
-import { PrismaRepository } from '../prisma';
+import { PrismaRepository } from 'app_modules/prisma';
 
 /**
  * Repository to work with database.

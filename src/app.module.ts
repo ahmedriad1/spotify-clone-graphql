@@ -6,13 +6,13 @@ import {
     extendMapItem,
     mapItemBases,
 } from 'apollo-error-converter';
+import { PrismaModule } from 'app_modules/prisma';
 import { Request } from 'express';
 
 import { ApiModule } from './api/api.module';
 import { AppEnvironment } from './app.environment';
 import { ArticleModule } from './article/article.module';
 import { CommentModule } from './comment/comment.module';
-import { PrismaModule } from './prisma/prisma.module';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
 
@@ -55,7 +55,14 @@ export async function graphqlModuleFactory(logger: Logger) {
     imports: [
         UserModule,
         ApiModule,
-        PrismaModule.forRoot(),
+        PrismaModule.registerAsync({
+            inject: [AppEnvironment],
+            useFactory: async (appEnvironment: AppEnvironment) => {
+                return {
+                    logQueries: appEnvironment.isDevelopment(),
+                };
+            },
+        }),
         TagModule,
         EnvironmentModule.forRoot({
             isGlobal: true,

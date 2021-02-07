@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { DummyRepository } from 'app_modules/prisma/testing';
 import { createSpyObj } from 'jest-createspyobj';
 
-import { DummyRepository } from '../prisma/testing';
 import { TagService } from '../tag/tag.service';
 import { ArticleRepository } from './article.repository';
 import { ArticleService } from './article.service';

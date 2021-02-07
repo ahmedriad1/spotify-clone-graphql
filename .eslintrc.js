@@ -58,12 +58,6 @@ module.exports = {
                 mode: 'folder',
             },
             {
-                type: 'common',
-                pattern: 'src/prisma/*',
-                mode: 'file',
-                capture: ['elementName'],
-            },
-            {
                 type: 'module',
                 pattern: '**/*/*.module.ts',
                 mode: 'file',

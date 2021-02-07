@@ -31,6 +31,10 @@ export class AppEnvironment {
     @IsEnum(NodeEnvironment)
     readonly nodeEnvironment = NodeEnvironment.Development;
 
+    isDevelopment() {
+        return this.nodeEnvironment === NodeEnvironment.Development;
+    }
+
     @Env('GRAPHQL_ENDPOINT')
     readonly graphqlEndpoint = `http://localhost:3000/graphql`;
 

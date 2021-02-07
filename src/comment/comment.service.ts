@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-
-import { InjectRepository, PrismaRepository } from '../prisma';
+import { InjectRepository, PrismaRepository } from 'app_modules/prisma';
 
 /**
  * Service for managing article comments.
