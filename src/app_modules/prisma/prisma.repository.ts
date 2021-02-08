@@ -8,7 +8,7 @@ import {
 import { PrismaClient } from '@prisma/client';
 import { createPrismaQueryEventHandler } from 'prisma-query-log';
 
-import { PRISMA_OPTIONS, PrismaModuleOptions } from './prisma-options';
+import { PRISMA_OPTIONS, PrismaModuleOptions } from './prisma.providers';
 
 /**
  * Prisma client as nest service.
