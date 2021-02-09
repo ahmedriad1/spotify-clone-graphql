@@ -1,4 +1,9 @@
-import { Logger, NestApplicationOptions, ValidationPipe } from '@nestjs/common';
+import {
+    INestApplication,
+    Logger,
+    NestApplicationOptions,
+    ValidationPipe,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AllExceptionsFilter } from 'app_modules/all-exceptions-filter';
 import { useContainer } from 'class-validator';
@@ -13,6 +18,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 export async function createApp(options?: NestApplicationOptions) {
     const app = await NestFactory.create(AppModule, options);
+    await configureApp(app);
+    return app;
+}
+
+export async function configureApp(app: INestApplication) {
     app.enableCors();
     app.useGlobalPipes(
         new ValidationPipe({
@@ -24,8 +34,6 @@ export async function createApp(options?: NestApplicationOptions) {
     );
     app.useGlobalFilters(new AllExceptionsFilter());
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-    return app;
 }
 
 async function main() {

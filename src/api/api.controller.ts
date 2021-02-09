@@ -10,10 +10,11 @@ import {
     Put,
     Query,
     Req,
+    Res,
     UseInterceptors,
 } from '@nestjs/common';
 import { AuthorizationToken } from 'app_modules/nestjs-authorization-token';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 import { ApiService } from './api.service';
 import { GraphQLResponseInterceptor } from './graphql-response.interceptor';
@@ -44,7 +45,12 @@ export class ApiController {
      */
     @Post('users')
     async createUser(@Req() request: Request) {
-        return this.service.createUser(request.body.user);
+        const result = await this.service.createUser(request.body.user);
+        const firstError = result.errors?.[0]?.extensions?.data;
+        if (firstError) {
+            throw firstError;
+        }
+        return result;
     }
 
     /**
@@ -97,7 +103,9 @@ export class ApiController {
     @UseInterceptors(TagListInterceptor)
     async createArticle(@Req() request: Request, @AuthorizationToken() token: string) {
         const createArticleDto: CreateArticleDto = request.body.article;
-        return this.service.createArticle({ token, createArticleDto });
+        // eslint-disable-next-line sonarjs/prefer-immediate-return
+        const result = await this.service.createArticle({ token, createArticleDto });
+        return result;
     }
 
     /**

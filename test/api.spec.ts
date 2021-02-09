@@ -1,68 +1,78 @@
+import { Test } from '@nestjs/testing';
 import { Article } from '@prisma/client';
-import fetch from 'node-fetch';
-import waitOn from 'wait-on';
+import { GraphQLClient } from 'graphql-request';
+import { createSpyObj } from 'jest-createspyobj';
+import request from 'supertest';
 
-/**
- * Full end to end black box tests, with real server runnning
- */
+import { AppModule } from '../src/app.module';
+import { configureApp, createApp } from '../src/main';
+import { Await } from '../src/types';
 
-// https://github.com/gothinkster/realworld/tree/master/api
-const apiBaseUrl = 'http://localhost:3000/api';
-const request = (args: {
-    path: string;
-    body?: unknown;
-    token?: string;
-    method: string;
-    json?: boolean;
-}) => {
-    let response: Promise<any> = fetch(`${apiBaseUrl}${args.path}`, {
-        method: args.method,
-        body: JSON.stringify(args.body),
-        headers: {
-            'Content-Type': 'application/json',
-            authorization: args.token ? `Token ${args.token}` : '',
-        },
-    });
-    if (args.json) {
-        response = response
-            .then(r => r.json())
-            .then(json => {
-                if (json.statusCode && json.statusCode > 299) {
-                    throw json;
-                }
-                return json;
-            });
-    }
-    return response;
-};
+let app: Await<ReturnType<typeof createApp>>;
+let server: any;
 
-beforeAll(async () => {
-    await waitOn({
-        resources: [apiBaseUrl],
-    });
-}, 15_000);
-
-test('server ready', async () => {
-    const result = await fetch(`${apiBaseUrl}`).then(r => r.statusText);
-    expect(result).toBe('OK');
-});
+let graphQLClient: jest.Mocked<GraphQLClient>;
 
 const authToken = (() => {
     let token: string;
     return async () => {
         if (token === undefined) {
             const credentials = { email: 'root@conduit.com', password: '123' };
-            const response = await request({
-                method: 'POST',
-                path: '/users/login',
-                body: { user: credentials },
-                json: true,
-            });
-            token = response.user.token;
+            const response = await request(server)
+                .post('/api/users/login')
+                .set('Content-Type', 'application/json')
+                .send({ user: credentials })
+                .then(response => response.body);
+            token = response.data.user.token;
         }
         return token;
     };
 })();
+
+beforeAll(async () => {
+    graphQLClient = createSpyObj(GraphQLClient);
+    const testingModule = await Test.createTestingModule({
+        imports: [AppModule],
+    })
+        .overrideProvider('GraphQLClient')
+        .useValue(graphQLClient)
+        .compile();
+    app = testingModule.createNestApplication();
+    await configureApp(app);
+    app.useLogger(false);
+
+    graphQLClient = app.get('GraphQLClient');
+    graphQLClient.request.mockImplementation(async function (query, variables) {
+        const [headerName, headerValue] = this._header ? this._header : [];
+        return await request(server)
+            .post('/graphql')
+            .set('Content-Type', 'application/json')
+            .set(
+                headerName
+                    ? {
+                          [headerName]: headerValue,
+                      }
+                    : {},
+            )
+            .send({ query, variables })
+            .then(response => response.body);
+    });
+    graphQLClient.setHeader.mockImplementation(function (name, value) {
+        this._header = [name, value];
+        return this;
+    });
+
+    server = app.getHttpServer();
+    await app.init();
+});
+
+afterAll(async () => {
+    await app.close();
+});
+
+it('api smoke', () => {
+    expect(app).toBeTruthy();
+});
 
 describe('User login', () => {
     it('POST /users/login', async () => {
@@ -74,12 +84,11 @@ describe('User login', () => {
 describe('Current User', () => {
     it('GET /user', async () => {
         const token = await authToken();
-        const response = await request({
-            method: 'GET',
-            path: '/user',
-            token,
-            json: true,
-        });
+        const response = await request(server)
+            .get('/api/user')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Token ${token}`)
+            .then(r => r.body.data);
         expect(response).toEqual({
             user: expect.objectContaining({
                 username: 'root',
@@ -91,17 +100,14 @@ describe('Current User', () => {
 
 describe('Registration POST /api/users', () => {
     it('invalid values empty', async () => {
-        const response = await request({
-            method: 'POST',
-            path: '/users',
-            body: { user: { email: '', username: '', password: '' } },
-            json: false,
-        });
-        const data = await response.json();
-        expect(data).toBeTruthy();
+        const response = await request(server)
+            .post('/api/users')
+            .set('Content-Type', 'application/json')
+            .send({ user: { email: '', username: '', password: '' } })
+            .then(r => r);
+        expect(response.body).toBeTruthy();
         expect(response.status).toBeGreaterThanOrEqual(400);
     });
-
     it('valid request', async () => {
         const randomName = `r${Math.random().toString(36).slice(-5)}`;
         const userData = {
@@ -109,13 +115,14 @@ describe('Registration POST /api/users', () => {
             username: randomName,
             password: '123',
         };
-        const response = await request({
-            method: 'POST',
-            path: '/users',
-            body: { user: userData },
-        });
-        expect(response.statusText).toBe('Created');
-        expect(await response.json()).toEqual({
+        const response = await request(server)
+            .post('/api/users')
+            .set('Content-Type', 'application/json')
+            .send({ user: userData })
+            .then(r => r);
+
+        expect(response.status).toEqual(201);
+        expect(response.body.data).toEqual({
             user: expect.objectContaining({
                 email: expect.stringContaining('@toastable.net'),
                 username: randomName,
@@ -129,31 +136,31 @@ describe('Registration POST /api/users', () => {
 
 describe('Get user profile by name', () => {
     it('root', async () => {
-        const response = await request({
-            method: 'GET',
-            path: '/profiles/root',
-            json: true,
-        });
+        const response = await request(server)
+            .get('/api/profiles/root')
+            .set('Content-Type', 'application/json')
+            .send()
+            .then(r => r.body.data);
         expect(response.profile.username).toEqual('root');
     });
 });
 
 describe('List Articles', () => {
     it('GET /api/articles', async () => {
-        const response = await request({
-            method: 'GET',
-            path: '/articles',
-            json: true,
-        });
+        const response = await request(server)
+            .get('/api/articles')
+            .set('Content-Type', 'application/json')
+            .send()
+            .then(r => r.body.data);
         expect(response.articles).toBeTruthy();
     });
 
     it('Articles Favorited by Username', async () => {
-        const response = await request({
-            method: 'GET',
-            path: '/articles?favorited=jane',
-            json: true,
-        });
+        const response = await request(server)
+            .get('/api/articles?favorited=jane')
+            .set('Content-Type', 'application/json')
+            .send()
+            .then(r => r.body.data);
         expect(response.articles).toBeTruthy();
     });
 });
@@ -161,23 +168,19 @@ describe('List Articles', () => {
 describe('Create Article', () => {
     it('Authenticated POST /api/articles', async () => {
         const token = await authToken();
-        const body = {
-            article: {
-                title: 'How to train your dragon',
-                description: 'Ever wonder how?',
-                body: 'You have to believe',
-                tagList: ['reactjs', 'angularjs', 'dragons'],
-            },
+        const article = {
+            title: 'How to train your dragon',
+            description: 'Ever wonder how?',
+            body: 'You have to believe',
+            tagList: ['reactjs', 'angularjs', 'dragons'],
         };
 
-        const response = await request({
-            method: 'POST',
-            path: '/articles',
-            body,
-            token,
-            json: true,
-        });
-
+        const response = await request(server)
+            .post('/api/articles')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Token ${token}`)
+            .send({ article })
+            .then(r => r.body.data);
         expect(response.article).toBeTruthy();
     });
 });
@@ -186,32 +189,32 @@ describe('Articles favoriting', () => {
     let article: Article;
 
     beforeAll(async () => {
-        ({ article } = await request({
-            method: 'GET',
-            path: '/articles/overnew',
-            json: true,
-        }));
+        ({ article } = await request(server)
+            .get('/api/articles/overnew')
+            .set('Content-Type', 'application/json')
+            .send()
+            .then(r => r.body.data));
     });
 
     it('Favorite unfavorite', async () => {
-        let response = await request({
-            method: 'POST',
-            path: `/articles/${article.slug}/favorite`,
-            token: await authToken(),
-            json: true,
-        });
+        let response = await request(server)
+            .post(`/api/articles/${article.slug}/favorite`)
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Token ${await authToken()}`)
+            .send()
+            .then(r => r.body.data);
+
         expect(response.article.favoritesCount).toBe(article.favoritesCount + 1);
         expect(response.article.favorited).toBe(true);
 
-        response = await request({
-            method: 'DELETE',
-            path: `/articles/${article.slug}/favorite`,
-            token: await authToken(),
-            json: true,
-        });
+        response = await request(server)
+            .delete(`/api/articles/${article.slug}/favorite`)
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Token ${await authToken()}`)
+            .send()
+            .then(r => r.body.data);
+
         expect(response.article.favoritesCount).toBe(article.favoritesCount);
         expect(response.article.favorited).toBe(false);
     });
-
-    it.todo('favorite second time should not increment count');
 });

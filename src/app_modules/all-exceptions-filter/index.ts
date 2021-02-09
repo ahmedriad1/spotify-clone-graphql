@@ -1,5 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { Response } from 'express';
+import { serializeError } from 'serialize-error';
 
 /**
  * Temporary solution
@@ -13,7 +14,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             const response = host.switchToHttp().getResponse<Response>();
             return response.status(500).json({
                 timestamp: new Date().toISOString(),
-                errors: exception?.response?.errors,
+                errors: serializeError(exception),
             });
         }
         // Fill name, code, type fields for Apollo Error Converter
