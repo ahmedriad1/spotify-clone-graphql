@@ -151,22 +151,14 @@ export class ArticleResolver {
         @GraphqlFields() graphqlFields: GraphqlFieldsParameter,
         @CurrentUser() currentUser?: PassportUserFields,
     ) {
-        const select = new PrismaSelect(info).value;
-        const articleSelect = this.selectService.article(
+        const select = this.selectService.article(
             graphqlFields,
+            new PrismaSelect(info).value.select,
             currentUser?.id,
         );
-
-        PrismaSelect.mergeDeep(select, {
-            select: articleSelect,
-        });
-
-        PrismaSelect.mergeDeep(select, {
-            select: articleSelect,
-        });
         return this.service.findUnique({
             where,
-            ...select,
+            select,
         });
     }
 

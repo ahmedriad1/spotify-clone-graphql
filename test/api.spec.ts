@@ -145,6 +145,18 @@ describe('Get user profile by name', () => {
     });
 });
 
+describe('Get article', () => {
+    it('Single Article by slug', async () => {
+        const response = await request(server)
+            .get('/api/articles/how-to-train-your-dragon')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', await authToken())
+            .send()
+            .then(r => r.body.data);
+        expect(response.article).toBeTruthy();
+    });
+});
+
 describe('List Articles', () => {
     it('GET /api/articles', async () => {
         const response = await request(server)
