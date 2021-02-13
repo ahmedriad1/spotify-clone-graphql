@@ -46,11 +46,6 @@ async function main() {
         `GraphQL application is running on: ${await app.getUrl()}`,
         'main',
     );
-
-    if (module.hot) {
-        module.hot.accept();
-        module.hot.dispose(() => app.close());
-    }
 }
 
 if (process.env.NODE_ENV !== 'test') {
