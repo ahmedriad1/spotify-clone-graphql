@@ -32,9 +32,9 @@ export class Article {
     body!: string;
 
     @Field(() => [Tag], {
-        nullable: true,
+        nullable: false,
     })
-    tags?: Array<Tag>;
+    tags!: Array<Tag>;
 
     @Field(() => Date, {
         nullable: false,
@@ -63,12 +63,12 @@ export class Article {
     readonly authorId?: string;
 
     @Field(() => [User], {
-        nullable: true,
+        nullable: false,
     })
-    favoritedBy?: Array<User>;
+    favoritedBy!: Array<User>;
 
     @Field(() => [Comment], {
-        nullable: true,
+        nullable: false,
     })
-    comments?: Array<Comment>;
+    comments!: Array<Comment>;
 }

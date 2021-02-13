@@ -15,6 +15,16 @@ export class ArticleUpdateManyWithoutAuthorInput {
     })
     create?: Array<ArticleCreateWithoutAuthorInput>;
 
+    @Field(() => [ArticleCreateOrConnectWithoutauthorInput], {
+        nullable: true,
+    })
+    connectOrCreate?: Array<ArticleCreateOrConnectWithoutauthorInput>;
+
+    @Field(() => [ArticleUpsertWithWhereUniqueWithoutAuthorInput], {
+        nullable: true,
+    })
+    upsert?: Array<ArticleUpsertWithWhereUniqueWithoutAuthorInput>;
+
     @Field(() => [ArticleWhereUniqueInput], {
         nullable: true,
     })
@@ -49,14 +59,4 @@ export class ArticleUpdateManyWithoutAuthorInput {
         nullable: true,
     })
     deleteMany?: Array<ArticleScalarWhereInput>;
-
-    @Field(() => [ArticleUpsertWithWhereUniqueWithoutAuthorInput], {
-        nullable: true,
-    })
-    upsert?: Array<ArticleUpsertWithWhereUniqueWithoutAuthorInput>;
-
-    @Field(() => [ArticleCreateOrConnectWithoutauthorInput], {
-        nullable: true,
-    })
-    connectOrCreate?: Array<ArticleCreateOrConnectWithoutauthorInput>;
 }

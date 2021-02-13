@@ -15,6 +15,16 @@ export class CommentUpdateManyWithoutAuthorInput {
     })
     create?: Array<CommentCreateWithoutAuthorInput>;
 
+    @Field(() => [CommentCreateOrConnectWithoutauthorInput], {
+        nullable: true,
+    })
+    connectOrCreate?: Array<CommentCreateOrConnectWithoutauthorInput>;
+
+    @Field(() => [CommentUpsertWithWhereUniqueWithoutAuthorInput], {
+        nullable: true,
+    })
+    upsert?: Array<CommentUpsertWithWhereUniqueWithoutAuthorInput>;
+
     @Field(() => [CommentWhereUniqueInput], {
         nullable: true,
     })
@@ -49,14 +59,4 @@ export class CommentUpdateManyWithoutAuthorInput {
         nullable: true,
     })
     deleteMany?: Array<CommentScalarWhereInput>;
-
-    @Field(() => [CommentUpsertWithWhereUniqueWithoutAuthorInput], {
-        nullable: true,
-    })
-    upsert?: Array<CommentUpsertWithWhereUniqueWithoutAuthorInput>;
-
-    @Field(() => [CommentCreateOrConnectWithoutauthorInput], {
-        nullable: true,
-    })
-    connectOrCreate?: Array<CommentCreateOrConnectWithoutauthorInput>;
 }

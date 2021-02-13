@@ -11,13 +11,13 @@ export class ArticleCreateManyWithoutAuthorInput {
     })
     create?: Array<ArticleCreateWithoutAuthorInput>;
 
-    @Field(() => [ArticleWhereUniqueInput], {
-        nullable: true,
-    })
-    connect?: Array<ArticleWhereUniqueInput>;
-
     @Field(() => [ArticleCreateOrConnectWithoutauthorInput], {
         nullable: true,
     })
     connectOrCreate?: Array<ArticleCreateOrConnectWithoutauthorInput>;
+
+    @Field(() => [ArticleWhereUniqueInput], {
+        nullable: true,
+    })
+    connect?: Array<ArticleWhereUniqueInput>;
 }

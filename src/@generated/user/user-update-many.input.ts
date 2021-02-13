@@ -1,29 +1,34 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class CommentUncheckedUpdateManyWithoutCommentInput {
+export class UserUpdateManyInput {
     @Field(() => String, {
         nullable: true,
     })
-    commentId?: string;
-
-    @Field(() => Date, {
-        nullable: true,
-    })
-    createdAt?: Date | string;
-
-    @Field(() => Date, {
-        nullable: true,
-    })
-    updatedAt?: Date | string;
+    userId?: string;
 
     @Field(() => String, {
         nullable: true,
     })
-    body?: string;
+    email?: string;
 
     @Field(() => String, {
         nullable: true,
     })
-    articleId?: string;
+    name?: string;
+
+    @Field(() => String, {
+        nullable: true,
+    })
+    password?: string;
+
+    @Field(() => String, {
+        nullable: true,
+    })
+    bio?: string;
+
+    @Field(() => String, {
+        nullable: true,
+    })
+    image?: string;
 }

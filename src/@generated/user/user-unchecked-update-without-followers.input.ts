@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { ArticleUncheckedUpdateManyWithoutAuthorInput } from '../article/article-unchecked-update-many-without-author.input';
-import { CommentUncheckedUpdateManyWithoutAuthorInput } from '../comment/comment-unchecked-update-many-without-author.input';
+import { ArticleUpdateManyWithoutAuthorInput } from '../article/article-update-many-without-author.input';
+import { CommentUpdateManyWithoutAuthorInput } from '../comment/comment-update-many-without-author.input';
 
 @InputType()
 export class UserUncheckedUpdateWithoutFollowersInput {
@@ -35,13 +35,13 @@ export class UserUncheckedUpdateWithoutFollowersInput {
     })
     image?: string;
 
-    @Field(() => ArticleUncheckedUpdateManyWithoutAuthorInput, {
+    @Field(() => ArticleUpdateManyWithoutAuthorInput, {
         nullable: true,
     })
-    Article?: ArticleUncheckedUpdateManyWithoutAuthorInput;
+    Article?: ArticleUpdateManyWithoutAuthorInput;
 
-    @Field(() => CommentUncheckedUpdateManyWithoutAuthorInput, {
+    @Field(() => CommentUpdateManyWithoutAuthorInput, {
         nullable: true,
     })
-    Comment?: CommentUncheckedUpdateManyWithoutAuthorInput;
+    Comment?: CommentUpdateManyWithoutAuthorInput;
 }

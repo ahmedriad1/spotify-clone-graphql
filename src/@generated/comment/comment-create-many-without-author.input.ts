@@ -11,13 +11,13 @@ export class CommentCreateManyWithoutAuthorInput {
     })
     create?: Array<CommentCreateWithoutAuthorInput>;
 
-    @Field(() => [CommentWhereUniqueInput], {
-        nullable: true,
-    })
-    connect?: Array<CommentWhereUniqueInput>;
-
     @Field(() => [CommentCreateOrConnectWithoutauthorInput], {
         nullable: true,
     })
     connectOrCreate?: Array<CommentCreateOrConnectWithoutauthorInput>;
+
+    @Field(() => [CommentWhereUniqueInput], {
+        nullable: true,
+    })
+    connect?: Array<CommentWhereUniqueInput>;
 }

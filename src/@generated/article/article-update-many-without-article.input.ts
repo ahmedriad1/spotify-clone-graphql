@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class ArticleUncheckedUpdateManyWithoutArticleInput {
+export class ArticleUpdateManyWithoutArticleInput {
     @Field(() => String, {
         nullable: true,
     })

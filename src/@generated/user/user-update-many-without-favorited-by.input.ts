@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class UserUncheckedUpdateManyWithoutFollowingInput {
+export class UserUpdateManyWithoutFavoritedByInput {
     @Field(() => String, {
         nullable: true,
     })

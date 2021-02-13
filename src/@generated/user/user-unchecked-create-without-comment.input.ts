@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { ArticleUncheckedCreateManyWithoutAuthorInput } from '../article/article-unchecked-create-many-without-author.input';
+import { ArticleCreateManyWithoutAuthorInput } from '../article/article-create-many-without-author.input';
 
 @InputType()
 export class UserUncheckedCreateWithoutCommentInput {
@@ -34,8 +34,8 @@ export class UserUncheckedCreateWithoutCommentInput {
     })
     image?: string;
 
-    @Field(() => ArticleUncheckedCreateManyWithoutAuthorInput, {
+    @Field(() => ArticleCreateManyWithoutAuthorInput, {
         nullable: true,
     })
-    Article?: ArticleUncheckedCreateManyWithoutAuthorInput;
+    Article?: ArticleCreateManyWithoutAuthorInput;
 }

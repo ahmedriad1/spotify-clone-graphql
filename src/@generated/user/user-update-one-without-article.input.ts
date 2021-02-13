@@ -13,6 +13,16 @@ export class UserUpdateOneWithoutArticleInput {
     })
     create?: UserCreateWithoutArticleInput;
 
+    @Field(() => UserCreateOrConnectWithoutArticleInput, {
+        nullable: true,
+    })
+    connectOrCreate?: UserCreateOrConnectWithoutArticleInput;
+
+    @Field(() => UserUpsertWithoutArticleInput, {
+        nullable: true,
+    })
+    upsert?: UserUpsertWithoutArticleInput;
+
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
     })
@@ -32,14 +42,4 @@ export class UserUpdateOneWithoutArticleInput {
         nullable: true,
     })
     update?: UserUpdateWithoutArticleInput;
-
-    @Field(() => UserUpsertWithoutArticleInput, {
-        nullable: true,
-    })
-    upsert?: UserUpsertWithoutArticleInput;
-
-    @Field(() => UserCreateOrConnectWithoutArticleInput, {
-        nullable: true,
-    })
-    connectOrCreate?: UserCreateOrConnectWithoutArticleInput;
 }

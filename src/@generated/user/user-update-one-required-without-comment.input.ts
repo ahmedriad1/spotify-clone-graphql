@@ -13,6 +13,16 @@ export class UserUpdateOneRequiredWithoutCommentInput {
     })
     create?: UserCreateWithoutCommentInput;
 
+    @Field(() => UserCreateOrConnectWithoutCommentInput, {
+        nullable: true,
+    })
+    connectOrCreate?: UserCreateOrConnectWithoutCommentInput;
+
+    @Field(() => UserUpsertWithoutCommentInput, {
+        nullable: true,
+    })
+    upsert?: UserUpsertWithoutCommentInput;
+
     @Field(() => UserWhereUniqueInput, {
         nullable: true,
     })
@@ -22,14 +32,4 @@ export class UserUpdateOneRequiredWithoutCommentInput {
         nullable: true,
     })
     update?: UserUpdateWithoutCommentInput;
-
-    @Field(() => UserUpsertWithoutCommentInput, {
-        nullable: true,
-    })
-    upsert?: UserUpsertWithoutCommentInput;
-
-    @Field(() => UserCreateOrConnectWithoutCommentInput, {
-        nullable: true,
-    })
-    connectOrCreate?: UserCreateOrConnectWithoutCommentInput;
 }

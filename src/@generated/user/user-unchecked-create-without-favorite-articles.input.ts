@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { ArticleUncheckedCreateManyWithoutAuthorInput } from '../article/article-unchecked-create-many-without-author.input';
-import { CommentUncheckedCreateManyWithoutAuthorInput } from '../comment/comment-unchecked-create-many-without-author.input';
+import { ArticleCreateManyWithoutAuthorInput } from '../article/article-create-many-without-author.input';
+import { CommentCreateManyWithoutAuthorInput } from '../comment/comment-create-many-without-author.input';
 
 @InputType()
 export class UserUncheckedCreateWithoutFavoriteArticlesInput {
@@ -35,13 +35,13 @@ export class UserUncheckedCreateWithoutFavoriteArticlesInput {
     })
     image?: string;
 
-    @Field(() => ArticleUncheckedCreateManyWithoutAuthorInput, {
+    @Field(() => ArticleCreateManyWithoutAuthorInput, {
         nullable: true,
     })
-    Article?: ArticleUncheckedCreateManyWithoutAuthorInput;
+    Article?: ArticleCreateManyWithoutAuthorInput;
 
-    @Field(() => CommentUncheckedCreateManyWithoutAuthorInput, {
+    @Field(() => CommentCreateManyWithoutAuthorInput, {
         nullable: true,
     })
-    Comment?: CommentUncheckedCreateManyWithoutAuthorInput;
+    Comment?: CommentCreateManyWithoutAuthorInput;
 }
