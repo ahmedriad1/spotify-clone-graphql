@@ -66,6 +66,7 @@ export class ArticleResolver {
         @GraphqlFields() graphqlFields: GraphqlFieldsParameter,
         @CurrentUser() currentUser?: PassportUserFields,
     ) {
+        this.logger.warn('Use dataloader here');
         // TODO: Use dataloader here
         // FIXME: This is wrong usage favorited and favoritedBy cannot be used together
         // favoritedBy will be restricted to current user

@@ -7,6 +7,7 @@ import {
 import { NestFactory } from '@nestjs/core';
 import { AllExceptionsFilter } from 'app_modules/all-exceptions-filter';
 import { useContainer } from 'class-validator';
+import { NestoLogger } from 'nestolog';
 
 import { AppEnvironment } from './app.environment';
 import { AppModule } from './app.module';
@@ -41,11 +42,10 @@ async function main() {
     const appEnvironment = app.get(AppEnvironment);
 
     await app.listen(appEnvironment.port);
+    const logger = app.get(Logger);
+    app.useLogger(logger);
 
-    app.get(Logger).log(
-        `GraphQL application is running on: ${await app.getUrl()}`,
-        'main',
-    );
+    logger.log(`GraphQL application is running on: ${await app.getUrl()}`, 'main');
 }
 
 if (process.env.NODE_ENV !== 'test') {

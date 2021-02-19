@@ -72,6 +72,7 @@ export class UserResolver {
                 User: { userId: true },
             },
         }).value.select;
+
         return this.userService.findUnique({
             select,
             where,

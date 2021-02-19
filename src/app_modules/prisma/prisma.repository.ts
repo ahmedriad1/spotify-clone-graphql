@@ -37,7 +37,7 @@ export class PrismaRepository
                 'query' as any,
                 createPrismaQueryEventHandler({
                     logger: query => {
-                        this.logger.verbose(query, 'SQL');
+                        this.logger.verbose(query, 'PrismaClient');
                     },
                     format: false,
                     colorQuery: '\u001B[96m',

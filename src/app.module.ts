@@ -8,6 +8,7 @@ import {
 } from 'apollo-error-converter';
 import { PrismaModule } from 'app_modules/prisma';
 import { Request } from 'express';
+import { NestologModule } from 'nestolog';
 
 import { ApiModule } from './api/api.module';
 import { AppEnvironment } from './app.environment';
@@ -28,9 +29,7 @@ export async function graphqlModuleFactory(logger: Logger) {
             };
         },
         formatError: new ApolloErrorConverter({
-            logger: (err: any) => {
-                logger.error(err);
-            },
+            logger: logger.error.bind(logger),
             errorMap: [
                 {
                     NotFoundError: {
@@ -53,8 +52,11 @@ export async function graphqlModuleFactory(logger: Logger) {
 @Global()
 @Module({
     imports: [
-        UserModule,
         ApiModule,
+        UserModule,
+        ArticleModule,
+        CommentModule,
+        TagModule,
         PrismaModule.registerAsync({
             inject: [AppEnvironment],
             useFactory: async (appEnvironment: AppEnvironment) => {
@@ -63,7 +65,6 @@ export async function graphqlModuleFactory(logger: Logger) {
                 };
             },
         }),
-        TagModule,
         EnvironmentModule.forRoot({
             isGlobal: true,
             loadEnvFile: true,
@@ -73,8 +74,7 @@ export async function graphqlModuleFactory(logger: Logger) {
             inject: [Logger],
             useFactory: graphqlModuleFactory,
         }),
-        ArticleModule,
-        CommentModule,
+        NestologModule.forRoot(),
     ],
     providers: [Logger],
     exports: [Logger],
