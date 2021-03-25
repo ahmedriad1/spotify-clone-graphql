@@ -9,7 +9,7 @@ import {
 import {
     classValidatorFlatFormatter,
     isValidationError,
-} from 'app_modules/class-validator-flat-formatter';
+} from 'class-validator-flat-formatter';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
