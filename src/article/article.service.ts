@@ -128,7 +128,9 @@ export class ArticleService {
     feedWhereConditions(userId: string) {
         return {
             author: {
-                followers: { some: { userId: { equals: userId } } },
+                is: {
+                    followers: { some: { userId: { equals: userId } } },
+                },
             },
         };
     }

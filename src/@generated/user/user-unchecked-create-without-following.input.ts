@@ -1,47 +1,31 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { ArticleCreateManyWithoutAuthorInput } from '../article/article-create-many-without-author.input';
-import { CommentCreateManyWithoutAuthorInput } from '../comment/comment-create-many-without-author.input';
+import { ArticleUncheckedCreateNestedManyWithoutAuthorInput } from '../article/article-unchecked-create-nested-many-without-author.input';
+import { CommentUncheckedCreateNestedManyWithoutAuthorInput } from '../comment/comment-unchecked-create-nested-many-without-author.input';
 
 @InputType()
 export class UserUncheckedCreateWithoutFollowingInput {
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     userId?: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     email!: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     name!: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     password!: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     bio?: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     image?: string;
 
-    @Field(() => ArticleCreateManyWithoutAuthorInput, {
-        nullable: true,
-    })
-    Article?: ArticleCreateManyWithoutAuthorInput;
+    @Field(() => ArticleUncheckedCreateNestedManyWithoutAuthorInput, { nullable: true })
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput;
 
-    @Field(() => CommentCreateManyWithoutAuthorInput, {
-        nullable: true,
-    })
-    Comment?: CommentCreateManyWithoutAuthorInput;
+    @Field(() => CommentUncheckedCreateNestedManyWithoutAuthorInput, { nullable: true })
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput;
 }

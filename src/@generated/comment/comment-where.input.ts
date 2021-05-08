@@ -1,64 +1,42 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { ArticleWhereInput } from '../article/article-where.input';
+import { ArticleRelationFilter } from '../article/article-relation-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { StringFilter } from '../prisma/string-filter.input';
-import { UserWhereInput } from '../user/user-where.input';
+import { UserRelationFilter } from '../user/user-relation-filter.input';
 
 @InputType()
 export class CommentWhereInput {
-    @Field(() => [CommentWhereInput], {
-        nullable: true,
-    })
+    @Field(() => [CommentWhereInput], { nullable: true })
     AND?: Array<CommentWhereInput>;
 
-    @Field(() => [CommentWhereInput], {
-        nullable: true,
-    })
+    @Field(() => [CommentWhereInput], { nullable: true })
     OR?: Array<CommentWhereInput>;
 
-    @Field(() => [CommentWhereInput], {
-        nullable: true,
-    })
+    @Field(() => [CommentWhereInput], { nullable: true })
     NOT?: Array<CommentWhereInput>;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     commentId?: StringFilter;
 
-    @Field(() => DateTimeFilter, {
-        nullable: true,
-    })
+    @Field(() => DateTimeFilter, { nullable: true })
     createdAt?: DateTimeFilter;
 
-    @Field(() => DateTimeFilter, {
-        nullable: true,
-    })
+    @Field(() => DateTimeFilter, { nullable: true })
     updatedAt?: DateTimeFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     body?: StringFilter;
 
-    @Field(() => UserWhereInput, {
-        nullable: true,
-    })
-    author?: UserWhereInput;
+    @Field(() => UserRelationFilter, { nullable: true })
+    author?: UserRelationFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     authorId?: StringFilter;
 
-    @Field(() => ArticleWhereInput, {
-        nullable: true,
-    })
-    article?: ArticleWhereInput;
+    @Field(() => ArticleRelationFilter, { nullable: true })
+    article?: ArticleRelationFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     articleId?: StringFilter;
 }

@@ -1,21 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { ArticleCreateManyWithoutTagsInput } from '../article/article-create-many-without-tags.input';
+import { ArticleCreateNestedManyWithoutTagsInput } from '../article/article-create-nested-many-without-tags.input';
 
 @InputType()
 export class TagCreateInput {
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     tagId?: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     name!: string;
 
-    @Field(() => ArticleCreateManyWithoutTagsInput, {
-        nullable: true,
-    })
-    articles?: ArticleCreateManyWithoutTagsInput;
+    @Field(() => ArticleCreateNestedManyWithoutTagsInput, { nullable: true })
+    articles?: ArticleCreateNestedManyWithoutTagsInput;
 }

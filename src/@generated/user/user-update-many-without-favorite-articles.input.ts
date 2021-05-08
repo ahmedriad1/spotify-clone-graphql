@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { UserCreateOrConnectWithoutfavoriteArticlesInput } from './user-create-or-connect-withoutfavorite-articles.input';
+import { UserCreateOrConnectWithoutFavoriteArticlesInput } from './user-create-or-connect-without-favorite-articles.input';
 import { UserCreateWithoutFavoriteArticlesInput } from './user-create-without-favorite-articles.input';
 import { UserScalarWhereInput } from './user-scalar-where.input';
 import { UserUpdateManyWithWhereWithoutFavoriteArticlesInput } from './user-update-many-with-where-without-favorite-articles.input';
@@ -10,39 +10,27 @@ import { UserWhereUniqueInput } from './user-where-unique.input';
 
 @InputType()
 export class UserUpdateManyWithoutFavoriteArticlesInput {
-    @Field(() => [UserCreateWithoutFavoriteArticlesInput], {
-        nullable: true,
-    })
+    @Field(() => [UserCreateWithoutFavoriteArticlesInput], { nullable: true })
     create?: Array<UserCreateWithoutFavoriteArticlesInput>;
 
-    @Field(() => [UserCreateOrConnectWithoutfavoriteArticlesInput], {
-        nullable: true,
-    })
-    connectOrCreate?: Array<UserCreateOrConnectWithoutfavoriteArticlesInput>;
+    @Field(() => [UserCreateOrConnectWithoutFavoriteArticlesInput], { nullable: true })
+    connectOrCreate?: Array<UserCreateOrConnectWithoutFavoriteArticlesInput>;
 
     @Field(() => [UserUpsertWithWhereUniqueWithoutFavoriteArticlesInput], {
         nullable: true,
     })
     upsert?: Array<UserUpsertWithWhereUniqueWithoutFavoriteArticlesInput>;
 
-    @Field(() => [UserWhereUniqueInput], {
-        nullable: true,
-    })
+    @Field(() => [UserWhereUniqueInput], { nullable: true })
     connect?: Array<UserWhereUniqueInput>;
 
-    @Field(() => [UserWhereUniqueInput], {
-        nullable: true,
-    })
+    @Field(() => [UserWhereUniqueInput], { nullable: true })
     set?: Array<UserWhereUniqueInput>;
 
-    @Field(() => [UserWhereUniqueInput], {
-        nullable: true,
-    })
+    @Field(() => [UserWhereUniqueInput], { nullable: true })
     disconnect?: Array<UserWhereUniqueInput>;
 
-    @Field(() => [UserWhereUniqueInput], {
-        nullable: true,
-    })
+    @Field(() => [UserWhereUniqueInput], { nullable: true })
     delete?: Array<UserWhereUniqueInput>;
 
     @Field(() => [UserUpdateWithWhereUniqueWithoutFavoriteArticlesInput], {
@@ -55,8 +43,6 @@ export class UserUpdateManyWithoutFavoriteArticlesInput {
     })
     updateMany?: Array<UserUpdateManyWithWhereWithoutFavoriteArticlesInput>;
 
-    @Field(() => [UserScalarWhereInput], {
-        nullable: true,
-    })
+    @Field(() => [UserScalarWhereInput], { nullable: true })
     deleteMany?: Array<UserScalarWhereInput>;
 }

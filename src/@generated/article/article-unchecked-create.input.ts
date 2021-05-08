@@ -1,56 +1,38 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
-import { CommentCreateManyWithoutArticleInput } from '../comment/comment-create-many-without-article.input';
+import { CommentUncheckedCreateNestedManyWithoutArticleInput } from '../comment/comment-unchecked-create-nested-many-without-article.input';
 
 @InputType()
 export class ArticleUncheckedCreateInput {
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     articleId?: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     slug!: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     title!: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     description!: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     body!: string;
 
-    @Field(() => Date, {
-        nullable: true,
-    })
+    @Field(() => Date, { nullable: true })
     createdAt?: Date | string;
 
-    @Field(() => Date, {
-        nullable: true,
-    })
+    @Field(() => Date, { nullable: true })
     updatedAt?: Date | string;
 
-    @Field(() => Int, {
-        nullable: true,
-    })
+    @Field(() => Int, { nullable: true })
     favoritesCount?: number;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     authorId?: string;
 
-    @Field(() => CommentCreateManyWithoutArticleInput, {
+    @Field(() => CommentUncheckedCreateNestedManyWithoutArticleInput, {
         nullable: true,
     })
-    comments?: CommentCreateManyWithoutArticleInput;
+    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput;
 }

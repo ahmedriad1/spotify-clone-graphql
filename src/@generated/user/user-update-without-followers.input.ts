@@ -7,53 +7,33 @@ import { UserUpdateManyWithoutFollowersInput } from './user-update-many-without-
 
 @InputType()
 export class UserUpdateWithoutFollowersInput {
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     userId?: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     email?: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     name?: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     password?: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     bio?: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     image?: string;
 
-    @Field(() => UserUpdateManyWithoutFollowersInput, {
-        nullable: true,
-    })
+    @Field(() => UserUpdateManyWithoutFollowersInput, { nullable: true })
     following?: UserUpdateManyWithoutFollowersInput;
 
-    @Field(() => ArticleUpdateManyWithoutFavoritedByInput, {
-        nullable: true,
-    })
+    @Field(() => ArticleUpdateManyWithoutFavoritedByInput, { nullable: true })
     favoriteArticles?: ArticleUpdateManyWithoutFavoritedByInput;
 
-    @Field(() => ArticleUpdateManyWithoutAuthorInput, {
-        nullable: true,
-    })
-    Article?: ArticleUpdateManyWithoutAuthorInput;
+    @Field(() => ArticleUpdateManyWithoutAuthorInput, { nullable: true })
+    articles?: ArticleUpdateManyWithoutAuthorInput;
 
-    @Field(() => CommentUpdateManyWithoutAuthorInput, {
-        nullable: true,
-    })
-    Comment?: CommentUpdateManyWithoutAuthorInput;
+    @Field(() => CommentUpdateManyWithoutAuthorInput, { nullable: true })
+    comments?: CommentUpdateManyWithoutAuthorInput;
 }

@@ -1,37 +1,25 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { ArticleCreateOneWithoutCommentsInput } from '../article/article-create-one-without-comments.input';
-import { UserCreateOneWithoutCommentInput } from '../user/user-create-one-without-comment.input';
+import { ArticleCreateNestedOneWithoutCommentsInput } from '../article/article-create-nested-one-without-comments.input';
+import { UserCreateNestedOneWithoutCommentsInput } from '../user/user-create-nested-one-without-comments.input';
 
 @InputType()
 export class CommentCreateInput {
-    @Field(() => String, {
-        nullable: true,
-    })
+    @Field(() => String, { nullable: true })
     commentId?: string;
 
-    @Field(() => Date, {
-        nullable: true,
-    })
+    @Field(() => Date, { nullable: true })
     createdAt?: Date | string;
 
-    @Field(() => Date, {
-        nullable: true,
-    })
+    @Field(() => Date, { nullable: true })
     updatedAt?: Date | string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     body!: string;
 
-    @Field(() => UserCreateOneWithoutCommentInput, {
-        nullable: false,
-    })
-    author!: UserCreateOneWithoutCommentInput;
+    @Field(() => UserCreateNestedOneWithoutCommentsInput, { nullable: false })
+    author!: UserCreateNestedOneWithoutCommentsInput;
 
-    @Field(() => ArticleCreateOneWithoutCommentsInput, {
-        nullable: true,
-    })
-    article?: ArticleCreateOneWithoutCommentsInput;
+    @Field(() => ArticleCreateNestedOneWithoutCommentsInput, { nullable: true })
+    article?: ArticleCreateNestedOneWithoutCommentsInput;
 }

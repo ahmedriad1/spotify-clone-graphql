@@ -7,73 +7,45 @@ import { UserListRelationFilter } from './user-list-relation-filter.input';
 
 @InputType()
 export class UserWhereInput {
-    @Field(() => [UserWhereInput], {
-        nullable: true,
-    })
+    @Field(() => [UserWhereInput], { nullable: true })
     AND?: Array<UserWhereInput>;
 
-    @Field(() => [UserWhereInput], {
-        nullable: true,
-    })
+    @Field(() => [UserWhereInput], { nullable: true })
     OR?: Array<UserWhereInput>;
 
-    @Field(() => [UserWhereInput], {
-        nullable: true,
-    })
+    @Field(() => [UserWhereInput], { nullable: true })
     NOT?: Array<UserWhereInput>;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     userId?: StringFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     email?: StringFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     name?: StringFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     password?: StringFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     bio?: StringFilter;
 
-    @Field(() => StringFilter, {
-        nullable: true,
-    })
+    @Field(() => StringFilter, { nullable: true })
     image?: StringFilter;
 
-    @Field(() => UserListRelationFilter, {
-        nullable: true,
-    })
+    @Field(() => UserListRelationFilter, { nullable: true })
     following?: UserListRelationFilter;
 
-    @Field(() => UserListRelationFilter, {
-        nullable: true,
-    })
+    @Field(() => UserListRelationFilter, { nullable: true })
     followers?: UserListRelationFilter;
 
-    @Field(() => ArticleListRelationFilter, {
-        nullable: true,
-    })
+    @Field(() => ArticleListRelationFilter, { nullable: true })
     favoriteArticles?: ArticleListRelationFilter;
 
-    @Field(() => ArticleListRelationFilter, {
-        nullable: true,
-    })
-    Article?: ArticleListRelationFilter;
+    @Field(() => ArticleListRelationFilter, { nullable: true })
+    articles?: ArticleListRelationFilter;
 
-    @Field(() => CommentListRelationFilter, {
-        nullable: true,
-    })
-    Comment?: CommentListRelationFilter;
+    @Field(() => CommentListRelationFilter, { nullable: true })
+    comments?: CommentListRelationFilter;
 }

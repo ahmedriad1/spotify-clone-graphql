@@ -5,43 +5,27 @@ import { User } from '../user/user.model';
 
 @ObjectType()
 export class Comment {
-    @Field(() => ID, {
-        nullable: false,
-    })
+    @Field(() => ID, { nullable: false })
     commentId!: string;
 
-    @Field(() => Date, {
-        nullable: false,
-    })
-    createdAt!: Date | string;
+    @Field(() => Date, { nullable: false })
+    createdAt!: Date;
 
-    @Field(() => Date, {
-        nullable: false,
-    })
-    updatedAt!: Date | string;
+    @Field(() => Date, { nullable: false })
+    updatedAt!: Date;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     body!: string;
 
-    @Field(() => User, {
-        nullable: false,
-    })
+    @Field(() => User, { nullable: false })
     author!: User;
 
-    @Field(() => String, {
-        nullable: false,
-    })
-    readonly authorId!: string;
+    @Field(() => String, { nullable: false })
+    authorId!: string;
 
-    @Field(() => Article, {
-        nullable: true,
-    })
-    article?: Article;
+    @Field(() => Article, { nullable: true })
+    article!: Article;
 
-    @Field(() => String, {
-        nullable: true,
-    })
-    readonly articleId?: string;
+    @Field(() => String, { nullable: true })
+    articleId!: string | null;
 }
