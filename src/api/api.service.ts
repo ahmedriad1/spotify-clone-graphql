@@ -169,7 +169,7 @@ export class ApiService {
             where.tags = { some: { name: { equals: options.tag } } };
         }
         if (options.author) {
-            where.author = { name: { equals: options.author } };
+            where.author = { is: { name: { equals: options.author } } };
         }
         if (options.favorited) {
             where.favoritedBy = {
