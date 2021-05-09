@@ -169,7 +169,7 @@ export class ArticleResolver {
         @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
         @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
         @CurrentUser() user: PassportUserFields,
-        @GraphqlFields() fields: PlainObject,
+        @GraphqlFields() fields: GraphqlFieldsParameter,
     ) {
         return this.service.findMany({
             where: this.service.feedWhereConditions(user.id),

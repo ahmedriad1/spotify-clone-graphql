@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { InjectRepository, PrismaRepository } from 'app_modules/prisma';
 
 /**
@@ -6,8 +7,6 @@ import { InjectRepository, PrismaRepository } from 'app_modules/prisma';
  */
 @Injectable()
 export class TagService {
-    findMany = this.repository.findMany;
-
     constructor(
         @InjectRepository('tag') private readonly repository: PrismaRepository['tag'],
     ) {}
@@ -24,5 +23,9 @@ export class TagService {
             });
         });
         return Promise.all(upsertOperations);
+    }
+
+    findMany(args?: Prisma.TagFindManyArgs) {
+        return this.repository.findMany(args);
     }
 }
