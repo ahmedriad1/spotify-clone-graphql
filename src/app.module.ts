@@ -16,12 +16,17 @@ import { ArticleModule } from './article/article.module';
 import { CommentModule } from './comment/comment.module';
 import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
+import { PubSub } from 'apollo-server-express';
 
 export async function graphqlModuleFactory(logger: Logger) {
     return {
         tracing: false,
         sortSchema: true,
         autoSchemaFile: '~schema.gql',
+        installSubscriptionHandlers: true,
+        subscriptions: {
+            keepAlive: 5000,
+        },
         context: (data: any) => {
             return {
                 token: undefined as string | undefined,
@@ -76,7 +81,13 @@ export async function graphqlModuleFactory(logger: Logger) {
         }),
         NestologModule.forRoot(),
     ],
-    providers: [Logger],
-    exports: [Logger],
+    providers: [
+        Logger,
+        {
+            provide: 'PUB_SUB',
+            useValue: new PubSub(),
+        },
+    ],
+    exports: [Logger, 'PUB_SUB'],
 })
 export class AppModule {}
