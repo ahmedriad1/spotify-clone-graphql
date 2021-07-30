@@ -1,0 +1,13 @@
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { AlbumWhereUniqueInput } from './album-where-unique.input';
+import { AlbumUpdateWithoutArtistsInput } from './album-update-without-artists.input';
+
+@InputType()
+export class AlbumUpdateWithWhereUniqueWithoutArtistsInput {
+    @Field(() => AlbumWhereUniqueInput, {nullable:false})
+    where!: AlbumWhereUniqueInput;
+
+    @Field(() => AlbumUpdateWithoutArtistsInput, {nullable:false})
+    data!: AlbumUpdateWithoutArtistsInput;
+}

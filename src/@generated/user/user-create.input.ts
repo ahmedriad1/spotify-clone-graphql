@@ -1,43 +1,35 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { ArticleCreateNestedManyWithoutAuthorInput } from '../article/article-create-nested-many-without-author.input';
-import { ArticleCreateNestedManyWithoutFavoritedByInput } from '../article/article-create-nested-many-without-favorited-by.input';
-import { CommentCreateNestedManyWithoutAuthorInput } from '../comment/comment-create-nested-many-without-author.input';
-import { UserCreateNestedManyWithoutFollowersInput } from './user-create-nested-many-without-followers.input';
-import { UserCreateNestedManyWithoutFollowingInput } from './user-create-nested-many-without-following.input';
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { ArtistCreateNestedOneWithoutUserInput } from '../artist/artist-create-nested-one-without-user.input';
+import { TrackCreateNestedManyWithoutLikedByInput } from '../track/track-create-nested-many-without-liked-by.input';
+import { AlbumCreateNestedManyWithoutLikedByInput } from '../album/album-create-nested-many-without-liked-by.input';
 
 @InputType()
 export class UserCreateInput {
-    @Field(() => String, { nullable: true })
-    userId?: string;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => String, { nullable: false })
-    email!: string;
-
-    @Field(() => String, { nullable: false })
+    @Field(() => String, {nullable:false})
     name!: string;
 
-    @Field(() => String, { nullable: false })
+    @Field(() => String, {nullable:false})
+    email!: string;
+
+    @Field(() => String, {nullable:false})
     password!: string;
 
-    @Field(() => String, { nullable: true })
-    bio?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
 
-    @Field(() => String, { nullable: true })
-    image?: string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 
-    @Field(() => UserCreateNestedManyWithoutFollowersInput, { nullable: true })
-    following?: UserCreateNestedManyWithoutFollowersInput;
+    @Field(() => ArtistCreateNestedOneWithoutUserInput, {nullable:true})
+    artist?: ArtistCreateNestedOneWithoutUserInput;
 
-    @Field(() => UserCreateNestedManyWithoutFollowingInput, { nullable: true })
-    followers?: UserCreateNestedManyWithoutFollowingInput;
+    @Field(() => TrackCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedTracks?: TrackCreateNestedManyWithoutLikedByInput;
 
-    @Field(() => ArticleCreateNestedManyWithoutFavoritedByInput, { nullable: true })
-    favoriteArticles?: ArticleCreateNestedManyWithoutFavoritedByInput;
-
-    @Field(() => ArticleCreateNestedManyWithoutAuthorInput, { nullable: true })
-    articles?: ArticleCreateNestedManyWithoutAuthorInput;
-
-    @Field(() => CommentCreateNestedManyWithoutAuthorInput, { nullable: true })
-    comments?: CommentCreateNestedManyWithoutAuthorInput;
+    @Field(() => AlbumCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedAlbums?: AlbumCreateNestedManyWithoutLikedByInput;
 }

@@ -1,6 +1,9 @@
+import { Logger } from '@nestjs/common';
+import { GqlModuleOptions } from '@nestjs/graphql';
 import { Env } from '@nestjs-steroids/environment';
+import { ApolloErrorConverter } from 'apollo-error-converter';
 import { Transform } from 'class-transformer';
-import { IsEnum, IsNumber, Max, Min } from 'class-validator';
+import { IsEnum, IsNumber, IsString, Max, Min } from 'class-validator';
 
 enum NodeEnvironment {
     Development = 'development',
@@ -8,7 +11,7 @@ enum NodeEnvironment {
     Test = 'test',
 }
 
-export class AppEnvironment {
+class AppEnvironment {
     /**
      * Env decorator mark environment variable that we want to assign
      * (Tip) Without name env Env decorator makes auto UPPER_SNAKE_CASE conversion (e.g. isTest -> IS_TEST)
@@ -43,4 +46,70 @@ export class AppEnvironment {
 
     @Env('JWT_SECRET_KEY')
     readonly jwtSecretKey = '';
+
+    @Env('CLOUDINARY_CLOUD_NAME')
+    readonly cloudinaryCloudName = '';
+
+    @Env('CLOUDINARY_API_KEY')
+    readonly cloudinaryApiKey = '';
+
+    @Env('CLOUDINARY_API_SECRET')
+    readonly cloudinaryApiSecret = '';
+
+    cloudinaryBaseUrl() {
+        return `https://res.cloudinary.com/${this.cloudinaryCloudName}`;
+    }
 }
+
+interface MyGqlOptions extends GqlModuleOptions {
+    context: (data) => Record<string, any>;
+}
+
+const graphqlModuleFactory = async (logger: Logger): Promise<MyGqlOptions> => {
+    return {
+        tracing: false,
+        sortSchema: true,
+        autoSchemaFile: '~schema.gql',
+        installSubscriptionHandlers: true,
+        subscriptions: {
+            keepAlive: 5000,
+        },
+        context: (data: any) => {
+            return {
+                token: undefined as string | undefined,
+                refreshToken: undefined as string | undefined,
+                req: data.req as Request,
+            };
+        },
+        formatError: new ApolloErrorConverter({
+            logger: logger.error.bind(logger),
+            errorMap: [
+                {
+                    404: {
+                        code: '404',
+                        message: 'Not found',
+                        data: ({ response: { error, ...rest } }) => {
+                            return rest;
+                        },
+                    },
+                    400: {
+                        code: '400',
+                        message: 'Validation Error',
+                        data: ({ response: { error, ...rest } }) => {
+                            return rest;
+                        },
+                    },
+                    401: {
+                        code: '401',
+                        message: 'Unauthorized',
+                        data: ({ response: { error, ...rest } }) => {
+                            return rest;
+                        },
+                    },
+                },
+            ],
+        }),
+    };
+};
+
+export { AppEnvironment, graphqlModuleFactory };

@@ -1,51 +1,46 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { ArticleListRelationFilter } from '../article/article-list-relation-filter.input';
-import { CommentListRelationFilter } from '../comment/comment-list-relation-filter.input';
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
-import { UserListRelationFilter } from './user-list-relation-filter.input';
+import { ArtistRelationFilter } from '../artist/artist-relation-filter.input';
+import { TrackListRelationFilter } from '../track/track-list-relation-filter.input';
+import { AlbumListRelationFilter } from '../album/album-list-relation-filter.input';
+import { DateTimeFilter } from '../prisma/date-time-filter.input';
 
 @InputType()
 export class UserWhereInput {
-    @Field(() => [UserWhereInput], { nullable: true })
+    @Field(() => [UserWhereInput], {nullable:true})
     AND?: Array<UserWhereInput>;
 
-    @Field(() => [UserWhereInput], { nullable: true })
+    @Field(() => [UserWhereInput], {nullable:true})
     OR?: Array<UserWhereInput>;
 
-    @Field(() => [UserWhereInput], { nullable: true })
+    @Field(() => [UserWhereInput], {nullable:true})
     NOT?: Array<UserWhereInput>;
 
-    @Field(() => StringFilter, { nullable: true })
-    userId?: StringFilter;
+    @Field(() => StringFilter, {nullable:true})
+    id?: StringFilter;
 
-    @Field(() => StringFilter, { nullable: true })
-    email?: StringFilter;
-
-    @Field(() => StringFilter, { nullable: true })
+    @Field(() => StringFilter, {nullable:true})
     name?: StringFilter;
 
-    @Field(() => StringFilter, { nullable: true })
+    @Field(() => StringFilter, {nullable:true})
+    email?: StringFilter;
+
+    @Field(() => StringFilter, {nullable:true})
     password?: StringFilter;
 
-    @Field(() => StringFilter, { nullable: true })
-    bio?: StringFilter;
+    @Field(() => ArtistRelationFilter, {nullable:true})
+    artist?: ArtistRelationFilter;
 
-    @Field(() => StringFilter, { nullable: true })
-    image?: StringFilter;
+    @Field(() => TrackListRelationFilter, {nullable:true})
+    likedTracks?: TrackListRelationFilter;
 
-    @Field(() => UserListRelationFilter, { nullable: true })
-    following?: UserListRelationFilter;
+    @Field(() => AlbumListRelationFilter, {nullable:true})
+    likedAlbums?: AlbumListRelationFilter;
 
-    @Field(() => UserListRelationFilter, { nullable: true })
-    followers?: UserListRelationFilter;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: DateTimeFilter;
 
-    @Field(() => ArticleListRelationFilter, { nullable: true })
-    favoriteArticles?: ArticleListRelationFilter;
-
-    @Field(() => ArticleListRelationFilter, { nullable: true })
-    articles?: ArticleListRelationFilter;
-
-    @Field(() => CommentListRelationFilter, { nullable: true })
-    comments?: CommentListRelationFilter;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: DateTimeFilter;
 }

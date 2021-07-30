@@ -1,31 +1,27 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { ArticleUncheckedCreateNestedManyWithoutAuthorInput } from '../article/article-unchecked-create-nested-many-without-author.input';
-import { CommentUncheckedCreateNestedManyWithoutAuthorInput } from '../comment/comment-unchecked-create-nested-many-without-author.input';
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { ArtistUncheckedCreateNestedOneWithoutUserInput } from '../artist/artist-unchecked-create-nested-one-without-user.input';
 
 @InputType()
 export class UserUncheckedCreateInput {
-    @Field(() => String, { nullable: true })
-    userId?: string;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => String, { nullable: false })
-    email!: string;
-
-    @Field(() => String, { nullable: false })
+    @Field(() => String, {nullable:false})
     name!: string;
 
-    @Field(() => String, { nullable: false })
+    @Field(() => String, {nullable:false})
+    email!: string;
+
+    @Field(() => String, {nullable:false})
     password!: string;
 
-    @Field(() => String, { nullable: true })
-    bio?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
 
-    @Field(() => String, { nullable: true })
-    image?: string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 
-    @Field(() => ArticleUncheckedCreateNestedManyWithoutAuthorInput, { nullable: true })
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput;
-
-    @Field(() => CommentUncheckedCreateNestedManyWithoutAuthorInput, { nullable: true })
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput;
+    @Field(() => ArtistUncheckedCreateNestedOneWithoutUserInput, {nullable:true})
+    artist?: ArtistUncheckedCreateNestedOneWithoutUserInput;
 }

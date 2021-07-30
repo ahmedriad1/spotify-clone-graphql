@@ -1,7 +1,9 @@
 import { DeepPartial, PlainObject } from 'simplytyped';
 
-import { AppEnvironment as _AppEnvironment } from '../app.environment';
-import { graphqlModuleFactory } from '../app.module';
+import {
+    AppEnvironment as _AppEnvironment,
+    graphqlModuleFactory,
+} from '../app.environment';
 import { PassportUserFields as _PassportUserFields } from '../auth';
 
 export type Await<T> = T extends {

@@ -16,7 +16,14 @@
     "baseUrl": ".",
     "paths": {
       "@generated/*": ["src/@generated/*"],
-      "app_modules/*": ["src/app_modules/*"]
+      "@app_modules/*": ["src/app_modules/*"],
+      "@album/*": ["src/album/*"],
+      "@artist/*": ["src/artist/*"],
+      "@auth/*": ["src/auth/*"],
+      "@cloudinary/*": ["src/cloudinary/*"],
+      "@genre/*": ["src/genre/*"],
+      "@track/*": ["src/track/*"],
+      "@user/*": ["src/user/*"]
     }
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "@generated/*", "prisma/*.ts"]

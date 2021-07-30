@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { Article } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 import { createSpyObj } from 'jest-createspyobj';
 import request from 'supertest';
@@ -91,7 +90,7 @@ describe('Current User', () => {
             .then(r => r.body.data);
         expect(response).toEqual({
             user: expect.objectContaining({
-                username: 'root',
+                name: 'root',
                 email: 'root@conduit.com',
             }),
         });
@@ -103,7 +102,7 @@ describe('Registration POST /api/users', () => {
         const response = await request(server)
             .post('/api/users')
             .set('Content-Type', 'application/json')
-            .send({ user: { email: '', username: '', password: '' } })
+            .send({ user: { email: '', name: '', password: '' } })
             .then(r => r);
         expect(response.body).toBeTruthy();
         expect(response.status).toBeGreaterThanOrEqual(400);
@@ -112,7 +111,7 @@ describe('Registration POST /api/users', () => {
         const randomName = `r${Math.random().toString(36).slice(-5)}`;
         const userData = {
             email: `${randomName}@toastable.net`,
-            username: randomName,
+            name: randomName,
             password: '123',
         };
         const response = await request(server)
@@ -125,108 +124,11 @@ describe('Registration POST /api/users', () => {
         expect(response.body.data).toEqual({
             user: expect.objectContaining({
                 email: expect.stringContaining('@toastable.net'),
-                username: randomName,
-                bio: null,
-                image: null,
+                name: randomName,
                 token: expect.any(String),
             }),
         });
     });
 });
 
-describe('Get user profile by name', () => {
-    it('root', async () => {
-        const response = await request(server)
-            .get('/api/profiles/root')
-            .set('Content-Type', 'application/json')
-            .send()
-            .then(r => r.body.data);
-        expect(response.profile.username).toEqual('root');
-    });
-});
 
-describe('Get article', () => {
-    it('Single Article by slug', async () => {
-        const response = await request(server)
-            .get('/api/articles/how-to-train-your-dragon')
-            .set('Content-Type', 'application/json')
-            .set('Authorization', await authToken())
-            .send()
-            .then(r => r.body.data);
-        expect(response.article).toBeTruthy();
-    });
-});
-
-describe('List Articles', () => {
-    it('GET /api/articles', async () => {
-        const response = await request(server)
-            .get('/api/articles')
-            .set('Content-Type', 'application/json')
-            .send()
-            .then(r => r.body.data);
-        expect(response.articles).toBeTruthy();
-    });
-
-    it('Articles Favorited by Username', async () => {
-        const response = await request(server)
-            .get('/api/articles?favorited=jane')
-            .set('Content-Type', 'application/json')
-            .send()
-            .then(r => r.body.data);
-        expect(response.articles).toBeTruthy();
-    });
-});
-
-describe('Create Article', () => {
-    it('Authenticated POST /api/articles', async () => {
-        const token = await authToken();
-        const article = {
-            title: 'How to train your dragon',
-            description: 'Ever wonder how?',
-            body: 'You have to believe',
-            tagList: ['reactjs', 'angularjs', 'dragons'],
-        };
-
-        const response = await request(server)
-            .post('/api/articles')
-            .set('Content-Type', 'application/json')
-            .set('Authorization', `Token ${token}`)
-            .send({ article })
-            .then(r => r.body.data);
-        expect(response.article).toBeTruthy();
-    });
-});
-
-describe('Articles favoriting', () => {
-    let article: Article;
-
-    beforeAll(async () => {
-        ({ article } = await request(server)
-            .get('/api/articles/overnew')
-            .set('Content-Type', 'application/json')
-            .send()
-            .then(r => r.body.data));
-    });
-
-    it('Favorite unfavorite', async () => {
-        let response = await request(server)
-            .post(`/api/articles/${article.slug}/favorite`)
-            .set('Content-Type', 'application/json')
-            .set('Authorization', `Token ${await authToken()}`)
-            .send()
-            .then(r => r.body.data);
-
-        expect(response.article.favoritesCount).toBe(article.favoritesCount + 1);
-        expect(response.article.favorited).toBe(true);
-
-        response = await request(server)
-            .delete(`/api/articles/${article.slug}/favorite`)
-            .set('Content-Type', 'application/json')
-            .set('Authorization', `Token ${await authToken()}`)
-            .send()
-            .then(r => r.body.data);
-
-        expect(response.article.favoritesCount).toBe(article.favoritesCount);
-        expect(response.article.favorited).toBe(false);
-    });
-});

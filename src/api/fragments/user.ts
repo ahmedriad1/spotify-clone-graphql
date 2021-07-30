@@ -1,9 +1,7 @@
 export const userFields = /* GraphQL */ `
     fragment userFields on User {
-        userId
-        username: name
+        id
+        name
         email
-        bio
-        image
     }
 `;

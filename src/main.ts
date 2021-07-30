@@ -1,3 +1,4 @@
+import { AllExceptionsFilter } from '@app_modules/all-exceptions-filter';
 import {
     INestApplication,
     Logger,
@@ -5,7 +6,6 @@ import {
     ValidationPipe,
 } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AllExceptionsFilter } from 'app_modules/all-exceptions-filter';
 import { useContainer } from 'class-validator';
 import { NestoLogger } from 'nestolog';
 

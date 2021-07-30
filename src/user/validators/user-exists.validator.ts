@@ -19,10 +19,10 @@ export class UserExistsValidator implements ValidatorConstraintInterface {
     /**
      * Method should return true, if name is not taken.
      */
-    async validate(name: string, args: ValidationArguments) {
+    async validate(email: string, args: ValidationArguments) {
         const result = await this.userService.findUnique({
-            where: { name },
-            select: { userId: true },
+            where: { email },
+            select: { id: true },
         });
         return !result;
     }

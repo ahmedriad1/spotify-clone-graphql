@@ -1,12 +1,12 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum UserScalarFieldEnum {
-    userId = 'userId',
-    email = 'email',
-    name = 'name',
-    password = 'password',
-    bio = 'bio',
-    image = 'image',
+    id = "id",
+    name = "name",
+    email = "email",
+    password = "password",
+    createdAt = "createdAt",
+    updatedAt = "updatedAt"
 }
 
-registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum' });
+registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum' })

@@ -108,7 +108,7 @@ describe('app', () => {
                                 createUser(
                                     data: { name: "x", email: "", password: "123" }
                                 ) {
-                                    userId
+                                    id
                                 }
                             }
                         `,

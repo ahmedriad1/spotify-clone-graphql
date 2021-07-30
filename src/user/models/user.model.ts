@@ -1,48 +1,28 @@
-import { Article } from '@generated/article/article.model';
 import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
 
-@ObjectType({})
-export class User {
-    @Field(() => ID, {
-        nullable: false,
-    })
-    userId!: string;
+// eslint-disable-next-line boundaries/element-types
+import { Artist } from '../../artist/models/artist.model';
 
-    @Field(() => String, {
-        nullable: false,
-    })
-    email!: string;
+@ObjectType()
+export class UserModel {
+    @Field(() => ID, { nullable: false })
+    id!: string;
 
-    @Field(() => String, {
-        nullable: false,
-    })
+    @Field(() => String, { nullable: false })
     name!: string;
+
+    @Field(() => String, { nullable: false })
+    email!: string;
 
     @HideField()
     password!: string;
 
-    @Field(() => String, {
-        nullable: true,
-    })
-    bio?: string;
+    @Field(() => Artist, { nullable: true })
+    artist!: Artist;
 
-    @Field(() => String, {
-        nullable: true,
-    })
-    image?: string;
+    @Field(() => Date, { nullable: true })
+    createdAt!: Date;
 
-    @Field(() => [User], {
-        nullable: true,
-    })
-    following?: Array<User>;
-
-    @Field(() => [User], {
-        nullable: true,
-    })
-    followers?: Array<User>;
-
-    @Field(() => [Article], {
-        nullable: true,
-    })
-    favoriteArticles?: Array<Article>;
+    @Field(() => Date, { nullable: true })
+    updatedAt!: Date;
 }

@@ -1,43 +1,35 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-import { ArticleUpdateManyWithoutAuthorInput } from '../article/article-update-many-without-author.input';
-import { ArticleUpdateManyWithoutFavoritedByInput } from '../article/article-update-many-without-favorited-by.input';
-import { CommentUpdateManyWithoutAuthorInput } from '../comment/comment-update-many-without-author.input';
-import { UserUpdateManyWithoutFollowersInput } from './user-update-many-without-followers.input';
-import { UserUpdateManyWithoutFollowingInput } from './user-update-many-without-following.input';
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { ArtistUpdateOneWithoutUserInput } from '../artist/artist-update-one-without-user.input';
+import { TrackUpdateManyWithoutLikedByInput } from '../track/track-update-many-without-liked-by.input';
+import { AlbumUpdateManyWithoutLikedByInput } from '../album/album-update-many-without-liked-by.input';
 
 @InputType()
 export class UserUpdateInput {
-    @Field(() => String, { nullable: true })
-    userId?: string;
+    @Field(() => String, {nullable:true})
+    id?: string;
 
-    @Field(() => String, { nullable: true })
-    email?: string;
-
-    @Field(() => String, { nullable: true })
+    @Field(() => String, {nullable:true})
     name?: string;
 
-    @Field(() => String, { nullable: true })
+    @Field(() => String, {nullable:true})
+    email?: string;
+
+    @Field(() => String, {nullable:true})
     password?: string;
 
-    @Field(() => String, { nullable: true })
-    bio?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
 
-    @Field(() => String, { nullable: true })
-    image?: string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 
-    @Field(() => UserUpdateManyWithoutFollowersInput, { nullable: true })
-    following?: UserUpdateManyWithoutFollowersInput;
+    @Field(() => ArtistUpdateOneWithoutUserInput, {nullable:true})
+    artist?: ArtistUpdateOneWithoutUserInput;
 
-    @Field(() => UserUpdateManyWithoutFollowingInput, { nullable: true })
-    followers?: UserUpdateManyWithoutFollowingInput;
+    @Field(() => TrackUpdateManyWithoutLikedByInput, {nullable:true})
+    likedTracks?: TrackUpdateManyWithoutLikedByInput;
 
-    @Field(() => ArticleUpdateManyWithoutFavoritedByInput, { nullable: true })
-    favoriteArticles?: ArticleUpdateManyWithoutFavoritedByInput;
-
-    @Field(() => ArticleUpdateManyWithoutAuthorInput, { nullable: true })
-    articles?: ArticleUpdateManyWithoutAuthorInput;
-
-    @Field(() => CommentUpdateManyWithoutAuthorInput, { nullable: true })
-    comments?: CommentUpdateManyWithoutAuthorInput;
+    @Field(() => AlbumUpdateManyWithoutLikedByInput, {nullable:true})
+    likedAlbums?: AlbumUpdateManyWithoutLikedByInput;
 }

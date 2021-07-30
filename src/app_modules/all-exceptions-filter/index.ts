@@ -1,4 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { PrismaClientValidationError } from '@prisma/client/runtime';
 import { Response } from 'express';
 import { serializeError } from 'serialize-error';
 
@@ -17,15 +18,55 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 errors: serializeError(exception),
             });
         }
-        // Fill name, code, type fields for Apollo Error Converter
+
+        console.log(exception);
+
+        if (exception.constructor.name === 'PrismaClientValidationError') {
+            exception.type = 'Validation Error';
+            exception.code = '400';
+            exception.name = 'Validation Error';
+            exception.response = { message: exception.message, statusCode: 400 };
+            return exception;
+        }
+
+        if (exception.constructor.name === 'PrismaClientKnownRequestError2') {
+            exception.type = 'Not found';
+            exception.code = '404';
+            exception.name = 'Not found';
+            exception.response = { message: exception.message, statusCode: 404 };
+            return exception;
+        }
+
+        if (exception.constructor.name === 'NotFoundError') {
+            exception.type = 'Not found';
+            exception.code = '404';
+            exception.name = 'Not found';
+            exception.response = { message: exception.message, statusCode: 404 };
+            return exception;
+        }
+
+        if (exception.constructor.name === 'UnauthorizedException') {
+            exception.type = 'Unauthorized';
+            exception.code = '401';
+            exception.name = 'Unauthorized';
+            exception.response = { message: exception.message, statusCode: 401 };
+            return exception;
+        }
+
         if (typeof exception === 'object') {
             if (!exception.type) {
-                exception.type = exception.constructor?.name || exception.message;
+                exception.type = exception.response.error;
             }
+
             if (!exception.code) {
-                exception.code = exception.status;
+                exception.code = exception.response.statusCode;
+            }
+
+            if (!exception.name) {
+                exception.name = exception.response.message;
             }
         }
+
         return exception;
     }
 }

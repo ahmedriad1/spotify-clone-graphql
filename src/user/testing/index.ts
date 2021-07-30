@@ -4,12 +4,12 @@ type UserPayload = Prisma.UserGetPayload<true>;
 
 export function createUser(parts: Partial<UserPayload> = {}): UserPayload {
     return {
-        userId: 'user_id',
-        email: 'user_email',
+        id: 'user_id',
         name: 'user_name',
+        email: 'user_email',
         password: 'user_password',
-        bio: 'user_bio',
-        image: 'user_image',
+        createdAt: null,
+        updatedAt: null,
         ...parts,
     };
 }

@@ -1,67 +1,21 @@
+import { AlbumModule } from '@album/album.module';
+import { PrismaModule } from '@app_modules/prisma';
+import { ArtistModule } from '@artist/artist.module';
+import { GenreModule } from '@genre/genre.module';
 import { Global, Logger, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { EnvironmentModule } from '@nestjs-steroids/environment';
-import {
-    ApolloErrorConverter,
-    extendMapItem,
-    mapItemBases,
-} from 'apollo-error-converter';
-import { PrismaModule } from 'app_modules/prisma';
-import { Request } from 'express';
+import { TrackModule } from '@track/track.module';
+import { UserModule } from '@user/user.module';
+import { PubSub } from 'apollo-server-express';
 import { NestologModule } from 'nestolog';
 
 import { ApiModule } from './api/api.module';
-import { AppEnvironment } from './app.environment';
-import { ArticleModule } from './article/article.module';
-import { CommentModule } from './comment/comment.module';
-import { TagModule } from './tag/tag.module';
-import { UserModule } from './user/user.module';
-import { PubSub } from 'apollo-server-express';
-
-export async function graphqlModuleFactory(logger: Logger) {
-    return {
-        tracing: false,
-        sortSchema: true,
-        autoSchemaFile: '~schema.gql',
-        installSubscriptionHandlers: true,
-        subscriptions: {
-            keepAlive: 5000,
-        },
-        context: (data: any) => {
-            return {
-                token: undefined as string | undefined,
-                req: data.req as Request,
-            };
-        },
-        formatError: new ApolloErrorConverter({
-            logger: logger.error.bind(logger),
-            errorMap: [
-                {
-                    NotFoundError: {
-                        name: 'ENTITY_NOT_FOUND',
-                        message: 'Entity Not Found',
-                        logger: true,
-                    },
-                    BadRequestException: extendMapItem(mapItemBases.InvalidFields, {
-                        logger: true,
-                        data: (err: any) => {
-                            return err?.response;
-                        },
-                    }),
-                },
-            ],
-        }),
-    };
-}
+import { AppEnvironment, graphqlModuleFactory } from './app.environment';
 
 @Global()
 @Module({
     imports: [
-        ApiModule,
-        UserModule,
-        ArticleModule,
-        CommentModule,
-        TagModule,
         PrismaModule.registerAsync({
             inject: [AppEnvironment],
             useFactory: async (appEnvironment: AppEnvironment) => {
@@ -80,6 +34,12 @@ export async function graphqlModuleFactory(logger: Logger) {
             useFactory: graphqlModuleFactory,
         }),
         NestologModule.forRoot(),
+        ApiModule,
+        UserModule,
+        AlbumModule,
+        GenreModule,
+        ArtistModule,
+        TrackModule,
     ],
     providers: [
         Logger,
