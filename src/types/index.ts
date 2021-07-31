@@ -1,3 +1,4 @@
+import { Field, ObjectType, ID } from '@nestjs/graphql';
 import { DeepPartial, PlainObject } from 'simplytyped';
 
 import {
@@ -32,3 +33,12 @@ declare global {
 export type AppEnvironment = typeof _AppEnvironment;
 export type GraphqlFieldsParameter = DeepPartial<Record<string, PlainObject>>;
 export type PassportUserFields = _PassportUserFields;
+
+@ObjectType()
+export class LikesContain {
+    @Field(() => ID, { nullable: false })
+    id!: string;
+
+    @Field(() => Boolean, { nullable: false })
+    status!: boolean;
+}

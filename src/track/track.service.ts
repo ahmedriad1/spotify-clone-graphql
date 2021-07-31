@@ -1,7 +1,8 @@
 import { InjectRepository, PrismaRepository } from '@app_modules/prisma';
+import { PassportUserFields } from '@app_types/index';
 import { CloudinaryService } from '@cloudinary/cloudinary.service';
 import { TrackWhereUniqueInput } from '@generated/track/track-where-unique.input';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { FileUpload } from 'graphql-upload';
 
 import { CreateTrackInput } from './dto/create-track.input';
@@ -15,6 +16,8 @@ export class TrackService {
 
     constructor(
         @InjectRepository('track') private readonly repo: PrismaRepository['track'],
+        @InjectRepository('user') private readonly userRepo: PrismaRepository['user'],
+        private readonly prisma: PrismaRepository,
         private readonly cloudinaryService: CloudinaryService,
     ) {}
 
@@ -84,5 +87,68 @@ export class TrackService {
         const track = await this.findOne({ where, rejectOnNotFound: true });
         this.cloudinaryService.deleteTracks([track.trackId]);
         return this.repo.delete({ where });
+    }
+
+    async isLiked(where: TrackWhereUniqueInput, user: PassportUserFields) {
+        const isLiked = await this.userRepo.count({
+            where: {
+                id: user.id,
+                likedTracks: {
+                    some: where,
+                },
+            },
+            take: 1,
+        });
+
+        return isLiked > 0;
+    }
+
+    async like(where: TrackWhereUniqueInput, user: PassportUserFields) {
+        const isLiked = await this.isLiked(where, user);
+
+        if (isLiked) throw new BadRequestException('Track is liked !');
+
+        return this.repo.update({
+            where,
+            data: {
+                likedBy: { connect: { id: user.id } },
+                likesCount: { increment: 1 },
+            },
+        });
+    }
+
+    async unlike(where: TrackWhereUniqueInput, user: PassportUserFields) {
+        const isLiked = await this.isLiked(where, user);
+
+        if (!isLiked) throw new BadRequestException('Track is already not liked !');
+
+        return this.repo.update({
+            where,
+            data: {
+                likedBy: { disconnect: { id: user.id } },
+                likesCount: { decrement: 1 },
+            },
+        });
+    }
+
+    async likesContain(tracks: Array<string>, user: PassportUserFields) {
+        const result = await this.userRepo.findUnique({
+            where: {
+                id: user.id,
+            },
+            select: {
+                id: true,
+                likedTracks: { select: { id: true }, where: { id: { in: tracks } } },
+            },
+            rejectOnNotFound: true,
+        });
+
+        // this.prisma
+        //     .$queryRaw`SELECT A FROM _TrackToUser WHERE B = ${user.id} AND A IN (${tracks})`;
+        const set = new Set(result.likedTracks.map(t => t.id));
+        return [...new Set([...tracks, ...set])].map(id => ({
+            id,
+            status: set.has(id),
+        }));
     }
 }

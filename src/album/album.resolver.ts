@@ -1,5 +1,6 @@
-// import { CurrentUser } from 'app_modules/current-user-decorator';
+import { CurrentUser } from '@app_modules/current-user-decorator/index';
 import { GraphqlAuthGuard } from '@app_modules/nestjs-passport-graphql-auth-guard/graphql-auth.guard';
+import { LikesContain, PassportUserFields } from '@app_types/index';
 import { ArtistService } from '@artist/artist.service';
 import { AlbumWhereInput } from '@generated/album/album-where.input';
 import { AlbumWhereUniqueInput } from '@generated/album/album-where-unique.input';
@@ -116,6 +117,34 @@ export class AlbumResolver {
     @Mutation(() => Album)
     async removeAlbum(@Args('where') where: AlbumWhereUniqueInput) {
         return this.albumService.remove(where);
+    }
+
+    @Mutation(() => Album)
+    @UseGuards(GraphqlAuthGuard)
+    async likeAlbum(
+        @Args('where') where: AlbumWhereUniqueInput,
+        @CurrentUser() user: PassportUserFields,
+    ) {
+        return this.albumService.like(where, user);
+    }
+
+    @Mutation(() => Album)
+    @UseGuards(GraphqlAuthGuard)
+    async unlikeAlbum(
+        @Args('where') where: AlbumWhereUniqueInput,
+        @CurrentUser() user: PassportUserFields,
+    ) {
+        return this.albumService.unlike(where, user);
+    }
+
+    @Query(() => [LikesContain])
+    @UseGuards(GraphqlAuthGuard)
+    async albumLikesContain(
+        @Args({ name: 'tracks', type: () => [String], nullable: false })
+        tracks: Array<string>,
+        @CurrentUser() user: PassportUserFields,
+    ) {
+        return this.albumService.likesContain(tracks, user);
     }
 
     @ResolveField(() => String, { nullable: true })

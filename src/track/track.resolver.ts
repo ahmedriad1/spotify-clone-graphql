@@ -1,5 +1,9 @@
-import { TrackWhereInput } from './../@generated/track/track-where.input';
+import { CurrentUser } from '@app_modules/current-user-decorator/index';
+import { GraphqlAuthGuard } from '@app_modules/nestjs-passport-graphql-auth-guard/graphql-auth.guard';
+import { LikesContain, PassportUserFields } from '@app_types/index';
+import { TrackWhereInput } from '@generated/track/track-where.input';
 import { TrackWhereUniqueInput } from '@generated/track/track-where-unique.input';
+import { UseGuards } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PrismaSelect } from '@paljs/plugins';
 import { GraphQLUpload } from 'apollo-server-express';
@@ -69,6 +73,34 @@ export class TrackResolver {
     @Mutation(() => Track)
     async removeTrack(@Args('where') where: TrackWhereUniqueInput) {
         return this.trackService.remove(where);
+    }
+
+    @Mutation(() => Track)
+    @UseGuards(GraphqlAuthGuard)
+    async likeTrack(
+        @Args('where') where: TrackWhereUniqueInput,
+        @CurrentUser() user: PassportUserFields,
+    ) {
+        return this.trackService.like(where, user);
+    }
+
+    @Mutation(() => Track)
+    @UseGuards(GraphqlAuthGuard)
+    async unlikeTrack(
+        @Args('where') where: TrackWhereUniqueInput,
+        @CurrentUser() user: PassportUserFields,
+    ) {
+        return this.trackService.unlike(where, user);
+    }
+
+    @Query(() => [LikesContain])
+    @UseGuards(GraphqlAuthGuard)
+    async trackLikesContain(
+        @Args({ name: 'tracks', type: () => [String], nullable: false })
+        tracks: Array<string>,
+        @CurrentUser() user: PassportUserFields,
+    ) {
+        return this.trackService.likesContain(tracks, user);
     }
 
     @Query(() => Number)

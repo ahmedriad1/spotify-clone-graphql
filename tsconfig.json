@@ -17,6 +17,7 @@
     "paths": {
       "@generated/*": ["src/@generated/*"],
       "@app_modules/*": ["src/app_modules/*"],
+      "@app_types/*": ["src/types/*"],
       "@album/*": ["src/album/*"],
       "@artist/*": ["src/artist/*"],
       "@auth/*": ["src/auth/*"],

@@ -1,8 +1,0 @@
-*
-!/package.json
-!/package-lock.json
-!/Taskfile
-!/tsconfig.json
-!/tsconfig.build.json
-!/src
-!/prisma

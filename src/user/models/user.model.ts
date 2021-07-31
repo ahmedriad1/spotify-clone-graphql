@@ -1,7 +1,7 @@
+/* eslint-disable boundaries/element-types */
+import { Album } from '@album/models/album.model';
+import { Artist } from '@artist/models/artist.model';
 import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
-
-// eslint-disable-next-line boundaries/element-types
-import { Artist } from '../../artist/models/artist.model';
 
 @ObjectType()
 export class UserModel {
@@ -19,6 +19,12 @@ export class UserModel {
 
     @Field(() => Artist, { nullable: true })
     artist!: Artist;
+
+    // @Field(() => Artist, { nullable: true })
+    // likedTracks!: Artist;
+
+    @Field(() => [Album], { nullable: true })
+    likedAlbums!: Album[];
 
     @Field(() => Date, { nullable: true })
     createdAt!: Date;

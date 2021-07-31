@@ -11,32 +11,32 @@ import { AlbumCount } from './album-count.output';
 
 @ObjectType()
 export class Album {
-    @Field(() => ID, {nullable:false})
+    @Field(() => ID, { nullable: false })
     id!: string;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, { nullable: false })
     name!: string;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, { nullable: false })
     description!: string;
-    @Field(() => AlbumType, {nullable:false,defaultValue:'ALBUM'})
+    @Field(() => AlbumType, { nullable: false, defaultValue: 'ALBUM' })
     type!: AlbumType;
-    @Field(() => String, {nullable:true})
+    @Field(() => String, { nullable: true })
     imageId!: string | null;
-    @Field(() => Genre, {nullable:false})
+    @Field(() => Genre, { nullable: false })
     genre!: Genre;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, { nullable: false })
     genreId!: string;
-    @Field(() => [Artist], {nullable:true})
+    @Field(() => [Artist], { nullable: true })
     artists!: Array<Artist>;
-    @Field(() => [Track], {nullable:true})
+    @Field(() => [Track], { nullable: true })
     tracks!: Array<Track>;
-    @Field(() => Int, {nullable:false,defaultValue:0})
+    @Field(() => Int, { nullable: false, defaultValue: 0 })
     likesCount!: number;
-    @Field(() => [User], {nullable:true})
+    @Field(() => [User], { nullable: true })
     likedBy!: Array<User>;
-    @Field(() => Date, {nullable:true})
+    @Field(() => Date, { nullable: true })
     createdAt!: Date | null;
-    @Field(() => Date, {nullable:true})
+    @Field(() => Date, { nullable: true })
     updatedAt!: Date | null;
-    @Field(() => AlbumCount, {nullable:true})
+    @Field(() => AlbumCount, { nullable: true })
     _count!: AlbumCount;
 }
