@@ -1,0 +1,11 @@
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+
+@InputType()
+export class TrackLikesTrackIdUserIdCompoundUniqueInput {
+    @Field(() => String, {nullable:false})
+    trackId!: string;
+
+    @Field(() => String, {nullable:false})
+    userId!: string;
+}

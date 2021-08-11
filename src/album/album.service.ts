@@ -21,6 +21,8 @@ export class AlbumService {
         private readonly trackRepo: PrismaRepository['track'],
         @InjectRepository('user')
         private readonly userRepo: PrismaRepository['user'],
+        @InjectRepository('albumLikes')
+        private readonly albumLikes: PrismaRepository['albumLikes'],
         private readonly cloudinaryService: CloudinaryService,
     ) {}
 
@@ -94,14 +96,11 @@ export class AlbumService {
     }
 
     async isLiked(where: AlbumWhereUniqueInput, user: PassportUserFields) {
-        const isLiked = await this.userRepo.count({
+        const isLiked = await this.albumLikes.count({
             where: {
-                id: user.id,
-                likedAlbums: {
-                    some: where,
-                },
+                album: { id: where.id },
+                user: { id: user.id },
             },
-            take: 1,
         });
 
         return isLiked > 0;
@@ -115,13 +114,20 @@ export class AlbumService {
         return this.albumRepo.update({
             where,
             data: {
-                likedBy: { connect: { id: user.id } },
+                likedBy: {
+                    create: [
+                        {
+                            user: { connect: { id: user.id } },
+                        },
+                    ],
+                },
                 likesCount: { increment: 1 },
             },
         });
     }
 
     async unlike(where: AlbumWhereUniqueInput, user: PassportUserFields) {
+        if (!where.id) throw new BadRequestException();
         const isLiked = await this.isLiked(where, user);
 
         if (!isLiked) throw new BadRequestException('Track is already not liked !');
@@ -129,30 +135,36 @@ export class AlbumService {
         return this.albumRepo.update({
             where,
             data: {
-                likedBy: { disconnect: { id: user.id } },
+                likedBy: {
+                    delete: [
+                        {
+                            albumId_userId: {
+                                userId: user.id,
+                                albumId: where.id,
+                            },
+                        },
+                    ],
+                },
                 likesCount: { decrement: 1 },
             },
         });
     }
 
     async likesContain(albums: Array<string>, user: PassportUserFields) {
-        const result = await this.userRepo.findUnique({
+        const result = await this.albumLikes.findMany({
             where: {
-                id: user.id,
+                user: { id: user.id },
+                album: { id: { in: albums } },
             },
             select: {
-                id: true,
-                likedAlbums: { select: { id: true }, where: { id: { in: albums } } },
+                albumId: true,
             },
-            rejectOnNotFound: true,
         });
 
-        // this.prisma
-        //     .$queryRaw`SELECT A FROM _TrackToUser WHERE B = ${user.id} AND A IN (${tracks})`;
-        const set = new Set(result.likedAlbums.map(t => t.id));
+        const set = new Set(result.map(t => t.albumId));
         return [...new Set([...albums, ...set])].map(id => ({
             id,
-            status: set.has(id),
+            liked: set.has(id),
         }));
     }
 }

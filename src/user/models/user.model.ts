@@ -1,6 +1,7 @@
 /* eslint-disable boundaries/element-types */
-import { Album } from '@album/models/album.model';
 import { Artist } from '@artist/models/artist.model';
+import { AlbumLikes } from '@generated/album-likes/album-likes.model';
+import { TrackLikes } from '@generated/track-likes/track-likes.model';
 import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
@@ -20,11 +21,11 @@ export class UserModel {
     @Field(() => Artist, { nullable: true })
     artist!: Artist;
 
-    // @Field(() => Artist, { nullable: true })
-    // likedTracks!: Artist;
+    @Field(() => [TrackLikes], { nullable: true })
+    likedTracks!: TrackLikes[];
 
-    @Field(() => [Album], { nullable: true })
-    likedAlbums!: Album[];
+    @Field(() => [AlbumLikes], { nullable: true })
+    likedAlbums!: AlbumLikes[];
 
     @Field(() => Date, { nullable: true })
     createdAt!: Date;

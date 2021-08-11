@@ -4,7 +4,7 @@ import { AlbumType } from '../prisma/album-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GenreUpdateOneRequiredWithoutAlbumsInput } from '../genre/genre-update-one-required-without-albums.input';
 import { ArtistUpdateManyWithoutAlbumsInput } from '../artist/artist-update-many-without-albums.input';
-import { UserUpdateManyWithoutLikedAlbumsInput } from '../user/user-update-many-without-liked-albums.input';
+import { AlbumLikesUpdateManyWithoutAlbumInput } from '../album-likes/album-likes-update-many-without-album.input';
 
 @InputType()
 export class AlbumUpdateWithoutTracksInput {
@@ -38,6 +38,6 @@ export class AlbumUpdateWithoutTracksInput {
     @Field(() => ArtistUpdateManyWithoutAlbumsInput, {nullable:true})
     artists?: ArtistUpdateManyWithoutAlbumsInput;
 
-    @Field(() => UserUpdateManyWithoutLikedAlbumsInput, {nullable:true})
-    likedBy?: UserUpdateManyWithoutLikedAlbumsInput;
+    @Field(() => AlbumLikesUpdateManyWithoutAlbumInput, {nullable:true})
+    likedBy?: AlbumLikesUpdateManyWithoutAlbumInput;
 }

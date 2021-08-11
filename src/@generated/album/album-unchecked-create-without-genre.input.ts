@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { AlbumType } from '../prisma/album-type.enum';
 import { Int } from '@nestjs/graphql';
 import { TrackUncheckedCreateNestedManyWithoutAlbumInput } from '../track/track-unchecked-create-nested-many-without-album.input';
+import { AlbumLikesUncheckedCreateNestedManyWithoutAlbumInput } from '../album-likes/album-likes-unchecked-create-nested-many-without-album.input';
 
 @InputType()
 export class AlbumUncheckedCreateWithoutGenreInput {
@@ -32,4 +33,7 @@ export class AlbumUncheckedCreateWithoutGenreInput {
 
     @Field(() => TrackUncheckedCreateNestedManyWithoutAlbumInput, {nullable:true})
     tracks?: TrackUncheckedCreateNestedManyWithoutAlbumInput;
+
+    @Field(() => AlbumLikesUncheckedCreateNestedManyWithoutAlbumInput, {nullable:true})
+    likedBy?: AlbumLikesUncheckedCreateNestedManyWithoutAlbumInput;
 }

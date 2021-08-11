@@ -2,8 +2,8 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
 import { ArtistRelationFilter } from '../artist/artist-relation-filter.input';
-import { TrackListRelationFilter } from '../track/track-list-relation-filter.input';
-import { AlbumListRelationFilter } from '../album/album-list-relation-filter.input';
+import { TrackLikesListRelationFilter } from '../track-likes/track-likes-list-relation-filter.input';
+import { AlbumLikesListRelationFilter } from '../album-likes/album-likes-list-relation-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 
 @InputType()
@@ -32,11 +32,11 @@ export class UserWhereInput {
     @Field(() => ArtistRelationFilter, {nullable:true})
     artist?: ArtistRelationFilter;
 
-    @Field(() => TrackListRelationFilter, {nullable:true})
-    likedTracks?: TrackListRelationFilter;
+    @Field(() => TrackLikesListRelationFilter, {nullable:true})
+    likedTracks?: TrackLikesListRelationFilter;
 
-    @Field(() => AlbumListRelationFilter, {nullable:true})
-    likedAlbums?: AlbumListRelationFilter;
+    @Field(() => AlbumLikesListRelationFilter, {nullable:true})
+    likedAlbums?: AlbumLikesListRelationFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: DateTimeFilter;

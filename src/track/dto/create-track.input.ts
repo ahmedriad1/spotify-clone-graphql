@@ -11,10 +11,6 @@ export class CreateTrackInput {
     name: string;
 
     @IsNotEmpty()
-    @Field(() => String, { nullable: false })
-    description: string;
-
-    @IsNotEmpty()
     @Field(() => GenreWhereUniqueInput, { nullable: false })
     genre: GenreWhereUniqueInput;
 

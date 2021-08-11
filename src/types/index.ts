@@ -1,4 +1,4 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { DeepPartial, PlainObject } from 'simplytyped';
 
 import {
@@ -40,5 +40,5 @@ export class LikesContain {
     id!: string;
 
     @Field(() => Boolean, { nullable: false })
-    status!: boolean;
+    liked!: boolean;
 }

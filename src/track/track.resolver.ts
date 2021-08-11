@@ -4,12 +4,22 @@ import { LikesContain, PassportUserFields } from '@app_types/index';
 import { TrackWhereInput } from '@generated/track/track-where.input';
 import { TrackWhereUniqueInput } from '@generated/track/track-where-unique.input';
 import { UseGuards } from '@nestjs/common';
-import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+    Args,
+    Info,
+    Int,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver,
+} from '@nestjs/graphql';
 import { PrismaSelect } from '@paljs/plugins';
 import { GraphQLUpload } from 'apollo-server-express';
 import { GraphQLResolveInfo } from 'graphql';
 import { FileUpload } from 'graphql-upload';
 
+import { AppEnvironment } from '../app.environment';
 import { CreateTrackInput } from './dto/create-track.input';
 import { UpdateTrackInput } from './dto/update-track.input';
 import { Track } from './models/track.model';
@@ -17,7 +27,21 @@ import { TrackService } from './track.service';
 
 @Resolver(() => Track)
 export class TrackResolver {
-    constructor(private readonly trackService: TrackService) {}
+    private readonly defaultFields = {
+        Track: {
+            id: true,
+            trackId: true,
+        },
+        Album: {
+            id: true,
+            imageId: true,
+        },
+    };
+
+    constructor(
+        private readonly trackService: TrackService,
+        private readonly appEnvironment: AppEnvironment,
+    ) {}
 
     @Query(() => [Track])
     async tracks(
@@ -27,10 +51,9 @@ export class TrackResolver {
         @Args({ name: 'where', nullable: true }) where?: TrackWhereInput,
     ) {
         const select = new PrismaSelect(info, {
-            defaultFields: {
-                Track: { id: true },
-            },
+            defaultFields: this.defaultFields,
         }).value.select;
+
         return this.trackService.findAll({
             select,
             where,
@@ -57,6 +80,7 @@ export class TrackResolver {
         @Args('data') data: CreateTrackInput,
         @Args({ name: 'trackFile', type: () => GraphQLUpload }) trackFile: FileUpload,
     ) {
+        console.log(trackFile);
         return this.trackService.create({ data, trackFile });
     }
 
@@ -101,6 +125,13 @@ export class TrackResolver {
         @CurrentUser() user: PassportUserFields,
     ) {
         return this.trackService.likesContain(tracks, user);
+    }
+
+    @ResolveField(() => String, { nullable: true })
+    async trackUrl(@Parent() _: Track) {
+        return _.trackId
+            ? `${this.appEnvironment.cloudinaryBaseUrl()}/video/upload/${_.trackId}`
+            : undefined;
     }
 
     @Query(() => Number)

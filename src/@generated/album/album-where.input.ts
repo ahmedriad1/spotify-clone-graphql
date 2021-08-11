@@ -5,8 +5,8 @@ import { EnumAlbumTypeFilter } from '../prisma/enum-album-type-filter.input';
 import { GenreRelationFilter } from '../genre/genre-relation-filter.input';
 import { ArtistListRelationFilter } from '../artist/artist-list-relation-filter.input';
 import { TrackListRelationFilter } from '../track/track-list-relation-filter.input';
+import { AlbumLikesListRelationFilter } from '../album-likes/album-likes-list-relation-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
-import { UserListRelationFilter } from '../user/user-list-relation-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 
 @InputType()
@@ -47,11 +47,11 @@ export class AlbumWhereInput {
     @Field(() => TrackListRelationFilter, {nullable:true})
     tracks?: TrackListRelationFilter;
 
+    @Field(() => AlbumLikesListRelationFilter, {nullable:true})
+    likedBy?: AlbumLikesListRelationFilter;
+
     @Field(() => IntFilter, {nullable:true})
     likesCount?: IntFilter;
-
-    @Field(() => UserListRelationFilter, {nullable:true})
-    likedBy?: UserListRelationFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: DateTimeFilter;

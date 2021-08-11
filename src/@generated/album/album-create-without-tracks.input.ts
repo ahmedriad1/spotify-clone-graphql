@@ -4,7 +4,7 @@ import { AlbumType } from '../prisma/album-type.enum';
 import { Int } from '@nestjs/graphql';
 import { GenreCreateNestedOneWithoutAlbumsInput } from '../genre/genre-create-nested-one-without-albums.input';
 import { ArtistCreateNestedManyWithoutAlbumsInput } from '../artist/artist-create-nested-many-without-albums.input';
-import { UserCreateNestedManyWithoutLikedAlbumsInput } from '../user/user-create-nested-many-without-liked-albums.input';
+import { AlbumLikesCreateNestedManyWithoutAlbumInput } from '../album-likes/album-likes-create-nested-many-without-album.input';
 
 @InputType()
 export class AlbumCreateWithoutTracksInput {
@@ -38,6 +38,6 @@ export class AlbumCreateWithoutTracksInput {
     @Field(() => ArtistCreateNestedManyWithoutAlbumsInput, {nullable:true})
     artists?: ArtistCreateNestedManyWithoutAlbumsInput;
 
-    @Field(() => UserCreateNestedManyWithoutLikedAlbumsInput, {nullable:true})
-    likedBy?: UserCreateNestedManyWithoutLikedAlbumsInput;
+    @Field(() => AlbumLikesCreateNestedManyWithoutAlbumInput, {nullable:true})
+    likedBy?: AlbumLikesCreateNestedManyWithoutAlbumInput;
 }

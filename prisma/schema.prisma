@@ -4,7 +4,7 @@ datasource database {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["selectRelationCount"]
 }
 
@@ -16,15 +16,15 @@ generator nestgraphql {
 }
 
 model User {
-  id          String    @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
-  email       String    @unique
+  email       String       @unique
   password    String
   artist      Artist?
-  likedTracks Track[]
-  likedAlbums Album[]
-  createdAt   DateTime? @default(now())
-  updatedAt   DateTime? @updatedAt
+  likedTracks TrackLikes[]
+  likedAlbums AlbumLikes[]
+  createdAt   DateTime?    @default(now())
+  updatedAt   DateTime?    @updatedAt
 }
 
 model Artist {
@@ -53,33 +53,53 @@ enum AlbumType {
 }
 
 model Album {
-  id          String    @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   description String
-  type        AlbumType @default(ALBUM)
+  type        AlbumType    @default(ALBUM)
   imageId     String?
-  genre       Genre     @relation(fields: [genreId], references: [id])
+  genre       Genre        @relation(fields: [genreId], references: [id])
   genreId     String
   artists     Artist[]
   tracks      Track[]
-  likesCount  Int       @default(0)
-  likedBy     User[]
-  createdAt   DateTime? @default(now())
-  updatedAt   DateTime? @updatedAt
+  likedBy     AlbumLikes[]
+  likesCount  Int          @default(0)
+  createdAt   DateTime?    @default(now())
+  updatedAt   DateTime?    @updatedAt
 }
 
 model Track {
-  id         String    @id @default(uuid())
+  id         String       @id @default(uuid())
   name       String
   duration   Float
   trackId    String
-  genre      Genre     @relation(fields: [genreId], references: [id])
+  genre      Genre        @relation(fields: [genreId], references: [id])
   genreId    String
-  album      Album     @relation(fields: [albumId], references: [id])
+  album      Album        @relation(fields: [albumId], references: [id])
   albumId    String
   artists    Artist[]
-  likesCount Int       @default(0)
-  likedBy    User[]
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
+  likedBy    TrackLikes[]
+  likesCount Int          @default(0)
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @updatedAt
+}
+
+model TrackLikes {
+  track   Track    @relation(fields: [trackId], references: [id])
+  trackId String
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String
+  likedAt DateTime @default(now())
+
+  @@id([trackId, userId])
+}
+
+model AlbumLikes {
+  album   Album    @relation(fields: [albumId], references: [id])
+  albumId String
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String
+  likedAt DateTime @default(now())
+
+  @@id([albumId, userId])
 }

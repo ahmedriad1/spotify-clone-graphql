@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { TrackLikesUncheckedCreateNestedManyWithoutTrackInput } from '../track-likes/track-likes-unchecked-create-nested-many-without-track.input';
 
 @InputType()
 export class TrackUncheckedCreateWithoutArtistsInput {
@@ -31,4 +32,7 @@ export class TrackUncheckedCreateWithoutArtistsInput {
 
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+
+    @Field(() => TrackLikesUncheckedCreateNestedManyWithoutTrackInput, {nullable:true})
+    likedBy?: TrackLikesUncheckedCreateNestedManyWithoutTrackInput;
 }

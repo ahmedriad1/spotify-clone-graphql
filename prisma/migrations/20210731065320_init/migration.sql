@@ -65,15 +65,21 @@ CREATE TABLE "Track" (
 );
 
 -- CreateTable
-CREATE TABLE "_TrackToUser" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+CREATE TABLE "TrackLikes" (
+    "trackId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "likedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY ("trackId","userId")
 );
 
 -- CreateTable
-CREATE TABLE "_AlbumToUser" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+CREATE TABLE "AlbumLikes" (
+    "albumId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "likedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY ("albumId","userId")
 );
 
 -- CreateTable
@@ -93,18 +99,6 @@ CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Artist.userId_unique" ON "Artist"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_TrackToUser_AB_unique" ON "_TrackToUser"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_TrackToUser_B_index" ON "_TrackToUser"("B");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_AlbumToUser_AB_unique" ON "_AlbumToUser"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_AlbumToUser_B_index" ON "_AlbumToUser"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_AlbumToArtist_AB_unique" ON "_AlbumToArtist"("A", "B");
@@ -131,16 +125,16 @@ ALTER TABLE "Track" ADD FOREIGN KEY ("genreId") REFERENCES "Genre"("id") ON DELE
 ALTER TABLE "Track" ADD FOREIGN KEY ("albumId") REFERENCES "Album"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_TrackToUser" ADD FOREIGN KEY ("A") REFERENCES "Track"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "TrackLikes" ADD FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_TrackToUser" ADD FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "TrackLikes" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AlbumToUser" ADD FOREIGN KEY ("A") REFERENCES "Album"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "AlbumLikes" ADD FOREIGN KEY ("albumId") REFERENCES "Album"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AlbumToUser" ADD FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "AlbumLikes" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_AlbumToArtist" ADD FOREIGN KEY ("A") REFERENCES "Album"("id") ON DELETE CASCADE ON UPDATE CASCADE;

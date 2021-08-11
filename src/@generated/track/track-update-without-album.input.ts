@@ -4,7 +4,7 @@ import { Float } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { GenreUpdateOneRequiredWithoutTracksInput } from '../genre/genre-update-one-required-without-tracks.input';
 import { ArtistUpdateManyWithoutTracksInput } from '../artist/artist-update-many-without-tracks.input';
-import { UserUpdateManyWithoutLikedTracksInput } from '../user/user-update-many-without-liked-tracks.input';
+import { TrackLikesUpdateManyWithoutTrackInput } from '../track-likes/track-likes-update-many-without-track.input';
 
 @InputType()
 export class TrackUpdateWithoutAlbumInput {
@@ -35,6 +35,6 @@ export class TrackUpdateWithoutAlbumInput {
     @Field(() => ArtistUpdateManyWithoutTracksInput, {nullable:true})
     artists?: ArtistUpdateManyWithoutTracksInput;
 
-    @Field(() => UserUpdateManyWithoutLikedTracksInput, {nullable:true})
-    likedBy?: UserUpdateManyWithoutLikedTracksInput;
+    @Field(() => TrackLikesUpdateManyWithoutTrackInput, {nullable:true})
+    likedBy?: TrackLikesUpdateManyWithoutTrackInput;
 }

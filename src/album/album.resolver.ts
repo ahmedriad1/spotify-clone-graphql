@@ -1,7 +1,8 @@
+/* eslint-disable boundaries/element-types */
 import { CurrentUser } from '@app_modules/current-user-decorator/index';
 import { GraphqlAuthGuard } from '@app_modules/nestjs-passport-graphql-auth-guard/graphql-auth.guard';
 import { LikesContain, PassportUserFields } from '@app_types/index';
-import { ArtistService } from '@artist/artist.service';
+// import { ArtistService } from '@artist/artist.service';
 import { AlbumWhereInput } from '@generated/album/album-where.input';
 import { AlbumWhereUniqueInput } from '@generated/album/album-where-unique.input';
 import { UseGuards } from '@nestjs/common';
@@ -23,7 +24,6 @@ import { FileUpload } from 'graphql-upload';
 
 import { AppEnvironment } from '../app.environment';
 import { AlbumService } from './album.service';
-// eslint-disable-next-line boundaries/element-types
 import { CreateAlbumInput, UpdateAlbumInput } from './dto';
 import { Album } from './models/album.model';
 
@@ -38,7 +38,7 @@ export class AlbumResolver {
 
     constructor(
         private readonly albumService: AlbumService,
-        private readonly artistService: ArtistService,
+        // private readonly artistService: ArtistService,
         private readonly appEnvironment: AppEnvironment,
     ) {}
 

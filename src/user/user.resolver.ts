@@ -49,7 +49,11 @@ export class UserResolver {
                 User: { id: true },
             },
         }).value.select;
-        return this.userService.findUnique({ select, where: { id: user.id } });
+
+        return this.userService.findUnique({
+            where: { id: user.id },
+            select,
+        });
     }
 
     @UseGuards(OptionalGraphqlAuthGuard)

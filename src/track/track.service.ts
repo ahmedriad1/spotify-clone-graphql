@@ -17,6 +17,8 @@ export class TrackService {
     constructor(
         @InjectRepository('track') private readonly repo: PrismaRepository['track'],
         @InjectRepository('user') private readonly userRepo: PrismaRepository['user'],
+        @InjectRepository('trackLikes')
+        private readonly trackLikes: PrismaRepository['trackLikes'],
         private readonly prisma: PrismaRepository,
         private readonly cloudinaryService: CloudinaryService,
     ) {}
@@ -28,22 +30,26 @@ export class TrackService {
         data: CreateTrackInput;
         trackFile: FileUpload;
     }) {
-        const trackData = await this.cloudinaryService.uploadImage(trackFile);
-        const msDuration = trackData.duration * 1000;
-        return this.repo.create({
-            data: {
-                ...data,
-                trackId: trackData.public_id,
-                // duration in ms (convert cloudinary's duration from seconds to milliseconds)
-                duration:
-                    `${msDuration}`.split('.').length > 1
-                        ? +msDuration.toFixed(1)
-                        : msDuration,
-                artists: { connect: data.artists },
-                genre: { connect: data.genre },
-                album: { connect: data.album },
-            },
-        });
+        try {
+            const trackData = await this.cloudinaryService.uploadTrack(trackFile);
+            const msDuration = trackData.duration * 1000;
+            return this.repo.create({
+                data: {
+                    ...data,
+                    trackId: trackData.public_id,
+                    // duration in ms (convert cloudinary's duration from seconds to milliseconds)
+                    duration:
+                        `${msDuration}`.split('.').length > 1
+                            ? +msDuration.toFixed(1)
+                            : msDuration,
+                    artists: { connect: data.artists },
+                    genre: { connect: data.genre },
+                    album: { connect: data.album },
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async update({
@@ -90,14 +96,11 @@ export class TrackService {
     }
 
     async isLiked(where: TrackWhereUniqueInput, user: PassportUserFields) {
-        const isLiked = await this.userRepo.count({
+        const isLiked = await this.trackLikes.count({
             where: {
-                id: user.id,
-                likedTracks: {
-                    some: where,
-                },
+                track: { id: where.id },
+                user: { id: user.id },
             },
-            take: 1,
         });
 
         return isLiked > 0;
@@ -111,13 +114,21 @@ export class TrackService {
         return this.repo.update({
             where,
             data: {
-                likedBy: { connect: { id: user.id } },
+                likedBy: {
+                    create: [
+                        {
+                            user: { connect: { id: user.id } },
+                        },
+                    ],
+                },
                 likesCount: { increment: 1 },
             },
         });
     }
 
     async unlike(where: TrackWhereUniqueInput, user: PassportUserFields) {
+        if (!where.id) throw new BadRequestException();
+
         const isLiked = await this.isLiked(where, user);
 
         if (!isLiked) throw new BadRequestException('Track is already not liked !');
@@ -125,30 +136,36 @@ export class TrackService {
         return this.repo.update({
             where,
             data: {
-                likedBy: { disconnect: { id: user.id } },
+                likedBy: {
+                    delete: [
+                        {
+                            trackId_userId: {
+                                userId: user.id,
+                                trackId: where.id,
+                            },
+                        },
+                    ],
+                },
                 likesCount: { decrement: 1 },
             },
         });
     }
 
     async likesContain(tracks: Array<string>, user: PassportUserFields) {
-        const result = await this.userRepo.findUnique({
+        const result = await this.trackLikes.findMany({
             where: {
-                id: user.id,
+                user: { id: user.id },
+                track: { id: { in: tracks } },
             },
             select: {
-                id: true,
-                likedTracks: { select: { id: true }, where: { id: { in: tracks } } },
+                trackId: true,
             },
-            rejectOnNotFound: true,
         });
 
-        // this.prisma
-        //     .$queryRaw`SELECT A FROM _TrackToUser WHERE B = ${user.id} AND A IN (${tracks})`;
-        const set = new Set(result.likedTracks.map(t => t.id));
+        const set = new Set(result.map(t => t.trackId));
         return [...new Set([...tracks, ...set])].map(id => ({
             id,
-            status: set.has(id),
+            liked: set.has(id),
         }));
     }
 }

@@ -1,7 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { TrackCreateNestedManyWithoutLikedByInput } from '../track/track-create-nested-many-without-liked-by.input';
-import { AlbumCreateNestedManyWithoutLikedByInput } from '../album/album-create-nested-many-without-liked-by.input';
+import { TrackLikesCreateNestedManyWithoutUserInput } from '../track-likes/track-likes-create-nested-many-without-user.input';
+import { AlbumLikesCreateNestedManyWithoutUserInput } from '../album-likes/album-likes-create-nested-many-without-user.input';
 
 @InputType()
 export class UserCreateWithoutArtistInput {
@@ -23,9 +23,9 @@ export class UserCreateWithoutArtistInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
 
-    @Field(() => TrackCreateNestedManyWithoutLikedByInput, {nullable:true})
-    likedTracks?: TrackCreateNestedManyWithoutLikedByInput;
+    @Field(() => TrackLikesCreateNestedManyWithoutUserInput, {nullable:true})
+    likedTracks?: TrackLikesCreateNestedManyWithoutUserInput;
 
-    @Field(() => AlbumCreateNestedManyWithoutLikedByInput, {nullable:true})
-    likedAlbums?: AlbumCreateNestedManyWithoutLikedByInput;
+    @Field(() => AlbumLikesCreateNestedManyWithoutUserInput, {nullable:true})
+    likedAlbums?: AlbumLikesCreateNestedManyWithoutUserInput;
 }
